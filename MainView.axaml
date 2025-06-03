@@ -1,0 +1,113 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="800"
+		Width="450"
+		Height="800"
+        x:Class="LearnAvalonia.MainWindow"
+        Title="LearnAvalonia"
+		Background="{DynamicResource ResourceKey=PrimaryBackGround}"
+		TransparencyLevelHint="AcrylicBlur"
+		ExtendClientAreaToDecorationsHint="True"
+		SystemDecorations="Full"
+		CanResize="False"
+		>
+	<Window.Resources>
+		<Animation Duration="0:0:5" 
+				   FillMode="Forward"
+				   x:Key="TimerAnimationForward"
+				   x:SetterTargetType="ProgressBar">
+			<KeyFrame Cue="0%">
+				<Setter Property="Value" Value="0"/>
+				<Setter Property="Foreground" Value="Aqua"/>
+
+			</KeyFrame>
+			<KeyFrame Cue="100%">
+				<Setter Property="Value" Value="100"/>
+				<Setter Property="Foreground" Value="{DynamicResource TimerGradient}"/>
+
+			</KeyFrame>
+		</Animation>
+		<Animation Duration="0:0:5" 
+				   FillMode="Forward"
+				   PlaybackDirection="Normal"
+				   x:Key="TimerAnimationReverse"
+				   x:SetterTargetType="ProgressBar">
+			<KeyFrame Cue="0%">
+				<Setter Property="Value" Value="100"/>
+				<Setter Property="Foreground" Value="{DynamicResource TimerGradient}"/>
+			</KeyFrame>
+			<KeyFrame Cue="100%">
+				<Setter Property="Value" Value="0"/>
+				<Setter Property="Foreground" Value="Aqua"/>
+			</KeyFrame>
+		</Animation>
+	</Window.Resources>
+	
+	
+	
+	<Panel>
+	<ExperimentalAcrylicBorder IsHitTestVisible="True">
+		<ExperimentalAcrylicBorder.Material>
+			<ExperimentalAcrylicMaterial
+				BackgroundSource="Digger"
+				TintColor="#000000"
+				TintOpacity="0.6"
+				MaterialOpacity="0.0" />
+		</ExperimentalAcrylicBorder.Material>
+	</ExperimentalAcrylicBorder>
+
+		<Border BorderThickness="2" BorderBrush="#2c2c2c">
+			
+		<Grid Name="TopBar" RowDefinitions="50, *, 50">
+			<Grid Grid.Row="0" ColumnDefinitions="auto, *">
+				<StackPanel Grid.Column="0" VerticalAlignment="Top" Orientation="Horizontal">
+					<Menu>
+						<MenuItem Header="Menu">
+							<MenuItem Header="Option 1"/>
+							<MenuItem Header="Option 2"/>
+						</MenuItem>
+					</Menu>
+					<Menu>
+						<MenuItem Header="Menu">
+							<MenuItem Header="Option 1"/>
+							<MenuItem Header="Option 2"/>
+						</MenuItem>
+					</Menu>
+					<Menu>
+						<MenuItem Header="Menu">
+							<MenuItem Header="Option 1"/>
+							<MenuItem Header="Option 2"/>
+						</MenuItem>
+					</Menu>
+				</StackPanel>
+			</Grid>
+
+				<Grid Name="MainPanel" Grid.Row="1" ColumnDefinitions="*, auto" >
+					<StackPanel Grid.Column="0" Height="" Spacing="10">
+						<TextBox Height="200"/>
+						<TextBox Height="200"/>
+					</StackPanel>
+					<StackPanel Grid.Column="0">
+						
+					</StackPanel>
+					<StackPanel Grid.Column="1" Background="#494949">
+						<Image Height="20" Margin="10,10" Source="{SvgImage /Assets/Images/write.svg}"/>
+					</StackPanel>
+				</Grid>
+			
+			<Grid Name="BottomBar" Grid.Row="2">
+				<ProgressBar Height="30" x:Name="TimerBar"/>
+				<Grid ColumnDefinitions="100, * , 100">
+					<Button Click="Timer_Start" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">Start</Button>
+					<TextBlock Grid.Column="2" Text="25:00:00" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+				</Grid>
+			</Grid>
+			
+		</Grid>
+		</Border>
+	
+	</Panel>
+
+</Window>

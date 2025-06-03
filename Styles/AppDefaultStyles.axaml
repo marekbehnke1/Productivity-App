@@ -1,0 +1,48 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Design.PreviewWith>
+    <Border Padding="20">
+      <!-- Add Controls for Previewer Here -->
+		<TextBox Width="300" Height="100"/>
+	</Border>
+	  
+  </Design.PreviewWith>
+
+  <!-- Add Styles Here -->
+
+	<Style Selector="Menu:pointerover /template/ ContentPresenter">
+		<Setter Property="Foreground" Value="{DynamicResource ResourceKey=PrimaryText}"/>
+		<Setter Property="Background" Value="#696969"/>
+	</Style>
+	
+	<Style Selector="MenuItem">
+		<Setter Property="FontSize" Value="18"/>
+		<Setter Property="Foreground" Value="{DynamicResource ResourceKey=PrimaryText}"/>
+	</Style>
+
+	<Style Selector="MenuItem:pointerover /template/ ContentPresenter">
+		<Setter Property="Foreground" Value="#ffc862"/>
+	</Style>
+
+	<Style Selector="ProgressBar">
+		<Setter Property="Foreground" Value="{DynamicResource ResourceKey=TimerGradient}"/>
+		<Setter Property="Background" Value="{DynamicResource ResourceKey=PrimaryBackGround}"/>
+	</Style>
+
+	
+	<Style Selector="TextBox">
+		<Setter Property="Background" Value="#5b373737"/>
+		<Setter Property="BorderBrush" Value=""/>
+	</Style>
+	<Style Selector="TextBox:pointerover /template/ ContentPresenter">
+		<Setter Property="Background" Value="Red"/>
+		<Setter Property="BorderBrush" Value="Blue"/>
+
+	</Style>
+	<Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+		<Setter Property="Background" Value="#4f373737"/>
+		<Setter Property="BorderBrush" Value="White"/>
+
+	</Style>
+	
+</Styles>

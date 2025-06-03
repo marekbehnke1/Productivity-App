@@ -1,0 +1,23 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="LearnAvalonia.App"
+             RequestedThemeVariant="Dark">
+             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+
+    <Application.Styles>
+        <FluentTheme />
+		
+		<StyleInclude Source="/Styles/AppDefaultStyles.axaml"/>
+    </Application.Styles>
+	
+	<Application.Resources>
+		<SolidColorBrush x:Key="PrimaryBackGround">Transparent</SolidColorBrush>
+		<SolidColorBrush x:Key="PrimaryText">GhostWhite</SolidColorBrush>
+
+		<LinearGradientBrush x:Key="TimerGradient" StartPoint="0%, 0%" EndPoint="100%, 100%">
+			<GradientStop Color="Magenta" Offset="0.0"/>
+			<GradientStop Color="Aqua" Offset="1.0"/>
+		</LinearGradientBrush>
+		
+	</Application.Resources>
+</Application>
