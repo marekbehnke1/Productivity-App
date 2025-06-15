@@ -5,7 +5,11 @@
         mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="800"
 		Width="450"
 		Height="800"
-        x:Class="LearnAvalonia.MainWindow"
+        x:Class="LearnAvalonia.MainView"
+		
+		xmlns:vm="clr-namespace:LearnAvalonia.ViewModels"
+		x:DataType="vm:MainViewModel"
+		
         Title="LearnAvalonia"
 		Background="{DynamicResource ResourceKey=PrimaryBackGround}"
 		TransparencyLevelHint="AcrylicBlur"
@@ -14,7 +18,7 @@
 		CanResize="False"
 		>
 	<Window.Resources>
-		<Animation Duration="0:0:5" 
+		<Animation Duration="00:25:00" 
 				   FillMode="Forward"
 				   x:Key="TimerAnimationForward"
 				   x:SetterTargetType="ProgressBar">
@@ -29,14 +33,14 @@
 
 			</KeyFrame>
 		</Animation>
-		<Animation Duration="0:0:5" 
+		<Animation Duration="00:05:00" 
 				   FillMode="Forward"
 				   PlaybackDirection="Normal"
 				   x:Key="TimerAnimationReverse"
 				   x:SetterTargetType="ProgressBar">
 			<KeyFrame Cue="0%">
 				<Setter Property="Value" Value="100"/>
-				<Setter Property="Foreground" Value="{DynamicResource TimerGradient}"/>
+				<Setter Property="Foreground" Value="{DynamicResource TimerGradientReverse}"/>
 			</KeyFrame>
 			<KeyFrame Cue="100%">
 				<Setter Property="Value" Value="0"/>
@@ -44,7 +48,10 @@
 			</KeyFrame>
 		</Animation>
 	</Window.Resources>
-	
+
+	<Design.DataContext>
+		<vm:MainViewModel/>
+	</Design.DataContext>
 	
 	
 	<Panel>
@@ -88,6 +95,9 @@
 					<StackPanel Grid.Column="0" Height="" Spacing="10">
 						<TextBox Height="200"/>
 						<TextBox Height="200"/>
+						
+						<TextBlock Text="{Binding Test}"/>
+						
 					</StackPanel>
 					<StackPanel Grid.Column="0">
 						
@@ -100,8 +110,8 @@
 			<Grid Name="BottomBar" Grid.Row="2">
 				<ProgressBar Height="30" x:Name="TimerBar"/>
 				<Grid ColumnDefinitions="100, * , 100">
-					<Button Click="Timer_Start" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">Start</Button>
-					<TextBlock Grid.Column="2" Text="25:00:00" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+					<Button Click="Timer_Start" x:Name="TimerButton" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">Start</Button>
+					<TextBlock x:Name="TimerText" Grid.Column="2" Text="" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 				</Grid>
 			</Grid>
 			
