@@ -53,6 +53,26 @@ public partial class ListItem : UserControl
         set => SetValue(DueDateProperty, value);
     }
 
-    
+    // Registering Collapse Property
+    public static readonly StyledProperty<bool> IsCollapsedProperty =
+        AvaloniaProperty.Register<ListItem, bool>(nameof(IsCollapsed));
+       
+    public bool IsCollapsed
+    {
+        get => GetValue(IsCollapsedProperty);
+        set => SetValue(IsCollapsedProperty, value);
+    }
+
+    private void Collapse(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        if(IsCollapsed == true)
+        {
+            IsCollapsed = false;
+        }
+        else
+        {
+            IsCollapsed = true;
+        }
+    }
 }
 
