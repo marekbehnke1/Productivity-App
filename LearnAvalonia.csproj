@@ -27,8 +27,14 @@
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Components\ListItem.axaml.cs">
+      <DependentUpon>ListItem.axaml</DependentUpon>
+    </Compile>
     <Compile Update="MainView.axaml.cs">
       <DependentUpon>MainView.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="ListItem.axaml.cs">
+      <DependentUpon>ListItem.axaml</DependentUpon>
     </Compile>
   </ItemGroup>
 	

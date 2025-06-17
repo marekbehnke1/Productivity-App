@@ -2,7 +2,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="800"
+		xmlns:Controls="clr-namespace:LearnAvalonia.Components"
+		mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="800"
 		Width="450"
 		Height="800"
         x:Class="LearnAvalonia.MainView"
@@ -93,10 +94,15 @@
 
 				<Grid Name="MainPanel" Grid.Row="1" ColumnDefinitions="*, auto" >
 					<StackPanel Grid.Column="0" Height="" Spacing="10">
-						<TextBox Height="200"/>
-						<TextBox Height="200"/>
+						<!--
+						<TextBox Classes="highPriority" Height="200"/>
+						<TextBox Classes="mediumPriority" Height="200"/>
+						<TextBox Classes="lowPriority" Height="200"/>
+						-->
 						
-						<TextBlock Text="{Binding Test}"/>
+						<Controls:ListItem Title="Test" TaskPriority="High" Description="{Binding Test}"/>
+						<Controls:ListItem Title="test title" TaskPriority="Low"/>
+						<Controls:ListItem Title="another test" TaskPriority="Medium"/>
 						
 					</StackPanel>
 					<StackPanel Grid.Column="0">

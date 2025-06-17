@@ -56,7 +56,7 @@ public partial class MainView : Window
         try
         {
             if (animation != null) {
-
+                TimerText.Text = "25:00:00";
                 // Set initial timer values
                 TimeSpan animTime = animation.Duration;
                 DateTime animEnd = DateTime.Now + animTime;

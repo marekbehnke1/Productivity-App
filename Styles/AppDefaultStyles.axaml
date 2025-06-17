@@ -1,9 +1,10 @@
 <Styles xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:Controls="clr-namespace:LearnAvalonia.Components">
   <Design.PreviewWith>
     <Border Padding="20">
       <!-- Add Controls for Previewer Here -->
-		<TextBox Width="300" Height="100"/>
+		<TextBox Classes="mediumPriority" Width="300" Height="100"/>
 	</Border>
 	  
   </Design.PreviewWith>
@@ -29,20 +30,70 @@
 		<Setter Property="Background" Value="{DynamicResource ResourceKey=PrimaryBackGround}"/>
 	</Style>
 
-	
-	<Style Selector="TextBox">
+
+	<Style Selector="TextBox.baseStyle">
 		<Setter Property="Background" Value="#5b373737"/>
 		<Setter Property="BorderBrush" Value=""/>
+		
+		<Style Selector="^:pointerover /template/ Border#PART_BorderElement">
+			<Setter Property="Background" Value="#4f373737"/>
+			<Setter Property="BorderBrush" Value="#56ffffff"/>
+		</Style>
+		
+		<Style Selector="^:focus /template/ Border#PART_BorderElement">
+			<Setter Property="Background" Value="#4f373737"/>
+			<Setter Property="BorderBrush" Value="White"/>
+		</Style>
 	</Style>
-	<Style Selector="TextBox:pointerover /template/ ContentPresenter">
-		<Setter Property="Background" Value="Red"/>
-		<Setter Property="BorderBrush" Value="Blue"/>
 
-	</Style>
-	<Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
-		<Setter Property="Background" Value="#4f373737"/>
-		<Setter Property="BorderBrush" Value="White"/>
+	<!-- High Prio textbox styling -->
+	<Style Selector="TextBox.highPriority">
+		<Setter Property="Background" Value="#26fa7f77"/>
+		<Setter Property="BorderBrush" Value=""/>
 
+		<Style Selector="^:pointerover /template/ Border#PART_BorderElement">
+			<Setter Property="Background" Value="#4f373737"/>
+			<Setter Property="BorderBrush" Value="#56ffffff"/>
+		</Style>
+
+		<Style Selector="^:focus /template/ Border#PART_BorderElement">
+			<Setter Property="Background" Value="#4f373737"/>
+			<Setter Property="BorderBrush" Value="White"/>
+		</Style>
 	</Style>
+	
+	<!-- Medium Prio textbox styling -->
+	<Style Selector="TextBox.mediumPriority">
+		<Setter Property="Background" Value="#26f7cc25"/>
+		<Setter Property="BorderBrush" Value=""/>
+
+		<Style Selector="^:pointerover /template/ Border#PART_BorderElement">
+			<Setter Property="Background" Value="#4f373737"/>
+			<Setter Property="BorderBrush" Value="#56ffffff"/>
+		</Style>
+
+		<Style Selector="^:focus /template/ Border#PART_BorderElement">
+			<Setter Property="Background" Value="#4f373737"/>
+			<Setter Property="BorderBrush" Value="White"/>
+		</Style>
+	</Style>
+
+	<!-- Low Prio textbox styling -->
+	<Style Selector="TextBox.lowPriority">
+		
+		<Setter Property="Background" Value="#5b85fe8a"/>
+		<Setter Property="BorderBrush" Value=""/>
+
+		<Style Selector="^:pointerover /template/ Border#PART_BorderElement">
+			<Setter Property="Background" Value="#4f373737"/>
+			<Setter Property="BorderBrush" Value="#56ffffff"/>
+		</Style>
+
+		<Style Selector="^:focus /template/ Border#PART_BorderElement">
+			<Setter Property="Background" Value="#4f373737"/>
+			<Setter Property="BorderBrush" Value="White"/>
+		</Style>
+	</Style>
+	
 	
 </Styles>

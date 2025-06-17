@@ -12,7 +12,6 @@ namespace LearnAvalonia.ViewModels
         [ObservableProperty]
         private string _test = "this is a testing string for databinding";
 
-        [ObservableProperty]
-        public bool _collapseNotes = false;
+
     }
 }
