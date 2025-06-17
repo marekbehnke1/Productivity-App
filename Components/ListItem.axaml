@@ -6,40 +6,58 @@
 			 xmlns:converters="clr-namespace:LearnAvalonia.Converters"
              x:Class="LearnAvalonia.Components.ListItem">
 
+	<UserControl.Styles>
+		
+	<!--
+		<StyleInclude Source="/Styles/AppDefaultStyles.axaml"/>
+	-->
+	
+	</UserControl.Styles>
+	
 	<UserControl.Resources>
 		<converters:PriorityToBrushConverter x:Key="PriorityToBrushConverter"/>
+		<converters:PriorityToIconConverter x:Key="PriorityToIconConverter"/>
 	</UserControl.Resources>
 
+	
 	<StackPanel Width="400">
-		<Grid RowDefinitions="50,*,50">
+		<Border 
+			BorderBrush="{Binding TaskPriority, RelativeSource={RelativeSource AncestorType=local:ListItem}, Converter={StaticResource PriorityToBrushConverter}}" 
+			BorderThickness="2" 
+			CornerRadius="5">
+			
+		<!--Main item row defs-->
+		<Grid RowDefinitions="50,*,40">
 			<Grid Margin="5" Grid.Row="0">
-				<Grid ColumnDefinitions="2*, 1*">
+				
+				<!--Top row col defs-->
+				<Grid ColumnDefinitions="250, *">
+					
+					<!--Title Box-->
 					<Grid Grid.Column="0">
-						<TextBox VerticalAlignment="Center" BorderThickness="0" Text="{Binding Title, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=local:ListItem}}" FontSize="25" />
+						<TextBox 
+							Classes="titleBox" 
+							MinWidth="50" 
+							MaxWidth="250" 
+							VerticalAlignment="Center" 
+							HorizontalAlignment="Stretch"
+							BorderThickness="0" 
+							Text="{Binding Title, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=local:ListItem}}" 
+							FontSize="25"/>
 					</Grid>
 					
 					<Grid Grid.Column="1">
-						<Grid ColumnDefinitions="*, 30">
-							
+						<Grid ColumnDefinitions="*" >
+
 							<!-- Due Date -->
-							<Grid Grid.Column="0">
-								<DatePicker SelectedDate="{Binding DueDate, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=local:ListItem}}"/>
-							</Grid>	
-							
-							<!--Task Priority-->
-							<Grid x:Name="Priority" Grid.Column="1"
-								  Background="{Binding TaskPriority, RelativeSource={RelativeSource AncestorType=local:ListItem}, Converter={StaticResource PriorityToBrushConverter}}">
-								<ComboBox 
-									x:Name="PrioritySelector"
-									SelectedItem="{Binding TaskPriority, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=local:ListItem}}"
-									Width="50"
-									HorizontalAlignment="Right"
-									/>
-								<!--
-								<Image Height="25" Width="25" Source="{SvgImage /Assets/Images/priority.svg}"/>
-								-->
+							<Grid Grid.Column="1">
+								<CalendarDatePicker 
+									BorderThickness="0" 
+									Watermark="dd/mm/yyyy" 
+									SelectedDate="{Binding DueDate, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=local:ListItem}}" 
+									HorizontalAlignment="Right"/>
 							</Grid>
-							
+
 						</Grid>
 					</Grid>
 					
@@ -47,22 +65,56 @@
 			</Grid>
 			<!--Main item Text-->
 			<Grid Grid.Row="1">
-				<TextBox Text="{Binding Description, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=local:ListItem}}" TextWrapping="Wrap"  BorderThickness="0" Watermark="Enter a note here" MinHeight="75"/>
+				<TextBox 
+					Classes="mainTextBox"
+					Text="{Binding Description, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=local:ListItem}}" 
+					TextWrapping="Wrap"  
+					BorderThickness="0" 
+					Watermark="Enter a note here" 
+					MinHeight="30"
+					AcceptsReturn="True"/>
+					
 			</Grid>
 			
 			<Grid Grid.Row="2">
-				<Grid ColumnDefinitions="1*, 1*">
+				<Grid ColumnDefinitions="1*, 1*, 125">
+					
+					<!--Delete icon-->
 					<Grid Grid.Column="0">
-						<Image HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="25" Height="25" Source="{SvgImage /Assets/Images/delete.svg}" Margin="5"/>
+						<Image 
+							HorizontalAlignment="Left" 
+							VerticalAlignment="Bottom" 
+							Width="20" Height="20" 
+							Source="{SvgImage /Assets/Images/delete.svg}" 
+							Margin="5"/>
 					</Grid>
 					
+					<!--Icon Next to priority box-->
 					<Grid Grid.Column="1">
-						<TextBlock VerticalAlignment="Bottom" Margin="7" Text="Complete?"/>
-						<CheckBox HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+						<Image 
+							Height="20" 
+							Width="20" 
+							Source="{Binding TaskPriority, RelativeSource={RelativeSource AncestorType=local:ListItem}, Converter={StaticResource PriorityToIconConverter}}" 
+							VerticalAlignment="Bottom" 
+							HorizontalAlignment="Right" 
+							Margin="0 10"/>
+					</Grid>
+					
+					<Grid Grid.Column="2">
+						<ComboBox
+							x:Name="PrioritySelector"
+							SelectedItem="{Binding TaskPriority, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=local:ListItem}}"
+							Width="110"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Bottom"
+							Margin="5"
+							FontSize=""
+							/>
 					</Grid>
 				</Grid>
 			</Grid>
 		</Grid>
+	</Border>
 	</StackPanel>
 	
 	

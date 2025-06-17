@@ -11,6 +11,7 @@ namespace LearnAvalonia.Models
         Critical,
         High,
         Medium,
-        Low
+        Low,
+        Complete
     }
 }

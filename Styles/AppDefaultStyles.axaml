@@ -4,7 +4,7 @@
   <Design.PreviewWith>
     <Border Padding="20">
       <!-- Add Controls for Previewer Here -->
-		<TextBox Classes="mediumPriority" Width="300" Height="100"/>
+		<TextBox Classes="mainTextBox" Width="300" Height="100"/>
 	</Border>
 	  
   </Design.PreviewWith>
@@ -30,8 +30,8 @@
 		<Setter Property="Background" Value="{DynamicResource ResourceKey=PrimaryBackGround}"/>
 	</Style>
 
-
-	<Style Selector="TextBox.baseStyle">
+<!--
+	<Style Selector="TextBox">
 		<Setter Property="Background" Value="#5b373737"/>
 		<Setter Property="BorderBrush" Value=""/>
 		
@@ -45,6 +45,7 @@
 			<Setter Property="BorderBrush" Value="White"/>
 		</Style>
 	</Style>
+-->
 
 	<!-- High Prio textbox styling -->
 	<Style Selector="TextBox.highPriority">
@@ -92,6 +93,40 @@
 		<Style Selector="^:focus /template/ Border#PART_BorderElement">
 			<Setter Property="Background" Value="#4f373737"/>
 			<Setter Property="BorderBrush" Value="White"/>
+		</Style>
+	</Style>
+	
+	<!-- Title textbox styling -->
+	<Style Selector="TextBox.titleBox">
+		
+		<Setter Property="Background" Value="{DynamicResource PrimaryBackGround}"/>
+		<Setter Property="BorderBrush" Value="{DynamicResource PrimaryBackGround}"/>
+		
+		<Style Selector="^:pointerover /template/ Border#PART_BorderElement">
+			<Setter Property="BorderBrush" Value="{DynamicResource PrimaryBackGround}"/>
+			<Setter Property="Background" Value="{DynamicResource PrimaryBackGround}"/>
+		</Style>
+
+		<Style Selector="^:focus /template/ Border#PART_BorderElement">
+			<Setter Property="Background" Value="#4f373737"/>
+			<Setter Property="BorderBrush" Value="{DynamicResource PrimaryBackGround}"/>
+		</Style>
+	</Style>
+	
+	<!-- Title textbox styling -->
+	<Style Selector="TextBox.mainTextBox">
+		
+		<Setter Property="Background" Value="{DynamicResource PrimaryBackGround}"/>
+		<Setter Property="BorderBrush" Value="{DynamicResource PrimaryBackGround}"/>
+		
+		<Style Selector="^:pointerover /template/ Border#PART_BorderElement">
+			<Setter Property="BorderBrush" Value="{DynamicResource PrimaryBackGround}"/>
+			<Setter Property="Background" Value="{DynamicResource PrimaryBackGround}"/>
+		</Style>
+
+		<Style Selector="^:focus /template/ Border#PART_BorderElement">
+			<Setter Property="Background" Value="#4f373737"/>
+			<Setter Property="BorderBrush" Value="{DynamicResource PrimaryBackGround}"/>
 		</Style>
 	</Style>
 	

@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
@@ -42,12 +43,16 @@ public partial class ListItem : UserControl
     }
 
     // Registering the Due date
-    public static readonly StyledProperty<DateTime> DueDateProperty = AvaloniaProperty.Register<ListItem, DateTime>(nameof(DueDate));
-
-    public DateTime DueDate
+    public static readonly StyledProperty<DateTime?> DueDateProperty =
+        AvaloniaProperty.Register<ListItem, DateTime?>(
+            nameof(DueDate),
+            defaultValue: null);
+    public DateTime? DueDate
     {
         get => GetValue(DueDateProperty);
         set => SetValue(DueDateProperty, value);
     }
+
+    
 }
 

@@ -77,28 +77,12 @@
 							<MenuItem Header="Option 2"/>
 						</MenuItem>
 					</Menu>
-					<Menu>
-						<MenuItem Header="Menu">
-							<MenuItem Header="Option 1"/>
-							<MenuItem Header="Option 2"/>
-						</MenuItem>
-					</Menu>
-					<Menu>
-						<MenuItem Header="Menu">
-							<MenuItem Header="Option 1"/>
-							<MenuItem Header="Option 2"/>
-						</MenuItem>
-					</Menu>
+			
 				</StackPanel>
 			</Grid>
 
 				<Grid Name="MainPanel" Grid.Row="1" ColumnDefinitions="*, auto" >
 					<StackPanel Grid.Column="0" Height="" Spacing="10">
-						<!--
-						<TextBox Classes="highPriority" Height="200"/>
-						<TextBox Classes="mediumPriority" Height="200"/>
-						<TextBox Classes="lowPriority" Height="200"/>
-						-->
 						
 						<Controls:ListItem Title="Test" TaskPriority="High" Description="{Binding Test}"/>
 						<Controls:ListItem Title="test title" TaskPriority="Low"/>
@@ -120,7 +104,6 @@
 					<TextBlock x:Name="TimerText" Grid.Column="2" Text="" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 				</Grid>
 			</Grid>
-			
 		</Grid>
 		</Border>
 	
