@@ -82,7 +82,6 @@ public partial class ListItem : UserControl
         {
             parentPanel.Children.Remove(this);
         }
-
     }
 }
 

@@ -129,6 +129,6 @@
 			<Setter Property="BorderBrush" Value="{DynamicResource PrimaryBackGround}"/>
 		</Style>
 	</Style>
-	
+
 	
 </Styles>

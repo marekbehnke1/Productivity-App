@@ -22,6 +22,16 @@ public partial class MainView : Window
     private System.Timers.Timer? animTimer;
     private CancellationTokenSource? animationCts;
 
+    // Registering Collapse Property
+    public static readonly StyledProperty<bool> IsCollapsedProperty =
+        AvaloniaProperty.Register<MainView, bool>(nameof(IsCollapsed));
+
+    public bool IsCollapsed
+    {
+        get => GetValue(IsCollapsedProperty);
+        set => SetValue(IsCollapsedProperty, value);
+    }
+
     async private void Timer_Start(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
         var animation = (Animation?)this.Resources["TimerAnimationForward"];
@@ -136,5 +146,25 @@ public partial class MainView : Window
 
         // Scrolls to the end when you add a new note
         NotesScroller.ScrollToEnd();
+    }
+
+    private void CollapseApp(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        //TODO: Add code to collapse height of entire app
+        if (IsCollapsed == true)
+        {
+            IsCollapsed = false;
+            MainAppWindow.Height = 800;
+            MainPanel.Height = 700;
+        }
+        else
+        {
+            IsCollapsed = true;
+            MainAppWindow.Height = 80;
+            MainPanel.Height = 0;
+
+        }
+
+
     }
 }

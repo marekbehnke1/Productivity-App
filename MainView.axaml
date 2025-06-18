@@ -7,7 +7,8 @@
 		Width="450"
 		Height="800"
         x:Class="LearnAvalonia.MainView"
-		
+		x:Name="MainAppWindow"
+		Classes="MainAppWindow"
 		xmlns:vm="clr-namespace:LearnAvalonia.ViewModels"
 		x:DataType="vm:MainViewModel"
 		
@@ -18,7 +19,9 @@
 		SystemDecorations="Full"
 		CanResize="False"
 		>
+	
 	<Window.Resources>
+		
 		<Animation Duration="00:25:00" 
 				   FillMode="Forward"
 				   x:Key="TimerAnimationForward"
@@ -68,52 +71,62 @@
 
 		<Border BorderThickness="2" BorderBrush="#2c2c2c">
 			
-		<Grid Name="TopBar" RowDefinitions="50, *, 50">
-			<Grid Grid.Row="0" ColumnDefinitions="auto, *">
+		<Grid Name="MainGrid" RowDefinitions="auto, * , auto">
+			<!--Top Bar-->
+			<Grid Name="TopBar" Grid.Row="0" ColumnDefinitions="50, *" Margin="5">
 				<StackPanel Grid.Column="0" VerticalAlignment="Top" Orientation="Horizontal">
-					<Menu>
-						<MenuItem Header="Menu">
-							<MenuItem Header="Option 1"/>
-							<MenuItem Header="Option 2"/>
-						</MenuItem>
-					</Menu>
-			
+					<Button Click="CollapseApp" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0">
+						<Image Width="30" Source="{SvgImage /Assets/Images/arrowDown.svg}"></Image>
+					</Button>
+	
 				</StackPanel>
 			</Grid>
 			
 				<!--Main Panel-->
-				<Grid Name="MainPanel" Grid.Row="1" ColumnDefinitions="*, auto" >
-					
-					<!--Main Notes Area-->
-					<ScrollViewer x:Name="NotesScroller">
-						
-						<StackPanel x:Name="NotesPanel" Grid.Column="0" Height="" Spacing="10">
-							<Controls:ListItem 
-								Title="Test" 
-								TaskPriority="High" 
-								Description="{Binding Test}"/>
-							<Controls:ListItem 
-								Title="test title" 
-								TaskPriority="Low"/>
-							<Controls:ListItem 
-								Title="another test" 
-								TaskPriority="Medium"/>
-						</StackPanel>
-						
-					</ScrollViewer>
-					
-					<!--Right Side Bar-->
-					<StackPanel Grid.Column="1" MaxWidth="30">
-						<Button Click="CreateNote" Padding="5">
-							<Image Height="20" Width="20" Source="{SvgImage /Assets/Images/write.svg}"/>
-						</Button>	
-					
+			<Grid
+				x:Name="MainPanel"
+				Grid.Row="1"
+				ColumnDefinitions="*, auto"
+				Height=""
+				MaxHeight="700"
+				ClipToBounds="True">
+				
+
+				<!--Main Notes Area-->
+				<ScrollViewer x:Name="NotesScroller">
+
+					<StackPanel
+						x:Name="NotesPanel"
+						Grid.Column="0"
+						Spacing="10"
+						ClipToBounds="True">
+
+						<Controls:ListItem
+							Title="Test"
+							TaskPriority="High"
+							Description="{Binding Test}"/>
+						<Controls:ListItem
+							Title="test title"
+							TaskPriority="Low"/>
+						<Controls:ListItem
+							Title="another test"
+							TaskPriority="Medium"/>
 					</StackPanel>
-					
-				</Grid>
+
+				</ScrollViewer>
+
+				<!--Right Side Bar-->
+				<StackPanel Grid.Column="1" MaxWidth="30">
+					<Button Click="CreateNote" Padding="5">
+						<Image Height="20" Width="20" Source="{SvgImage /Assets/Images/write.svg}"/>
+					</Button>
+
+				</StackPanel>
+
+			</Grid>
 			
 			<!--Bottom Bar-->
-			<Grid Name="BottomBar" Grid.Row="2">
+			<Grid Name="BottomBar" Grid.Row="2" Margin="0 5">
 				<ProgressBar Height="30" x:Name="TimerBar"/>
 				<Grid ColumnDefinitions="100, * , 100">
 					<Button Click="Timer_Start" 
