@@ -3,6 +3,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:Controls="clr-namespace:LearnAvalonia.Components"
+		xmlns:Converters="using:LearnAvalonia.Converters"
 		mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="800"
 		Width="450"
 		Height="800"
@@ -11,7 +12,6 @@
 		Classes="MainAppWindow"
 		xmlns:vm="clr-namespace:LearnAvalonia.ViewModels"
 		x:DataType="vm:MainViewModel"
-		
         Title="LearnAvalonia"
 		Background="{DynamicResource ResourceKey=PrimaryBackGround}"
 		TransparencyLevelHint="AcrylicBlur"
@@ -51,6 +51,33 @@
 				<Setter Property="Foreground" Value="Aqua"/>
 			</KeyFrame>
 		</Animation>
+
+		<Animation 
+			Duration="0:0:0.2" 
+			x:Key="WindowCollapse"
+			x:SetterTargetType="Window">
+			<KeyFrame Cue="0%">
+				<Setter Property="Height" Value="800"/>
+			</KeyFrame>
+			<KeyFrame Cue="100%">
+				<Setter Property="Height" Value="80"/>
+			</KeyFrame>
+		</Animation>
+		
+		<Animation 
+			Duration="0:0:0.2" 
+			x:Key="WindowExpand"
+			x:SetterTargetType="Window">
+			<KeyFrame Cue="0%">
+				<Setter Property="Height" Value="80"/>
+			</KeyFrame>
+			<KeyFrame Cue="100%">
+				<Setter Property="Height" Value="800"/>
+			</KeyFrame>
+		</Animation>
+		
+		<Converters:DropDownArrowConverter x:Key="DropDownArrowConverter"/>
+		
 	</Window.Resources>
 
 	<Design.DataContext>
@@ -73,10 +100,11 @@
 			
 		<Grid Name="MainGrid" RowDefinitions="auto, * , auto">
 			<!--Top Bar-->
-			<Grid Name="TopBar" Grid.Row="0" ColumnDefinitions="50, *" Margin="5">
+			<Grid Name="TopBar" Grid.Row="0" ColumnDefinitions="50, *" Margin="5" Height="25">
 				<StackPanel Grid.Column="0" VerticalAlignment="Top" Orientation="Horizontal">
-					<Button Click="CollapseApp" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0">
-						<Image Width="30" Source="{SvgImage /Assets/Images/arrowDown.svg}"></Image>
+					<!--Collapse Button-->
+					<Button Classes="CollapseButton" Click="CollapseApp" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0">
+						<Image Width="20" Source="{Binding !IsCollapsed, ElementName=MainAppWindow ,Converter={StaticResource DropDownArrowConverter}}"></Image>
 					</Button>
 	
 				</StackPanel>
@@ -85,12 +113,12 @@
 				<!--Main Panel-->
 			<Grid
 				x:Name="MainPanel"
+				Classes="MainPanel"
 				Grid.Row="1"
 				ColumnDefinitions="*, auto"
-				Height=""
 				MaxHeight="700"
-				ClipToBounds="True">
-				
+				ClipToBounds="True"
+				>
 
 				<!--Main Notes Area-->
 				<ScrollViewer x:Name="NotesScroller">
@@ -99,7 +127,9 @@
 						x:Name="NotesPanel"
 						Grid.Column="0"
 						Spacing="10"
-						ClipToBounds="True">
+						ClipToBounds="True"
+						Margin="0"
+						>
 
 						<Controls:ListItem
 							Title="Test"
@@ -116,9 +146,12 @@
 				</ScrollViewer>
 
 				<!--Right Side Bar-->
-				<StackPanel Grid.Column="1" MaxWidth="30">
-					<Button Click="CreateNote" Padding="5">
+				<StackPanel Grid.Column="1" MaxWidth="30" Orientation="Vertical">
+					<Button Classes="CreateNote" Click="CreateNote" Padding="5">
 						<Image Height="20" Width="20" Source="{SvgImage /Assets/Images/write.svg}"/>
+					</Button>
+					<Button Classes="SettingsButton" Click="" Padding="5">
+						<Image Height="20" Width="20" Source="{SvgImage /Assets/Images/settings.svg}"/>
 					</Button>
 
 				</StackPanel>
@@ -126,7 +159,10 @@
 			</Grid>
 			
 			<!--Bottom Bar-->
-			<Grid Name="BottomBar" Grid.Row="2" Margin="0 5">
+			<Grid 
+				Name="BottomBar" 
+				Grid.Row="2" 
+				Margin="0 0 0 5">
 				<ProgressBar Height="30" x:Name="TimerBar"/>
 				<Grid ColumnDefinitions="100, * , 100">
 					<Button Click="Timer_Start" 

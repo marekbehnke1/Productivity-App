@@ -8,6 +8,7 @@ using Avalonia.Metadata;
 using Avalonia.Threading;
 using LearnAvalonia.ViewModels;
 using LearnAvalonia.Components;
+using System.Threading.Tasks;
 
 namespace LearnAvalonia;
 
@@ -29,7 +30,7 @@ public partial class MainView : Window
     public bool IsCollapsed
     {
         get => GetValue(IsCollapsedProperty);
-        set => SetValue(IsCollapsedProperty, value);
+        set => SetValue(IsCollapsedProperty, value);    
     }
 
     async private void Timer_Start(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
@@ -148,23 +149,26 @@ public partial class MainView : Window
         NotesScroller.ScrollToEnd();
     }
 
-    private void CollapseApp(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    private async void CollapseApp(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        //TODO: Add code to collapse height of entire app
-        if (IsCollapsed == true)
+        IsCollapsed = !IsCollapsed;
+        System.Diagnostics.Debug.WriteLine($"IsCollapsed is now: {IsCollapsed}");
+
+        var collapseAnim = (Animation?)Resources["WindowCollapse"];
+        var expandAnim = (Animation?)Resources["WindowExpand"];
+
+        if (collapseAnim != null && IsCollapsed)
         {
-            IsCollapsed = false;
-            MainAppWindow.Height = 800;
-            MainPanel.Height = 700;
+            MainPanel.MaxHeight = 0;
+            await collapseAnim.RunAsync(this);
         }
-        else
+        else if (expandAnim != null && !IsCollapsed)
         {
-            IsCollapsed = true;
-            MainAppWindow.Height = 80;
-            MainPanel.Height = 0;
+            await expandAnim.RunAsync(this);
+            MainPanel.MaxHeight = 700;
+
 
         }
-
 
     }
 }

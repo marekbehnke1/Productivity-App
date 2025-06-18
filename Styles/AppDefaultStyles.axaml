@@ -4,97 +4,27 @@
   <Design.PreviewWith>
     <Border Padding="20">
       <!-- Add Controls for Previewer Here -->
-		<CalendarDatePicker/>
+
+		<Button Classes="CollapseButton">Hello</Button>
 	</Border>
 	  
   </Design.PreviewWith>
 
   <!-- Add Styles Here -->
 
-	<Style Selector="Menu:pointerover /template/ ContentPresenter">
-		<Setter Property="Foreground" Value="{DynamicResource ResourceKey=PrimaryText}"/>
-		<Setter Property="Background" Value="#696969"/>
-	</Style>
-	
-	<Style Selector="MenuItem">
-		<Setter Property="FontSize" Value="18"/>
-		<Setter Property="Foreground" Value="{DynamicResource ResourceKey=PrimaryText}"/>
-	</Style>
-
-	<Style Selector="MenuItem:pointerover /template/ ContentPresenter">
-		<Setter Property="Foreground" Value="#ffc862"/>
-	</Style>
-
 	<Style Selector="ProgressBar">
 		<Setter Property="Foreground" Value="{DynamicResource ResourceKey=TimerGradient}"/>
 		<Setter Property="Background" Value="{DynamicResource ResourceKey=PrimaryBackGround}"/>
 	</Style>
-
-<!--
-	<Style Selector="TextBox">
-		<Setter Property="Background" Value="#5b373737"/>
-		<Setter Property="BorderBrush" Value=""/>
-		
-		<Style Selector="^:pointerover /template/ Border#PART_BorderElement">
-			<Setter Property="Background" Value="#4f373737"/>
-			<Setter Property="BorderBrush" Value="#56ffffff"/>
-		</Style>
-		
-		<Style Selector="^:focus /template/ Border#PART_BorderElement">
-			<Setter Property="Background" Value="#4f373737"/>
-			<Setter Property="BorderBrush" Value="White"/>
-		</Style>
-	</Style>
--->
-
-	<!-- High Prio textbox styling -->
-	<Style Selector="TextBox.highPriority">
-		<Setter Property="Background" Value="#26fa7f77"/>
-		<Setter Property="BorderBrush" Value=""/>
-
-		<Style Selector="^:pointerover /template/ Border#PART_BorderElement">
-			<Setter Property="Background" Value="#4f373737"/>
-			<Setter Property="BorderBrush" Value="#56ffffff"/>
-		</Style>
-
-		<Style Selector="^:focus /template/ Border#PART_BorderElement">
-			<Setter Property="Background" Value="#4f373737"/>
-			<Setter Property="BorderBrush" Value="White"/>
-		</Style>
-	</Style>
 	
-	<!-- Medium Prio textbox styling -->
-	<Style Selector="TextBox.mediumPriority">
-		<Setter Property="Background" Value="#26f7cc25"/>
-		<Setter Property="BorderBrush" Value=""/>
-
-		<Style Selector="^:pointerover /template/ Border#PART_BorderElement">
-			<Setter Property="Background" Value="#4f373737"/>
-			<Setter Property="BorderBrush" Value="#56ffffff"/>
-		</Style>
-
-		<Style Selector="^:focus /template/ Border#PART_BorderElement">
-			<Setter Property="Background" Value="#4f373737"/>
-			<Setter Property="BorderBrush" Value="White"/>
-		</Style>
-	</Style>
-
-	<!-- Low Prio textbox styling -->
-	<Style Selector="TextBox.lowPriority">
+	<Style Selector="Button.CollapseButton, Button.CreateNote, Button.DeleteButton, Button.SettingsButton">
+		<Setter Property="Background" Value="Transparent"/>
 		
-		<Setter Property="Background" Value="#5b85fe8a"/>
-		<Setter Property="BorderBrush" Value=""/>
-
-		<Style Selector="^:pointerover /template/ Border#PART_BorderElement">
-			<Setter Property="Background" Value="#4f373737"/>
-			<Setter Property="BorderBrush" Value="#56ffffff"/>
-		</Style>
-
-		<Style Selector="^:focus /template/ Border#PART_BorderElement">
-			<Setter Property="Background" Value="#4f373737"/>
-			<Setter Property="BorderBrush" Value="White"/>
+		<Style Selector="^:pointerover /template/ContentPresenter">
+			
 		</Style>
 	</Style>
+
 	
 	<!-- Title textbox styling -->
 	<Style Selector="TextBox.titleBox">
@@ -129,6 +59,5 @@
 			<Setter Property="BorderBrush" Value="{DynamicResource PrimaryBackGround}"/>
 		</Style>
 	</Style>
-
 	
 </Styles>

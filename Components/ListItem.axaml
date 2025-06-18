@@ -16,6 +16,8 @@
 				</Transitions>
 			</Setter>
 		</Style>
+
+		
 		
 	</UserControl.Styles>
 	
@@ -67,7 +69,7 @@
 					<!--Collapse button-->
 					<Grid Grid.Column="2">
 						<Button x:Name="CollapseButton" Click="Collapse" Background="Transparent">
-							<Image Height="20" Width="20" VerticalAlignment="Top" Source="{Binding !IsCollapsed, RelativeSource={RelativeSource AncestorType=local:ListItem}, Converter={StaticResource DropDownArrowConverter}}"/>
+							<Image Height="20" Width="20" VerticalAlignment="Center" Source="{Binding !IsCollapsed, RelativeSource={RelativeSource AncestorType=local:ListItem}, Converter={StaticResource DropDownArrowConverter}}"/>
 						</Button>
 					</Grid>
 					
