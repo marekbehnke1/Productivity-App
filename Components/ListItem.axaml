@@ -92,12 +92,18 @@
 					
 					<!--Delete icon-->
 					<Grid Grid.Column="0">
-						<Image 
-							HorizontalAlignment="Left" 
-							VerticalAlignment="Bottom" 
-							Width="20" Height="20" 
-							Source="{SvgImage /Assets/Images/delete.svg}" 
-							Margin="5"/>
+						
+						<Button 
+							Padding="0"
+							Classes="DeleteButton"
+							Click="DeleteButton">
+							<Image 
+								HorizontalAlignment="Left" 
+								VerticalAlignment="Bottom" 
+								Width="20" Height="20" 
+								Source="{SvgImage /Assets/Images/delete.svg}" 
+								Margin="5"/>
+						</Button>
 					</Grid>
 					
 					<!--Icon Next to priority box-->

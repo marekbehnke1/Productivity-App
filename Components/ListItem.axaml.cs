@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.LogicalTree;
 using Avalonia.Markup.Xaml;
 using LearnAvalonia.Models;
 
@@ -73,6 +74,15 @@ public partial class ListItem : UserControl
         {
             IsCollapsed = true;
         }
+    }
+
+    private void DeleteButton(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        if (this.Parent is Panel parentPanel)
+        {
+            parentPanel.Children.Remove(this);
+        }
+
     }
 }
 
