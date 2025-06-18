@@ -14,7 +14,7 @@ namespace LearnAvalonia.Converters
 {
     public class PriorityToIconConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             if (value is Priority priority)
             {
@@ -31,7 +31,7 @@ namespace LearnAvalonia.Converters
             return new SvgImage {  };
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
             => throw new NotImplementedException();
     }
 }

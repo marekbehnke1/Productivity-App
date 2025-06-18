@@ -8,9 +8,6 @@
 
 	<UserControl.Styles>
 		
-	<!--
-		<StyleInclude Source="/Styles/AppDefaultStyles.axaml"/>
-	-->
 		<Style Selector="Grid.MainTextRow">
 			<Setter Property="Transitions">
 				<Transitions>
@@ -54,7 +51,8 @@
 							HorizontalAlignment="Stretch"
 							BorderThickness="0" 
 							Text="{Binding Title, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=local:ListItem}}" 
-							FontSize="25"/>
+							FontSize="25"
+							Watermark="Enter a Title.."/>
 					</Grid>
 					
 					<!-- Due Date -->
@@ -83,7 +81,7 @@
 					TextWrapping="Wrap" 
 					FontSize="18"
 					BorderThickness="0" 
-					Watermark="Enter a note here" 
+					Watermark="What do you need to do?" 
 					MinHeight="30"
 					AcceptsReturn="True"/>
 					

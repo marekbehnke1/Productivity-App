@@ -7,6 +7,7 @@ using Avalonia.Controls;
 using Avalonia.Metadata;
 using Avalonia.Threading;
 using LearnAvalonia.ViewModels;
+using LearnAvalonia.Components;
 
 namespace LearnAvalonia;
 
@@ -127,5 +128,13 @@ public partial class MainView : Window
         {
             TimerText.Text = text;
         });
+    }
+
+    private void CreateNote(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        NotesPanel.Children.Add(new ListItem());
+
+        // Scrolls to the end when you add a new note
+        NotesScroller.ScrollToEnd();
     }
 }

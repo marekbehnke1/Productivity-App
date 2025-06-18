@@ -80,28 +80,56 @@
 			
 				</StackPanel>
 			</Grid>
-
+			
+				<!--Main Panel-->
 				<Grid Name="MainPanel" Grid.Row="1" ColumnDefinitions="*, auto" >
-					<StackPanel Grid.Column="0" Height="" Spacing="10">
+					
+					<!--Main Notes Area-->
+					<ScrollViewer x:Name="NotesScroller">
 						
-						<Controls:ListItem Title="Test" TaskPriority="High" Description="{Binding Test}"/>
-						<Controls:ListItem Title="test title" TaskPriority="Low"/>
-						<Controls:ListItem Title="another test" TaskPriority="Medium"/>
+						<StackPanel x:Name="NotesPanel" Grid.Column="0" Height="" Spacing="10">
+							<Controls:ListItem 
+								Title="Test" 
+								TaskPriority="High" 
+								Description="{Binding Test}"/>
+							<Controls:ListItem 
+								Title="test title" 
+								TaskPriority="Low"/>
+							<Controls:ListItem 
+								Title="another test" 
+								TaskPriority="Medium"/>
+						</StackPanel>
 						
+					</ScrollViewer>
+					
+					<!--Right Side Bar-->
+					<StackPanel Grid.Column="1" MaxWidth="30">
+						<Button Click="CreateNote" Padding="5">
+							<Image Height="20" Width="20" Source="{SvgImage /Assets/Images/write.svg}"/>
+						</Button>	
+					
 					</StackPanel>
-					<StackPanel Grid.Column="0">
-						
-					</StackPanel>
-					<StackPanel Grid.Column="1" Background="#494949">
-						<Image Height="20" Margin="10,10" Source="{SvgImage /Assets/Images/write.svg}"/>
-					</StackPanel>
+					
 				</Grid>
 			
+			<!--Bottom Bar-->
 			<Grid Name="BottomBar" Grid.Row="2">
 				<ProgressBar Height="30" x:Name="TimerBar"/>
 				<Grid ColumnDefinitions="100, * , 100">
-					<Button Click="Timer_Start" x:Name="TimerButton" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">Start</Button>
-					<TextBlock x:Name="TimerText" Grid.Column="2" Text="" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+					<Button Click="Timer_Start" 
+							x:Name="TimerButton" 
+							Grid.Column="0" 
+							HorizontalAlignment="Center" 
+							VerticalAlignment="Center">
+						Start
+					</Button>
+					
+					<!--Timer countdown text-->
+					<TextBlock 
+						x:Name="TimerText" 
+						Grid.Column="2" 
+						HorizontalAlignment="Center" 
+						VerticalAlignment="Center"/>
 				</Grid>
 			</Grid>
 		</Grid>
