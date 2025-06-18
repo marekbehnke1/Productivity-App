@@ -11,13 +11,23 @@
 	<!--
 		<StyleInclude Source="/Styles/AppDefaultStyles.axaml"/>
 	-->
-	
+		<Style Selector="Grid.MainTextRow">
+			<Setter Property="Transitions">
+				<Transitions>
+					<DoubleTransition Property="MaxHeight" Duration="0:0:0.2"/>
+					<DoubleTransition Property="Opacity" Duration="0:0:0.2"/>
+				</Transitions>
+			</Setter>
+		</Style>
+		
 	</UserControl.Styles>
 	
 	<UserControl.Resources>
 		<converters:PriorityToBrushConverter x:Key="PriorityToBrushConverter"/>
 		<converters:PriorityToIconConverter x:Key="PriorityToIconConverter"/>
 		<converters:DropDownArrowConverter x:Key="DropDownArrowConverter"/>
+		<converters:CollapsedHeightConverter x:Key="CollapsedHeightConverter"/>
+		
 	</UserControl.Resources>
 
 	
@@ -58,15 +68,15 @@
 
 					<!--Collapse button-->
 					<Grid Grid.Column="2">
-						<Button Click="Collapse" Background="Transparent">
-							<Image Height="20" Width="20" VerticalAlignment="Top" Source="{Binding IsCollapsed, RelativeSource={RelativeSource AncestorType=local:ListItem}, Converter={StaticResource DropDownArrowConverter}}"/>
+						<Button x:Name="CollapseButton" Click="Collapse" Background="Transparent">
+							<Image Height="20" Width="20" VerticalAlignment="Top" Source="{Binding !IsCollapsed, RelativeSource={RelativeSource AncestorType=local:ListItem}, Converter={StaticResource DropDownArrowConverter}}"/>
 						</Button>
 					</Grid>
 					
 				</Grid>
 			</Grid>
 			<!--Main item Text-->
-			<Grid Grid.Row="1" IsVisible="{Binding !IsCollapsed, RelativeSource={RelativeSource AncestorType=local:ListItem}}">
+			<Grid Grid.Row="1" ClipToBounds="True" Classes="MainTextRow" MaxHeight="{Binding !IsCollapsed, RelativeSource={RelativeSource AncestorType=local:ListItem},Converter={StaticResource CollapsedHeightConverter}}">
 				<TextBox 
 					Classes="mainTextBox"
 					Text="{Binding Description, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=local:ListItem}}" 

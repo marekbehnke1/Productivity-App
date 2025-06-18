@@ -4,7 +4,7 @@
   <Design.PreviewWith>
     <Border Padding="20">
       <!-- Add Controls for Previewer Here -->
-		<TextBox Classes="mainTextBox" Width="300" Height="100"/>
+		<CalendarDatePicker/>
 	</Border>
 	  
   </Design.PreviewWith>
