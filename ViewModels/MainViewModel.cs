@@ -34,19 +34,25 @@ namespace LearnAvalonia.ViewModels
             // this data will be replaced with database call
             var placeHolderTasks = new List<TaskItem>()
             {
-                new TaskItem("Complete Project Proposal", "Write and submit the Q4 project proposal document", Priority.High, DateTime.Now.AddDays(3), false),
-                new TaskItem("Team Meeting", "Weekly standup with development team", Priority.Medium, DateTime.Now.AddDays(1), false),
-                new TaskItem("Code Review", "Review pull requests from team members", Priority.Medium, DateTime.Now.AddDays(2), false),
-                new TaskItem("Update Documentation", "Update API documentation for new features", Priority.Low, DateTime.Now.AddDays(1), false),
-                new TaskItem("Research New Framework", "Investigate new UI framework options", Priority.Low, DateTime.Now.AddDays(2), false)
+                new TaskItem("Complete Project Proposal", "Write and submit the Q4 project proposal document", Priority.High, DateTime.Now.AddDays(3)),
+                new TaskItem("Team Meeting", "Weekly standup with development team", Priority.Medium, DateTime.Now.AddDays(1)),
+                new TaskItem("Code Review", "Review pull requests from team members", Priority.Medium, DateTime.Now.AddDays(2)),
+                new TaskItem("Update Documentation", "Update API documentation for new features", Priority.Low, DateTime.Now.AddDays(1)),
+                new TaskItem("Research New Framework", "Investigate new UI framework options", Priority.Low, DateTime.Now.AddDays(2))
             };
 
             foreach (var task in placeHolderTasks)
             {
                 Tasks.Add(task);
             }
-
         }
+
+        public void AddNewTask()
+        {
+            var newTask = new TaskItem("New Task","What do you need to do?", Priority.Low, DateTime.Today);
+            Tasks.Add(newTask);
+        }
+
 
     }
     

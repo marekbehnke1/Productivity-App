@@ -4,6 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:Controls="clr-namespace:LearnAvalonia.Components"
 		xmlns:Converters="using:LearnAvalonia.Converters"
+		xmlns:Models="clr-namespace:LearnAvalonia.Models"
 		mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="800"
 		Width="450"
 		Height="800"
@@ -142,6 +143,32 @@
 							Title="another test"
 							TaskPriority="Medium"/>
 						-->
+						
+						<!--The area where our collection items will be displayed-->
+						<ItemsControl ItemsSource="{Binding Tasks}">
+							<ItemsControl.ItemsPanel>
+								<!--Specifies a container for the items-->
+								<ItemsPanelTemplate>
+									<StackPanel ClipToBounds="True" Spacing="10"/>
+								</ItemsPanelTemplate>
+							</ItemsControl.ItemsPanel>
+							
+							<!--Describes the data and UI layouts-->
+							<ItemsControl.ItemTemplate>
+								<!--This is the data layout-->
+								<DataTemplate DataType="{x:Type Models:TaskItem}">
+									<!--This specifies a control to use for the ui layout-->
+									<Controls:ListItem
+										Title="{Binding Title}"
+										Description="{Binding Description}"
+										DueDate="{Binding DueDate}"
+										TaskPriority="{Binding TaskPriority}"
+										IsCollapsed="{Binding IsCollapsed}"/>
+								</DataTemplate>
+							</ItemsControl.ItemTemplate>
+							
+						</ItemsControl>
+						
 						
 					</StackPanel>
 

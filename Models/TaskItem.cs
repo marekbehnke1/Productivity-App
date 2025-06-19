@@ -17,13 +17,13 @@ namespace LearnAvalonia.Models
 
         public TaskItem() { }
 
-        public TaskItem(string title, string description, Priority taskPriority, DateTime? dueDate, bool isCollapsed)
+        public TaskItem(string title, string description, Priority taskPriority, DateTime? dueDate)
         {
             Title = title;
             Description = description;
             TaskPriority = taskPriority;
             DueDate = dueDate;
-            IsCollapsed = isCollapsed;
+            IsCollapsed = false;
         }
     }
 }

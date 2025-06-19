@@ -143,10 +143,13 @@ public partial class MainView : Window
 
     private void CreateNote(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        NotesPanel.Children.Add(new ListItem());
-
-        // Scrolls to the end when you add a new note
-        NotesScroller.ScrollToEnd();
+        
+        if(DataContext is MainViewModel viewModel)
+        {
+            viewModel.AddNewTask();
+            // Scrolls to the end when you add a new note
+            NotesScroller.ScrollToEnd();
+        }
     }
 
     private async void CollapseApp(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
