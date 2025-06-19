@@ -130,7 +130,7 @@
 						ClipToBounds="True"
 						Margin="0"
 						>
-
+						<!--
 						<Controls:ListItem
 							Title="Test"
 							TaskPriority="High"
@@ -141,6 +141,8 @@
 						<Controls:ListItem
 							Title="another test"
 							TaskPriority="Medium"/>
+						-->
+						
 					</StackPanel>
 
 				</ScrollViewer>
