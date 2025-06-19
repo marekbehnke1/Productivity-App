@@ -131,18 +131,6 @@
 						ClipToBounds="True"
 						Margin="0"
 						>
-						<!--
-						<Controls:ListItem
-							Title="Test"
-							TaskPriority="High"
-							Description="{Binding Test}"/>
-						<Controls:ListItem
-							Title="test title"
-							TaskPriority="Low"/>
-						<Controls:ListItem
-							Title="another test"
-							TaskPriority="Medium"/>
-						-->
 						
 						<!--The area where our collection items will be displayed-->
 						<ItemsControl ItemsSource="{Binding Tasks}">

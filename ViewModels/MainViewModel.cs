@@ -4,7 +4,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using LearnAvalonia.Components;
 using LearnAvalonia.Models;
 
@@ -17,7 +19,6 @@ namespace LearnAvalonia.ViewModels
 
         // This is the collection that the UI binds to
         public ObservableCollection<TaskItem> Tasks { get; set; }
-
         public MainViewModel()
         {
             Tasks = new ObservableCollection<TaskItem>();
@@ -53,6 +54,10 @@ namespace LearnAvalonia.ViewModels
             Tasks.Add(newTask);
         }
 
+        public void DeleteTask(TaskItem task)
+        {
+            Tasks.Remove(task);
+        }
 
     }
     

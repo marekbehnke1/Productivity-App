@@ -4,7 +4,9 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.LogicalTree;
 using Avalonia.Markup.Xaml;
+using Avalonia.VisualTree;
 using LearnAvalonia.Models;
+using LearnAvalonia.ViewModels;
 
 namespace LearnAvalonia.Components;
 
@@ -76,12 +78,15 @@ public partial class ListItem : UserControl
         }
     }
 
-    private void DeleteButton(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    private void DeleteTask(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        if (this.Parent is Panel parentPanel)
+        var mainView = this.FindAncestorOfType<MainView>();
+        if (mainView?.DataContext is MainViewModel viewModel && this.DataContext is TaskItem task)
         {
-            parentPanel.Children.Remove(this);
+            viewModel.DeleteTask(task);
         }
+
     }
+
 }
 

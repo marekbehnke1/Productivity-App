@@ -98,7 +98,8 @@
 						<Button 
 							Padding="0"
 							Classes="DeleteButton"
-							Click="DeleteButton">
+							Click="DeleteTask"
+							>
 							<Image 
 								HorizontalAlignment="Left" 
 								VerticalAlignment="Bottom" 
