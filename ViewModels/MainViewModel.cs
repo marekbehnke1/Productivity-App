@@ -9,6 +9,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LearnAvalonia.Components;
 using LearnAvalonia.Models;
+using System.ComponentModel;
+using System.Collections.Specialized;
 
 namespace LearnAvalonia.ViewModels
 {
@@ -17,24 +19,70 @@ namespace LearnAvalonia.ViewModels
         [ObservableProperty]
         private string _test = "this is a testing string for databinding";
 
+        [ObservableProperty]
+        private int _currentPanelIndex = 0;
+
         // This is the collection that the UI binds to
         public ObservableCollection<TaskItem> Tasks { get; set; }
-        public ObservableCollection<TaskItem> CriticalPrioTasks { get; set; }
-        public ObservableCollection<TaskItem> HighPrioTasks { get; set; }
-        public ObservableCollection<TaskItem> MediumPrioTasks { get; set; }
-        public ObservableCollection<TaskItem> LowPrioTasks { get; set; }
-        public ObservableCollection<TaskItem> CompletedTasks { get; set; }
+
+        // These collections are filtered versions of the main tasks collections, where a certain condition is met
+        public ObservableCollection<TaskItem> CriticalPrioTasks => new(Tasks.Where(t => t.TaskPriority == Priority.Critical));
+        public ObservableCollection<TaskItem> HighPrioTasks => new(Tasks.Where(t => t.TaskPriority == Priority.High));
+        public ObservableCollection<TaskItem> MediumPrioTasks => new(Tasks.Where(t => t.TaskPriority == Priority.Medium));
+        public ObservableCollection<TaskItem> LowPrioTasks => new(Tasks.Where(t => t.TaskPriority == Priority.Low));
+        public ObservableCollection<TaskItem> CompletedTasks => new(Tasks.Where(t => t.TaskPriority == Priority.Complete));
         public MainViewModel()
         {
             Tasks = new ObservableCollection<TaskItem>();
-            CriticalPrioTasks = new ObservableCollection<TaskItem>();
-            HighPrioTasks = new ObservableCollection<TaskItem>();
-            MediumPrioTasks = new ObservableCollection<TaskItem>();
-            LowPrioTasks = new ObservableCollection<TaskItem>();
-            CompletedTasks = new ObservableCollection<TaskItem>();
+
+            // Event is called whenever the tasks list is updated in any way
+            Tasks.CollectionChanged += (s, e) => RefreshFilteredCollections();
 
             // Function to populate the collection with data
             LoadTasks();
+        }
+
+        private void RefreshFilteredCollections()
+        {
+            System.Diagnostics.Debug.WriteLine("RefreshFilteredCollections called");
+
+            OnPropertyChanged(nameof(CriticalPrioTasks));
+            OnPropertyChanged(nameof(HighPrioTasks));
+            OnPropertyChanged(nameof(MediumPrioTasks));
+            OnPropertyChanged(nameof(LowPrioTasks));
+            OnPropertyChanged(nameof(CompletedTasks));
+        }
+
+        // This method handles when items are added/removed from lists
+        private void OnTasksCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            // Unsubscrive from the old items
+            if (e.OldItems != null)
+            {
+                foreach (TaskItem item in e.OldItems)
+                {
+                    item.PropertyChanged -= OnTaskItemPropertyChanged;
+                }
+            }
+
+            if (e.NewItems != null)
+            {
+                foreach (TaskItem item in e.NewItems)
+                {
+                    item.PropertyChanged += OnTaskItemPropertyChanged;
+                }
+            }
+
+            RefreshFilteredCollections();
+        }
+
+        // This method handles when individual items properties change
+        private void OnTaskItemPropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine($"Property changed: {e.PropertyName}");
+            System.Diagnostics.Debug.WriteLine($"Sender: {sender?.GetType().Name}");
+            // When Any TaskItem property changes, refresh the filtered lists
+            RefreshFilteredCollections();
         }
         
         private void LoadTasks()
@@ -56,27 +104,6 @@ namespace LearnAvalonia.ViewModels
             foreach (var task in placeHolderTasks)
             {
                 Tasks.Add(task);
-
-                if (task.TaskPriority == Priority.Critical)
-                {
-                    CriticalPrioTasks.Add(task);
-                }
-                else if (task.TaskPriority == Priority.High)
-                {
-                    HighPrioTasks.Add(task);
-                }
-                else if (task.TaskPriority == Priority.Medium)
-                {
-                    MediumPrioTasks.Add(task);
-                }
-                else if (task.TaskPriority == Priority.Low)
-                {
-                    LowPrioTasks.Add(task);
-                }
-                else if (task.TaskPriority == Priority.Complete)
-                {
-                    CompletedTasks.Add(task);
-                }
             }
         }
 
@@ -84,16 +111,12 @@ namespace LearnAvalonia.ViewModels
         {
             var newTask = new TaskItem("New Task","What do you need to do?", Priority.Low, DateTime.Today);
             Tasks.Add(newTask);
-            // TODO: Code to add task to the filtered list
-
-
-            
         }
 
         public void DeleteTask(TaskItem task)
         {
+            // Remove task from Main list
             Tasks.Remove(task);
-            // Code to delete task from the filtered list
         }
 
     }

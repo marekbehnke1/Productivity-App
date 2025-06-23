@@ -129,7 +129,6 @@
 							HorizontalAlignment="Right"
 							VerticalAlignment="Bottom"
 							Margin="5"
-							FontSize=""
 							/>
 					</Grid>
 				</Grid>

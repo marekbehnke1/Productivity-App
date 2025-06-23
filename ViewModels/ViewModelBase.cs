@@ -29,20 +29,5 @@ namespace LearnAvalonia.ViewModels
         // You also need to specify a data template for the item - which is your Model for the item.
         // This means you have specified a ui template and data template for the item
 
-
-        // Commands vs Events
-        // Commands and events perform a similar function but have slight differences.
-        // Essentially events are heavily bound to the UI itself, whereas commands are more about the code behind.
-        // Commands are therefore a bit "more" MVVM.
-        // When you are working data coming from databindings, commands are more effective as the control flow becomes:
-        // User clicks delete button
-        // Command executes in ViewModel
-        // ViewModel removes item from ObservableCollection
-        // UI automatically updates because of data binding
-        //
-        // You register commands in the same way you register properties
-        // You register it as a styleable property with a type of Icommand - this means it can be accessed from the XAML as a command
-        // You then add it the xaml with a command and a command parameter
-        //
     }
 }

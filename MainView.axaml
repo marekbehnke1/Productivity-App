@@ -306,14 +306,10 @@
 							
 							</Carousel.Items>
 						</Carousel>
+				
+						<!--Carousel Control Buttons-->
 						<Button Click="Previous" Background="Red">&lt; </Button>
 						<Button Click="Next" Background="Red" HorizontalAlignment="Right">&gt;</Button>
-						
-						
-						<!--
-					</StackPanel>
-
-						-->
 
 				<!--Right Side Bar-->
 				<StackPanel Grid.Column="1" MaxWidth="30" Orientation="Vertical">
@@ -323,7 +319,6 @@
 					<Button Classes="SettingsButton" Click="" Padding="5">
 						<Image Height="20" Width="20" Source="{SvgImage /Assets/Images/settings.svg}"/>
 					</Button>
-
 				</StackPanel>
 
 			</Grid>
