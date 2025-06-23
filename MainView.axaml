@@ -131,6 +131,17 @@
 						ClipToBounds="True"
 						Margin="0"
 						>
+
+						<!--Carousel to hold the different filtered notes panels-->
+						<Carousel Name="NotesCarousel">
+							<Carousel.PageTransition>
+								<PageSlide Duration="0:0:2" Orientation="Horizontal"/>
+							</Carousel.PageTransition>
+							<Carousel.Items>
+								
+							</Carousel.Items>
+							
+						</Carousel>
 						
 						<!--The area where our collection items will be displayed-->
 						<ItemsControl ItemsSource="{Binding Tasks}">

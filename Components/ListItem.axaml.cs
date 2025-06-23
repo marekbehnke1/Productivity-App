@@ -66,6 +66,7 @@ public partial class ListItem : UserControl
         set => SetValue(IsCollapsedProperty, value);
     }
 
+    //event listener for the collapse button
     private void Collapse(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
         if(IsCollapsed == true)
@@ -78,6 +79,9 @@ public partial class ListItem : UserControl
         }
     }
 
+    //event listener for the delete button.
+    // find the first ancestor with type of MainView
+    // 
     private void DeleteTask(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
         var mainView = this.FindAncestorOfType<MainView>();

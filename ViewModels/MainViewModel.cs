@@ -29,6 +29,9 @@ namespace LearnAvalonia.ViewModels
         
         private void LoadTasks()
         {
+
+            //do something where we are passing in a parameter that sets the priority of the tasks which are returned from the database call.
+
             // Clears existing data
             Tasks.Clear();
 
