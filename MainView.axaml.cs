@@ -149,7 +149,7 @@ public partial class MainView : Window
         {
             viewModel.AddNewTask();
             // Scrolls to the end when you add a new note
-            NotesScroller.ScrollToEnd();
+           // NotesScroller.ScrollToEnd();
         }
     }
 
@@ -176,5 +176,13 @@ public partial class MainView : Window
 
     }
 
+    public void Previous(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        NotesCarousel.Previous();
+    }
 
+    public void Next(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        NotesCarousel.Next();
+    }
 }

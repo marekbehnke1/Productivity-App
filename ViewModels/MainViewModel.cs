@@ -19,9 +19,19 @@ namespace LearnAvalonia.ViewModels
 
         // This is the collection that the UI binds to
         public ObservableCollection<TaskItem> Tasks { get; set; }
+        public ObservableCollection<TaskItem> CriticalPrioTasks { get; set; }
+        public ObservableCollection<TaskItem> HighPrioTasks { get; set; }
+        public ObservableCollection<TaskItem> MediumPrioTasks { get; set; }
+        public ObservableCollection<TaskItem> LowPrioTasks { get; set; }
+        public ObservableCollection<TaskItem> CompletedTasks { get; set; }
         public MainViewModel()
         {
             Tasks = new ObservableCollection<TaskItem>();
+            CriticalPrioTasks = new ObservableCollection<TaskItem>();
+            HighPrioTasks = new ObservableCollection<TaskItem>();
+            MediumPrioTasks = new ObservableCollection<TaskItem>();
+            LowPrioTasks = new ObservableCollection<TaskItem>();
+            CompletedTasks = new ObservableCollection<TaskItem>();
 
             // Function to populate the collection with data
             LoadTasks();
@@ -30,8 +40,6 @@ namespace LearnAvalonia.ViewModels
         private void LoadTasks()
         {
 
-            //do something where we are passing in a parameter that sets the priority of the tasks which are returned from the database call.
-
             // Clears existing data
             Tasks.Clear();
 
@@ -39,7 +47,7 @@ namespace LearnAvalonia.ViewModels
             var placeHolderTasks = new List<TaskItem>()
             {
                 new TaskItem("Complete Project Proposal", "Write and submit the Q4 project proposal document", Priority.High, DateTime.Now.AddDays(3)),
-                new TaskItem("Team Meeting", "Weekly standup with development team", Priority.Medium, DateTime.Now.AddDays(1)),
+                new TaskItem("Team Meeting", "Weekly standup with development team", Priority.Critical, DateTime.Now.AddDays(1)),
                 new TaskItem("Code Review", "Review pull requests from team members", Priority.Medium, DateTime.Now.AddDays(2)),
                 new TaskItem("Update Documentation", "Update API documentation for new features", Priority.Low, DateTime.Now.AddDays(1)),
                 new TaskItem("Research New Framework", "Investigate new UI framework options", Priority.Low, DateTime.Now.AddDays(2))
@@ -48,6 +56,27 @@ namespace LearnAvalonia.ViewModels
             foreach (var task in placeHolderTasks)
             {
                 Tasks.Add(task);
+
+                if (task.TaskPriority == Priority.Critical)
+                {
+                    CriticalPrioTasks.Add(task);
+                }
+                else if (task.TaskPriority == Priority.High)
+                {
+                    HighPrioTasks.Add(task);
+                }
+                else if (task.TaskPriority == Priority.Medium)
+                {
+                    MediumPrioTasks.Add(task);
+                }
+                else if (task.TaskPriority == Priority.Low)
+                {
+                    LowPrioTasks.Add(task);
+                }
+                else if (task.TaskPriority == Priority.Complete)
+                {
+                    CompletedTasks.Add(task);
+                }
             }
         }
 
@@ -55,11 +84,16 @@ namespace LearnAvalonia.ViewModels
         {
             var newTask = new TaskItem("New Task","What do you need to do?", Priority.Low, DateTime.Today);
             Tasks.Add(newTask);
+            // TODO: Code to add task to the filtered list
+
+
+            
         }
 
         public void DeleteTask(TaskItem task)
         {
             Tasks.Remove(task);
+            // Code to delete task from the filtered list
         }
 
     }
