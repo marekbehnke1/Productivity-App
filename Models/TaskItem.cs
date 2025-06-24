@@ -12,6 +12,8 @@ namespace LearnAvalonia.Models
 {
     public partial class TaskItem : ObservableObject
     {
+        private int _id;
+
         private string _title = string.Empty;
 
         private string _description = string.Empty;
@@ -23,6 +25,11 @@ namespace LearnAvalonia.Models
         private bool _isCollapsed = false;
 
 
+        public int Id
+        {
+            get => _id;
+            set => SetProperty(ref _id, value);
+        }
         public string Title
         {
             get => _title;
@@ -61,6 +68,7 @@ namespace LearnAvalonia.Models
             _taskPriority = taskPriority;
             _dueDate = dueDate;
             _isCollapsed = false;
+            //id does not need to be set here becase EFC sets it when a item is added to db
         }
 
     }

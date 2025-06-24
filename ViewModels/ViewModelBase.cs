@@ -103,6 +103,86 @@ namespace LearnAvalonia.ViewModels
             Changed this so that the we only rebuild the UI when a task changes priority - which is the only thing that would cause the UI
             to need to change anyways.
 
+
+
+        ---------------
+        Using EF Core
+        ---------------
+
+        EF Core is an ORM for C# & .NET
+        Just like SQL Alchemy etc for Python
+
+        It basically translates your C# objects into tables and vica versa.
+        This allows you to just write in C# and let EF Core handle the translation into SQL.
+
+        SQlite is a super lightweight sigle file database, and therefore is perfect for local storage with apps.
+        It's also easy to migrate from SQLite to cloud databases later on
+
+        To work with your database you need a DbContext - this is a database connection manager.
+        This class essentially coordinates all database operations
+        It updates tables, handles the connections and tracks any changes
+
+        Db Context & DbSet
+        --------------------
+        DbContext acts as a bridge between your C# Classes and the database
+        Db Set represents a table in the database, with each task become a row in that table
+            EF Core automatically creates the table columns based on the properties of the task object
+            In this way, your data model becomes the blueprint for your database structure
+
+        Connecting
+        --------------
+        An override of OnConfiguring is used to tell EF core how to connect to the database.
+
+        You can set the path you want your databse to exist in and save it in a variable.
+        Things like Environment.SpecialFolder.LocalApplicationData can be useful for returning the path of a local appdata folder.
+        This is often where applications store data.
+
+        It is good to then check this generated path actually exists.
+
+            var directory = Path.GetDirectoryName(dbPath);
+            if (!Directory.Exists(directory) && directory != null)
+            {
+                Directory.CreateDirectory(directory);
+            }
+
+        This will check that the path is valid, and if the directory does not exist, then create it
+        
+        Once the checks are valid you can then configure the SQL connection to use that path.
+            optionsBuilder.UseSqlite($"Data Source={dbPath}");
+
+
+        Mapping classes to the db
+        -------------------------
+        An override of OnModelCreating is used to define how your classes will map to the database tables
+
+        This is used to map the properties on TaskItem to the database.
+        You need to add an id property to the object you are mapping to the database.
+        This gets set when the object is added to the db, and allows to db to track which object is which.
+
+        modelBuilder.Entity<TaskItem>(entity =>
+            {
+                entity.HasKey(t => t.Id);
+
+                entity.Property(t => t.Title)
+                    .IsRequired()
+                    .HasMaxLength(200);
+                
+                entity.Property(t => t.Description)
+                    .HasMaxLength(1000);
+
+
+
+        Creating the methods to interact with the DB
+        ---------------------------------------------
+
+        You need to define the ways in which your program will interact with the database.
+        An interface is perfect for this. Because any class which implemenents that interface, must provide all
+        of the methods required to interact with the database.
+        It also allows for easy testing, as you can create fake data which targets the interface methods.
+        You are essentially defining all the things that the TaskService needs to do.
+
+        You then define the actual TaskService class which will interact directly with the database.
+
          */
 
     }
