@@ -171,7 +171,6 @@ public partial class MainView : Window
             await expandAnim.RunAsync(this);
             MainPanel.MaxHeight = 700;
 
-
         }
 
     }
@@ -186,11 +185,4 @@ public partial class MainView : Window
         NotesCarousel.Next();
     }
 
-    private void TestPropertyChange(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
-    {
-        if (DataContext is MainViewModel viewModel)
-        {
-            viewModel.TestPropertyChange();
-        }
-    }
 }

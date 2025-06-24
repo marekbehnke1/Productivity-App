@@ -320,8 +320,6 @@
 						<Image Height="20" Width="20" Source="{SvgImage /Assets/Images/settings.svg}"/>
 					</Button>
 					
-					<!--Test Button-->
-					<Button Content="Test Property Change" Click="TestPropertyChange"/>
 					
 				</StackPanel>
 

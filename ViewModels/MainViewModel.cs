@@ -93,8 +93,14 @@ namespace LearnAvalonia.ViewModels
         {
             System.Diagnostics.Debug.WriteLine($"Property changed: {e.PropertyName}");
             System.Diagnostics.Debug.WriteLine($"Sender: {sender?.GetType().Name}");
-            // When Any TaskItem property changes, refresh the filtered lists
-            RefreshFilteredCollections();
+
+            //Only update the lists when you change the priority of tasks
+            //which is the only property that would affect which list they are in anyway
+            if (e.PropertyName == nameof(TaskItem.TaskPriority))
+            {
+                // Refresh the collections when priority is changed
+                RefreshFilteredCollections();
+            }
         }
         
         private void LoadTasks()
@@ -130,17 +136,6 @@ namespace LearnAvalonia.ViewModels
         {
             // Remove task from Main list
             Tasks.Remove(task);
-        }
-
-        public void TestPropertyChange()
-        {
-            if (Tasks.Count > 0)
-            {
-                var firstTask = Tasks[0];
-                System.Diagnostics.Debug.WriteLine($"Before change: {firstTask.Title}");
-                firstTask.Title = "CHANGED TITLE - " + DateTime.Now.Second;
-                System.Diagnostics.Debug.WriteLine($"After change: {firstTask.Title}");
-            }
         }
 
     }

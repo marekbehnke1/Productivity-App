@@ -45,12 +45,63 @@ namespace LearnAvalonia.ViewModels
             xmlns:models="clr-namespace:LearnAvalonia.Models;assembly=LearnAvalonia"
 			x:DataType="models:TaskItem"
 
-        2. Now looks like we are moving away from computed properties - as these maybe caused the bug where you lose focus from 
-            the text fields every time you enter a character.
+        2.  Make TaskItem Observable
+                TaskItem becomes a partial class that inherits from Observable Object
+                This allows you to use set => SetProperty(ref _title, value);
+                This fires a property changed event whenever this property is set.
+                This allows other objects to listen for this event and then do something accordingly
 
-        3. Lots of trickery was done to get the properties to change correctly.
-            Will have to review what we did properly and get notes on it.
-            Essentially it revolved around changing the setter method for the properties, and making the item an observable object.
+        3.  Moved to a "Single Source of truth" architecture
+                The only place taskitems exist is in the main tasks list.
+                All other lists are created as filtered versions of this, which allows updates to be managed easily as data only exists in one place
+                This will help in the future with potential sync issues. As we only ever need to manage the one list being synced.
+                Other lists were created with computed properties from this main tasks list.
+                At the end of the data all data only exists in one place, everything else is just a reference back to the orignal source.
+        
+        4.  Property Change Subscription system
+                In the constructor for MainViewModel, when we create the tasks list, we add property change listeners to all tasks
+                This allows the viewmodel to know whenever a property on any item changes
+
+        5.  Automatic Subscription for new items
+                When a new item is created, it is added to this network of property listeners automatically
+                This allows any new items to be automatically kept track of
+
+        6.  Changed UI binding method
+                Changed the ui elements to bind to the data model instead of to itself.
+                TwoWay bindings are important here, so that the data can flow in both directions, UI -> viewmodel - > model && model -> viewmodel -> UI
+
+
+                    The Magic Flow
+            Here's what happens when you edit a task title:
+
+            User types in TextBox → UI binding triggers
+            TaskItem.Title setter called → SetProperty() fires PropertyChanged
+            Property change contains "Title" → OnTaskItemPropertyChanged() receives it
+            Since it's not "TaskPriority" → No collection refresh needed
+            But other UIs are bound to same TaskItem → They automatically update via data binding!
+
+            When you change priority:
+
+            User selects new priority → TaskItem.TaskPriority changes
+            PropertyChanged fires with "TaskPriority" → OnTaskItemPropertyChanged() catches it
+            RefreshFilteredCollections() called → All filtered views regenerate
+            Task appears in new list, disappears from old → Automatic migration!
+
+            Why This Architecture Works So Well
+            🔄 Automatic Synchronization: All views stay in sync because they're all looking at the same underlying data
+            ⚡ Efficient Updates: Only refreshes when necessary (priority changes), not on every keystroke
+            🎯 Single Source of Truth: Tasks collection is the only real data store - everything else is computed
+            🔌 Self-Managing: New tasks automatically get plugged into the system without manual wiring
+            🏗️ Scalable: Easy to add new filtered views or properties without breaking existing functionality
+            This is a textbook implementation of the Observer pattern combined with MVVM architecture - exactly how professional apps handle complex data synchronization!
+
+                
+
+
+        XX. Had a bug where you would lose focus every time you entered a character.
+            This is because the UI was rebuilding every time there was a property change
+            Changed this so that the we only rebuild the UI when a task changes priority - which is the only thing that would cause the UI
+            to need to change anyways.
 
          */
 
