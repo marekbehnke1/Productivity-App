@@ -19,6 +19,8 @@
 		ExtendClientAreaToDecorationsHint="True"
 		SystemDecorations="Full"
 		CanResize="False"
+		d:DataContext="{x:Static vm:DesignViewModel.Instance}"
+		x:CompileBindings="False"
 		>
 	
 	<Window.Resources>
@@ -80,12 +82,7 @@
 		<Converters:DropDownArrowConverter x:Key="DropDownArrowConverter"/>
 		
 	</Window.Resources>
-
-	<Design.DataContext>
-		<vm:MainViewModel/>
-	</Design.DataContext>
-	
-	
+		
 	<Panel>
 	<ExperimentalAcrylicBorder IsHitTestVisible="True">
 		<ExperimentalAcrylicBorder.Material>
@@ -120,18 +117,9 @@
 				MaxHeight="700"
 				ClipToBounds="True"
 				>
-
+				
 
 				<!--Main Notes Area-->
-				<!--
-					<StackPanel
-						x:Name="NotesPanel"
-						Grid.Column="0"
-						Spacing="10"
-						ClipToBounds="True"
-						Margin="0"
-						>
-				-->
 
 						<!--Carousel to hold the different filtered notes panels-->
 						<Carousel Name="NotesCarousel">

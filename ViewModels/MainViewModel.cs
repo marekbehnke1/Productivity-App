@@ -54,13 +54,6 @@ namespace LearnAvalonia.ViewModels
             // Constructors cannot be async - so we have to call a one use async method.
             _ = InitialiseAsync();
 
-            // Function to populate the collection with data
-            //LoadTasks();
-
-            //foreach (var task in Tasks)
-            //{
-            //    task.PropertyChanged += OnTaskItemPropertyChanged;
-            //}
         }
 
         // This initialises the async loading of data from the database
@@ -170,7 +163,7 @@ namespace LearnAvalonia.ViewModels
         {
             try
             {
-                var newTask = new TaskItem("New Task", "What do you want to do?", Priority.Low, DateTime.Today);
+                var newTask = new TaskItem("", "", Priority.Low, DateTime.Today);
 
                 // Add task to db first
                 var savedTask = await _taskService.AddTaskAsync(newTask);
