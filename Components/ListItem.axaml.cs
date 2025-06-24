@@ -91,14 +91,5 @@ public partial class ListItem : UserControl
         }
     }
 
-    //Calls the function to update which list the task is in from mainview
-    //private void PriorityChanged(object? sender, Avalonia.AvaloniaPropertyChangedEventArgs e)
-    //{
-    //    var mainView = this.FindAncestorOfType<MainView>();
-    //    if (mainView?.DataContext is MainViewModel viewModel && this.DataContext is TaskItem task)
-    //    {
-    //        viewModel.UpdateTask(task);
-    //    }
-    //}
 }
 

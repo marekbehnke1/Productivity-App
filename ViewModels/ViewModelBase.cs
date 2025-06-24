@@ -9,6 +9,9 @@ namespace LearnAvalonia.ViewModels
 {
     public class ViewModelBase : ObservableObject
     {
+        //////////////////////////////////
+        // Displaying data from backend //
+        //////////////////////////////////
         // essentially using viewmodelbase that derives from observable object adds a shit load of functionality for free.
         // It just includes all of the property notification and updating automatically without having to use INotifyPropertyChanged etc
         // Having an empty class that all your other viewmodels derive from, is a good way to give you space for future extensibility
@@ -28,6 +31,28 @@ namespace LearnAvalonia.ViewModels
         // The itemscontrol then generates ui elements for each item in the collection you have passed to it as a binding.
         // You also need to specify a data template for the item - which is your Model for the item.
         // This means you have specified a ui template and data template for the item
+
+        /*
+         -------------------------------------------
+         Updating Properties across different views
+         -------------------------------------------
+         1. In future when you make a User control - its a good idea to create the data model for it at the same time
+            This can then be set as the datacontext for that item early on, and you can use normal bindings
+            This saves a lot of faff with using relativesource and setting the item as its own data source etc
+            Helps massively when controlling the items content from the ViewModel later down the road
+            
+            Sometimes you then also need to be very specific about describing where the model for that item is.
+            xmlns:models="clr-namespace:LearnAvalonia.Models;assembly=LearnAvalonia"
+			x:DataType="models:TaskItem"
+
+        2. Now looks like we are moving away from computed properties - as these maybe caused the bug where you lose focus from 
+            the text fields every time you enter a character.
+
+        3. Lots of trickery was done to get the properties to change correctly.
+            Will have to review what we did properly and get notes on it.
+            Essentially it revolved around changing the setter method for the properties, and making the item an observable object.
+
+         */
 
     }
 }

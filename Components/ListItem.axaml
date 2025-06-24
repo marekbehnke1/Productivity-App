@@ -34,8 +34,9 @@
 
 	
 	<StackPanel Width="400">
+		<!--Borders dont show in the design view, because the data that sets the colour is pulled from the viewmodel -->
 		<Border 
-			BorderBrush="{Binding TaskPriority, RelativeSource={RelativeSource AncestorType=local:ListItem}, Converter={StaticResource PriorityToBrushConverter}}" 
+			BorderBrush="{Binding TaskPriority, Converter={StaticResource PriorityToBrushConverter}}" 
 			BorderThickness="2" 
 			CornerRadius="5">
 			
@@ -114,10 +115,11 @@
 					
 					<!--Icon Next to priority box-->
 					<Grid Grid.Column="1">
+						<!--Icon doesnt show in design view - data that sets it comes from viewmodel-->
 						<Image 
 							Height="20" 
 							Width="20" 
-							Source="{Binding TaskPriority, RelativeSource={RelativeSource AncestorType=local:ListItem}, Converter={StaticResource PriorityToIconConverter}}" 
+							Source="{Binding TaskPriority, Converter={StaticResource PriorityToIconConverter}}" 
 							VerticalAlignment="Bottom" 
 							HorizontalAlignment="Right" 
 							Margin="0 10"/>
