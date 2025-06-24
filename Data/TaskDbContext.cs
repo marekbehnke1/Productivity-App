@@ -12,12 +12,14 @@ namespace LearnAvalonia.Data
 
     public class TaskDbContext : DbContext
     {
-        public DbSet<Task> Tasks { get; set; }
+        public DbSet<TaskItem> Tasks { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            // Setting the local database path
             var dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "LearnAvalonia", "tasks.db");
 
+            // Check if directory exists, if not, create
             var directory = Path.GetDirectoryName(dbPath);
             if (!Directory.Exists(directory) && directory != null)
             {

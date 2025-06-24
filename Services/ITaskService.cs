@@ -16,10 +16,10 @@ namespace LearnAvalonia.Services
         Task<List<TaskItem>> GetTasksByPriorityAsync(Priority priority);
 
         //Adds a task to the DB
-        Task<List<TaskItem>> AddTaskAsync(TaskItem task);
+        Task<TaskItem> AddTaskAsync(TaskItem task);
 
         //Updates a task in the db
-        Task<List<TaskItem>> UpdateTaskAsync(TaskItem task);
+        Task<TaskItem> UpdateTaskAsync(TaskItem task);
 
         //Deletes a task specified by ID
         Task DeleteTaskAsync(int taskId);
