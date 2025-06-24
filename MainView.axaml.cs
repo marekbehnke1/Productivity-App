@@ -185,4 +185,12 @@ public partial class MainView : Window
     {
         NotesCarousel.Next();
     }
+
+    private void TestPropertyChange(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        if (DataContext is MainViewModel viewModel)
+        {
+            viewModel.TestPropertyChange();
+        }
+    }
 }

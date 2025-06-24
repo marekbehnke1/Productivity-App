@@ -12,21 +12,46 @@ namespace LearnAvalonia.Models
 {
     public partial class TaskItem : ObservableObject
     {
-        [ObservableProperty]
         private string _title = string.Empty;
 
-        [ObservableProperty]
         private string _description = string.Empty;
 
-        [ObservableProperty]
         private Priority _taskPriority;
 
-        [ObservableProperty]
         private DateTime? _dueDate;
 
-        [ObservableProperty]
         private bool _isCollapsed = false;
 
+
+        public string Title
+        {
+            get => _title;
+            set => SetProperty(ref _title, value);
+        }
+
+        public string Description
+        {
+            get => _description;
+            set => SetProperty(ref _description, value);
+        }
+
+        public Priority TaskPriority
+        {
+            get => _taskPriority;
+            set => SetProperty(ref _taskPriority, value);
+        }
+
+        public DateTime? DueDate
+        {
+            get => _dueDate;
+            set => SetProperty(ref _dueDate, value);
+        }
+
+        public bool IsCollapsed
+        {
+            get => _isCollapsed;
+            set => SetProperty(ref _isCollapsed, value);
+        }
         public TaskItem() { }
 
         public TaskItem(string title, string description, Priority taskPriority, DateTime? dueDate)

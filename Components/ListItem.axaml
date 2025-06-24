@@ -4,7 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:local="clr-namespace:LearnAvalonia.Components"
 			 xmlns:converters="clr-namespace:LearnAvalonia.Converters"
-             x:Class="LearnAvalonia.Components.ListItem">
+			 xmlns:models="clr-namespace:LearnAvalonia.Models;assembly=LearnAvalonia"
+             x:Class="LearnAvalonia.Components.ListItem"
+			 x:DataType="models:TaskItem"
+			 >
 
 	<UserControl.Styles>
 		
@@ -52,7 +55,7 @@
 							VerticalAlignment="Center" 
 							HorizontalAlignment="Stretch"
 							BorderThickness="0" 
-							Text="{Binding Title, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=local:ListItem}}" 
+							Text="{Binding Title, Mode=TwoWay}" 
 							FontSize="25"
 							Watermark="Enter a Title.."/>
 					</Grid>
@@ -62,14 +65,14 @@
 						<CalendarDatePicker 
 							BorderThickness="0" 
 							Watermark="dd/mm/yyyy" 
-							SelectedDate="{Binding DueDate, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=local:ListItem}}" 
+							SelectedDate="{Binding DueDate, Mode=TwoWay}" 
 							HorizontalAlignment="Center"/>
 					</Grid>
 
 					<!--Collapse button-->
 					<Grid Grid.Column="2">
 						<Button x:Name="CollapseButton" Click="Collapse" Background="Transparent">
-							<Image Height="20" Width="20" VerticalAlignment="Center" Source="{Binding !IsCollapsed, RelativeSource={RelativeSource AncestorType=local:ListItem}, Converter={StaticResource DropDownArrowConverter}}"/>
+							<Image Height="20" Width="20" VerticalAlignment="Center" Source="{Binding !IsCollapsed, Converter={StaticResource DropDownArrowConverter}}"/>
 						</Button>
 					</Grid>
 					
@@ -79,7 +82,7 @@
 			<Grid Grid.Row="1" ClipToBounds="True" Classes="MainTextRow" MaxHeight="{Binding !IsCollapsed, RelativeSource={RelativeSource AncestorType=local:ListItem},Converter={StaticResource CollapsedHeightConverter}}">
 				<TextBox 
 					Classes="mainTextBox"
-					Text="{Binding Description, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=local:ListItem}}" 
+					Text="{Binding Description, Mode=TwoWay}" 
 					TextWrapping="Wrap" 
 					FontSize="18"
 					BorderThickness="0" 
@@ -124,7 +127,7 @@
 					<Grid Grid.Column="2">
 						<ComboBox
 							x:Name="PrioritySelector"
-							SelectedItem="{Binding TaskPriority, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=local:ListItem}}"
+							SelectedItem="{Binding TaskPriority, Mode=TwoWay}"
 							Width="110"
 							HorizontalAlignment="Right"
 							VerticalAlignment="Bottom"

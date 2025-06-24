@@ -36,10 +36,15 @@ namespace LearnAvalonia.ViewModels
             Tasks = new ObservableCollection<TaskItem>();
 
             // Event is called whenever the tasks list is updated in any way
-            Tasks.CollectionChanged += (s, e) => RefreshFilteredCollections();
+            Tasks.CollectionChanged += OnTasksCollectionChanged;
 
             // Function to populate the collection with data
             LoadTasks();
+
+            foreach (var task in Tasks)
+            {
+                task.PropertyChanged += OnTaskItemPropertyChanged;
+            }
         }
 
         private void RefreshFilteredCollections()
@@ -56,11 +61,16 @@ namespace LearnAvalonia.ViewModels
         // This method handles when items are added/removed from lists
         private void OnTasksCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
-            // Unsubscrive from the old items
+
+            System.Diagnostics.Debug.WriteLine($"Collection changed: {e.Action}");
+
+            // Unsubscribe from the old items
             if (e.OldItems != null)
             {
                 foreach (TaskItem item in e.OldItems)
                 {
+                    System.Diagnostics.Debug.WriteLine($"Unsubscribing from: {item.Title}");
+
                     item.PropertyChanged -= OnTaskItemPropertyChanged;
                 }
             }
@@ -69,6 +79,8 @@ namespace LearnAvalonia.ViewModels
             {
                 foreach (TaskItem item in e.NewItems)
                 {
+                    System.Diagnostics.Debug.WriteLine($"Subscribing to: {item.Title}");
+
                     item.PropertyChanged += OnTaskItemPropertyChanged;
                 }
             }
@@ -98,7 +110,8 @@ namespace LearnAvalonia.ViewModels
                 new TaskItem("Team Meeting", "Weekly standup with development team", Priority.Critical, DateTime.Now.AddDays(1)),
                 new TaskItem("Code Review", "Review pull requests from team members", Priority.Medium, DateTime.Now.AddDays(2)),
                 new TaskItem("Update Documentation", "Update API documentation for new features", Priority.Low, DateTime.Now.AddDays(1)),
-                new TaskItem("Research New Framework", "Investigate new UI framework options", Priority.Low, DateTime.Now.AddDays(2))
+                new TaskItem("Research New Framework", "Investigate new UI framework options", Priority.Low, DateTime.Now.AddDays(2)),
+                new TaskItem("Create a thing", "Do Some other stuff", Priority.Complete, DateTime.Now.AddDays(7))
             };
 
             foreach (var task in placeHolderTasks)
@@ -117,6 +130,17 @@ namespace LearnAvalonia.ViewModels
         {
             // Remove task from Main list
             Tasks.Remove(task);
+        }
+
+        public void TestPropertyChange()
+        {
+            if (Tasks.Count > 0)
+            {
+                var firstTask = Tasks[0];
+                System.Diagnostics.Debug.WriteLine($"Before change: {firstTask.Title}");
+                firstTask.Title = "CHANGED TITLE - " + DateTime.Now.Second;
+                System.Diagnostics.Debug.WriteLine($"After change: {firstTask.Title}");
+            }
         }
 
     }
