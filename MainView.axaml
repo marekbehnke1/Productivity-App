@@ -96,7 +96,7 @@
 
 		<Border BorderThickness="2" BorderBrush="#2c2c2c">
 			
-		<Grid Name="MainGrid" RowDefinitions="auto, * , auto">
+		<Grid Name="MainGrid" RowDefinitions="auto, auto, * , auto">
 			<!--Top Bar-->
 			<Grid Name="TopBar" Grid.Row="0" ColumnDefinitions="50, *" Margin="5" Height="25">
 				<StackPanel Grid.Column="0" VerticalAlignment="Top" Orientation="Horizontal">
@@ -108,21 +108,40 @@
 				</StackPanel>
 			</Grid>
 			
+			<!--Carousel Nav Bar-->
+			<StackPanel x:Name="CarouselNavBar"
+						Grid.Row="1"
+						Height="30"
+						Orientation="Horizontal"
+						HorizontalAlignment="Center"
+						>
+				
+				<!--Carousel Control Buttons-->
+					<Button Click="Previous" Background="Red" HorizontalAlignment="Left">&lt; </Button>
+					<Button Click="GotoAllTasks">All</Button>
+					<Button Click="GotoCriticalTasks"><Image Source="{SvgImage /Assets/Images/priorityCritical.svg}"/></Button>
+					<Button Click="GotoHighTasks">High</Button>
+					<Button Click="GotoMediumTasks">Med</Button>
+					<Button Click="GotoLowTasks">Low</Button>
+					<Button Click="GotoCompletedTasks"><Image Source="{SvgImage /Assets/Images/complete.svg}"/></Button>
+					<Button Click="Next" Background="Red" HorizontalAlignment="Right">&gt;</Button>
+			</StackPanel>
+			
 				<!--Main Panel-->
 			<Grid
 				x:Name="MainPanel"
 				Classes="MainPanel"
-				Grid.Row="1"
+				Grid.Row="2"
 				ColumnDefinitions="*, auto"
 				MaxHeight="700"
 				ClipToBounds="True"
 				>
-				
 
 				<!--Main Notes Area-->
 
 						<!--Carousel to hold the different filtered notes panels-->
-						<Carousel Name="NotesCarousel">
+						<Carousel Name="NotesCarousel"
+								  SelectedIndex="{Binding CurrentPanelIndex}">
 							<Carousel.PageTransition>
 								<CompositePageTransition>
 									<PageSlide Duration="0:0:0.3" Orientation="Horizontal"/>
@@ -294,10 +313,6 @@
 							
 							</Carousel.Items>
 						</Carousel>
-				
-						<!--Carousel Control Buttons-->
-						<Button Click="Previous" Background="Red">&lt; </Button>
-						<Button Click="Next" Background="Red" HorizontalAlignment="Right">&gt;</Button>
 
 				<!--Right Side Bar-->
 				<StackPanel Grid.Column="1" MaxWidth="30" Orientation="Vertical">
@@ -308,7 +323,6 @@
 						<Image Height="20" Width="20" Source="{SvgImage /Assets/Images/settings.svg}"/>
 					</Button>
 					
-					
 				</StackPanel>
 
 			</Grid>
@@ -316,7 +330,7 @@
 			<!--Bottom Bar-->
 			<Grid 
 				Name="BottomBar" 
-				Grid.Row="2" 
+				Grid.Row="3" 
 				Margin="0 0 0 5">
 				<ProgressBar Height="30" x:Name="TimerBar"/>
 				<Grid ColumnDefinitions="100, * , 100">

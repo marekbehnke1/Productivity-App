@@ -31,7 +31,7 @@ public partial class MainView : Window
     public bool IsCollapsed
     {
         get => GetValue(IsCollapsedProperty);
-        set => SetValue(IsCollapsedProperty, value);    
+        set => SetValue(IsCollapsedProperty, value);
     }
 
     async private void Timer_Start(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
@@ -144,12 +144,12 @@ public partial class MainView : Window
 
     private void CreateNote(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        
-        if(DataContext is MainViewModel viewModel)
+
+        if (DataContext is MainViewModel viewModel)
         {
             viewModel.AddNewTask();
             // Scrolls to the end when you add a new note
-           // NotesScroller.ScrollToEnd();
+            // NotesScroller.ScrollToEnd();
         }
     }
 
@@ -177,12 +177,70 @@ public partial class MainView : Window
 
     public void Previous(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        NotesCarousel.Previous();
+        if (DataContext is MainViewModel viewModel)
+        {
+            int totalPanels = NotesCarousel.Items.Count;
+
+            if (viewModel.CurrentPanelIndex - 1 < 0)
+            {
+                viewModel.CurrentPanelIndex = totalPanels - 1;
+            }
+            else
+            {
+                viewModel.CurrentPanelIndex -= 1;
+            }
+            System.Diagnostics.Debug.WriteLine($"Current index is: {viewModel.CurrentPanelIndex}");
+        }
     }
 
     public void Next(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        NotesCarousel.Next();
+        if (DataContext is MainViewModel viewModel)
+        {
+            viewModel.CurrentPanelIndex += 1;
+            System.Diagnostics.Debug.WriteLine($"Current index is: {viewModel.CurrentPanelIndex}");
+
+        }
     }
 
+    public void GotoPanelIndex(int index)
+    {
+        if (DataContext is MainViewModel viewModel)
+        {
+            // Check panel index is within range
+            if (index >= 0 && index < NotesCarousel.Items.Count)
+            {
+                viewModel.CurrentPanelIndex = index;
+            }
+        }
+    }
+
+    private void GotoAllTasks(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        GotoPanelIndex(0);
+    }
+    private void GotoCriticalTasks(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        GotoPanelIndex(1);
+    }
+
+    private void GotoHighTasks(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        GotoPanelIndex(2);
+    }
+
+    private void GotoMediumTasks(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        GotoPanelIndex(3);
+    }
+
+    private void GotoLowTasks(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        GotoPanelIndex(4);
+    }
+
+    private void GotoCompletedTasks(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        GotoPanelIndex(5);
+    }
 }
