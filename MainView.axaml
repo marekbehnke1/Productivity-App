@@ -114,17 +114,18 @@
 						Height="30"
 						Orientation="Horizontal"
 						HorizontalAlignment="Center"
-						Margin="0 0 0 10">
+						Margin="0 0 0 10"
+						Spacing="2">
 				
 				<!--Carousel Control Buttons-->
-					<Button Click="Previous" HorizontalAlignment="Left">&lt; </Button>
-					<Button Click="GotoAllTasks">All</Button>
-					<Button Click="GotoCriticalTasks"><Image Source="{SvgImage /Assets/Images/priorityCritical.svg}"/></Button>
-					<Button Click="GotoHighTasks">High</Button>
-					<Button Click="GotoMediumTasks">Med</Button>
-					<Button Click="GotoLowTasks">Low</Button>
-					<Button Click="GotoCompletedTasks"><Image Source="{SvgImage /Assets/Images/complete.svg}"/></Button>
-					<Button Click="Next" HorizontalAlignment="Right">&gt;</Button>
+					<Button Classes="CarouselButton" Click="Previous" HorizontalAlignment="Left">&lt; </Button>
+					<Button x:Name="AllTasksBtn" Classes="CarouselButton" Click="GotoAllTasks">All</Button>
+					<Button x:Name="CritPrioTasksBtn" Classes="CarouselButton" Click="GotoCriticalTasks"><Image Source="{SvgImage /Assets/Images/priorityCritical.svg}"/></Button>
+					<Button x:Name="HighPrioTasksBtn" Classes="CarouselButton" Click="GotoHighTasks">High</Button>
+					<Button x:Name="MedPrioTasksBtn" Classes="CarouselButton" Click="GotoMediumTasks">Med</Button>
+					<Button x:Name="LowPrioTasksBtn" Classes="CarouselButton" Click="GotoLowTasks">Low</Button>
+					<Button x:Name="CompletedTasksBtn" Classes="CarouselButton" Click="GotoCompletedTasks"><Image Source="{SvgImage /Assets/Images/complete.svg}"/></Button>
+					<Button Classes="CarouselButton" Click="Next" HorizontalAlignment="Right">&gt;</Button>
 			</StackPanel>
 			
 				<!--Main Panel-->

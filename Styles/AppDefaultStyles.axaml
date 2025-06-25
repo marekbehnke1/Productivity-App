@@ -5,7 +5,8 @@
     <Border Padding="20">
       <!-- Add Controls for Previewer Here -->
 
-		<Button Classes="CollapseButton">Hello</Button>
+		<Button Classes="CarouselButton">Hello</Button>
+		
 	</Border>
 	  
   </Design.PreviewWith>
@@ -58,6 +59,10 @@
 			<Setter Property="Background" Value="#4f373737"/>
 			<Setter Property="BorderBrush" Value="{DynamicResource PrimaryBackGround}"/>
 		</Style>
+	</Style>
+
+	<Style Selector="Button.CarouselButton">
+		<!--Stuff to go here-->
 	</Style>
 	
 </Styles>

@@ -10,20 +10,35 @@ using LearnAvalonia.ViewModels;
 using LearnAvalonia.Components;
 using System.Threading.Tasks;
 using LearnAvalonia.Models;
+using System.Collections.Generic;
+using System.Drawing;
+using Avalonia.Media;
 
 namespace LearnAvalonia;
 
 public partial class MainView : Window
 {
-    public MainView()
-    {
-        InitializeComponent();
-    }
 
     private bool TimerRunning { get; set; } = false;
     private System.Timers.Timer? animTimer;
     private CancellationTokenSource? animationCts;
+    private List<Button> NavButtons { get; set; }
+    public MainView()
+    {
+        InitializeComponent();
 
+        // Create List of UI nav buttons
+        NavButtons = new List<Button>
+        {
+            AllTasksBtn,
+            CritPrioTasksBtn,
+            HighPrioTasksBtn,
+            MedPrioTasksBtn,
+            LowPrioTasksBtn,
+            CompletedTasksBtn
+        };
+    }
+   
     // Registering Collapse Property
     public static readonly StyledProperty<bool> IsCollapsedProperty =
         AvaloniaProperty.Register<MainView, bool>(nameof(IsCollapsed));
@@ -38,7 +53,6 @@ public partial class MainView : Window
     {
         var animation = (Animation?)this.Resources["TimerAnimationForward"];
         var animationReverse = (Animation?)this.Resources["TimerAnimationReverse"];
-
 
         if (TimerRunning)
         {
@@ -183,73 +197,82 @@ public partial class MainView : Window
         }
 
     }
-
     public void Previous(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
         if (DataContext is MainViewModel viewModel)
         {
-            int totalPanels = NotesCarousel.Items.Count;
-
-            if (viewModel.CurrentPanelIndex - 1 < 0)
-            {
-                viewModel.CurrentPanelIndex = totalPanels - 1;
-            }
-            else
-            {
-                viewModel.CurrentPanelIndex -= 1;
-            }
+            GotoPanelIndex(viewModel.CurrentPanelIndex - 1, sender);
             System.Diagnostics.Debug.WriteLine($"Current index is: {viewModel.CurrentPanelIndex}");
         }
     }
 
     public void Next(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        if (DataContext is MainViewModel viewModel)
+        if(DataContext  is MainViewModel viewModel)
         {
-            viewModel.CurrentPanelIndex += 1;
+            GotoPanelIndex(viewModel.CurrentPanelIndex + 1, sender);
             System.Diagnostics.Debug.WriteLine($"Current index is: {viewModel.CurrentPanelIndex}");
-
         }
     }
-
-    public void GotoPanelIndex(int index)
+    public void GotoPanelIndex(int index, object? sender)
     {
         if (DataContext is MainViewModel viewModel)
         {
             // Check panel index is within range
-            if (index >= 0 && index < NotesCarousel.Items.Count)
+            if (index >= 0 && index < NotesCarousel.ItemCount)
             {
                 viewModel.CurrentPanelIndex = index;
             }
+            else if(index < 0)
+            {
+                viewModel.CurrentPanelIndex = NotesCarousel.ItemCount - 1;
+            }
+            else if(index > NotesCarousel.ItemCount - 1)
+            {
+                viewModel.CurrentPanelIndex = 0;
+            }
+        }
+
+        // TODO: Highlight the current panels button
+        if (sender?.GetType() == typeof(Button))
+        {
+            Button button = (Button)sender;
+
+            foreach (Button item in NavButtons)
+            {
+                item.Background = new SolidColorBrush(Colors.DarkGray);
+            }
+            button.Background = new SolidColorBrush(Colors.Gray);
         }
     }
 
     private void GotoAllTasks(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        GotoPanelIndex(0);
+        GotoPanelIndex(0, sender);
+
     }
     private void GotoCriticalTasks(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        GotoPanelIndex(1);
+        GotoPanelIndex(1, sender);
     }
 
     private void GotoHighTasks(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        GotoPanelIndex(2);
+        GotoPanelIndex(2, sender);
     }
 
     private void GotoMediumTasks(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        GotoPanelIndex(3);
+        GotoPanelIndex(3, sender);
     }
 
     private void GotoLowTasks(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        GotoPanelIndex(4);
+        GotoPanelIndex(4, sender);
     }
 
     private void GotoCompletedTasks(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        GotoPanelIndex(5);
+        GotoPanelIndex(5, sender);
     }
 }
