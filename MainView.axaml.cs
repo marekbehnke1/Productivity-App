@@ -164,12 +164,21 @@ public partial class MainView : Window
         if (collapseAnim != null && IsCollapsed)
         {
             MainPanel.MaxHeight = 0;
+            CarouselNavBar.Height = 0;
             await collapseAnim.RunAsync(this);
+
+            //System.Diagnostics.Debug.WriteLine($"MainPanel height is: {MainPanel.Height}");
+            //System.Diagnostics.Debug.WriteLine($"CarouselNavBar height is: {CarouselNavBar.Height}");
         }
         else if (expandAnim != null && !IsCollapsed)
         {
             await expandAnim.RunAsync(this);
             MainPanel.MaxHeight = 700;
+            CarouselNavBar.Height = 30;
+
+            //System.Diagnostics.Debug.WriteLine($"MainPanel height is: {MainPanel.Height}");
+            //System.Diagnostics.Debug.WriteLine($"CarouselNavBar height is: {CarouselNavBar.Height}");
+
 
         }
 

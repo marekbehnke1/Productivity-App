@@ -114,17 +114,17 @@
 						Height="30"
 						Orientation="Horizontal"
 						HorizontalAlignment="Center"
-						>
+						Margin="0 0 0 10">
 				
 				<!--Carousel Control Buttons-->
-					<Button Click="Previous" Background="Red" HorizontalAlignment="Left">&lt; </Button>
+					<Button Click="Previous" HorizontalAlignment="Left">&lt; </Button>
 					<Button Click="GotoAllTasks">All</Button>
 					<Button Click="GotoCriticalTasks"><Image Source="{SvgImage /Assets/Images/priorityCritical.svg}"/></Button>
 					<Button Click="GotoHighTasks">High</Button>
 					<Button Click="GotoMediumTasks">Med</Button>
 					<Button Click="GotoLowTasks">Low</Button>
 					<Button Click="GotoCompletedTasks"><Image Source="{SvgImage /Assets/Images/complete.svg}"/></Button>
-					<Button Click="Next" Background="Red" HorizontalAlignment="Right">&gt;</Button>
+					<Button Click="Next" HorizontalAlignment="Right">&gt;</Button>
 			</StackPanel>
 			
 				<!--Main Panel-->
