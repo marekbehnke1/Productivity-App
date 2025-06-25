@@ -67,12 +67,14 @@ namespace LearnAvalonia.ViewModels
                 await _taskService.InitialiseDatabaseAsync();
 
                 await LoadTasksAsync();
+
             }
             catch (Exception ex)
             {
                 ErrorMessage = $"Failed to initialise database: {ex.Message}";
                 // If load fails, load sample data - otherwise the app will do nothing
                 LoadSampleData();
+
             }
             finally
             {

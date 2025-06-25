@@ -316,15 +316,20 @@
 						</Carousel>
 
 				<!--Right Side Bar-->
-				<StackPanel Grid.Column="1" MaxWidth="30" Orientation="Vertical">
-					<Button Classes="CreateNote" Click="CreateNote" Padding="5">
-						<Image Height="20" Width="20" Source="{SvgImage /Assets/Images/write.svg}"/>
-					</Button>
-					<Button Classes="SettingsButton" Click="" Padding="5">
-						<Image Height="20" Width="20" Source="{SvgImage /Assets/Images/settings.svg}"/>
-					</Button>
+				<Grid RowDefinitions="*, auto" Grid.Column="1">
 					
-				</StackPanel>
+					<StackPanel Grid.Row="0" MaxWidth="30" Orientation="Vertical">
+						<Button Classes="CreateNote" Click="CreateNote" Padding="5">
+							<Image Height="20" Width="20" Source="{SvgImage /Assets/Images/write.svg}"/>
+						</Button>
+						<Button Classes="SettingsButton" Click="" Padding="5">
+							<Image Height="20" Width="20" Source="{SvgImage /Assets/Images/settings.svg}"/>
+						</Button>
+					</StackPanel>
+
+					<!--Loading Icon -->
+					<Image Grid.Row="1" Height="20" Width="20" Source="{SvgImage /Assets/Images/loading.svg}" IsVisible="{Binding IsLoading}"/>
+				</Grid>				
 
 			</Grid>
 			
