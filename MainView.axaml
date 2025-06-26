@@ -81,6 +81,7 @@
 		
 		<Converters:DropDownArrowConverter x:Key="DropDownArrowConverter"/>
 		<Converters:StatusMessageColorConverter x:Key="StatusMessageColorConverter"/>
+		<Converters:StatusBarOpacityConverter x:Key="StatusBarOpacityConverter"/>
 		
 	</Window.Resources>
 		
@@ -97,7 +98,7 @@
 
 		<Border BorderThickness="2" BorderBrush="#2c2c2c">
 			
-		<Grid Name="MainGrid" RowDefinitions="auto, auto, * , auto, auto">
+		<Grid Name="MainGrid" RowDefinitions="auto, auto, * , auto">
 			<!--Top Bar-->
 			<Grid Name="TopBar" Grid.Row="0" ColumnDefinitions="50, *" Margin="5" Height="25">
 				<StackPanel Grid.Column="0" VerticalAlignment="Top" Orientation="Horizontal">
@@ -329,21 +330,45 @@
 					</StackPanel>
 
 					<!--Loading Icon -->
-					<Image Grid.Row="1" Height="20" Width="20" Source="{SvgImage /Assets/Images/loading.svg}" IsVisible="{Binding IsLoading}"/>
+					<Image Grid.Row="1"
+							Height="20" 
+							Width="20" 
+							Source="{SvgImage /Assets/Images/loading.svg}" 
+							IsVisible="{Binding IsLoading}"
+							Classes="Spinning"/>
 				</Grid>				
 
 			</Grid>
 			<!--Status message bar-->
 			<StackPanel x:Name="StatusPanel"
-						Grid.Row="3"
-						Height="20"
+						Grid.Row="2"
 						IsVisible="{Binding HasMessage}"
-						Background="{Binding IsSuccess, Converter={StaticResource StatusMessageColorConverter}}">
+						Background="Transparent"
+						VerticalAlignment="Bottom"
+						Opacity="{Binding HasMessage, Converter={StaticResource StatusBarOpacityConverter}}">
 				
-				<TextBlock x:Name="StatusMessage"
-						   Foreground="White"
-						   TextAlignment="Center"
-						   Text="{Binding StatusMessage}"/>
+				<!--Opacity Animation-->
+				<StackPanel.Transitions>
+					<Transitions>
+						<DoubleTransition Property="Opacity" Duration="0:0:0.2"/>
+					</Transitions>
+				</StackPanel.Transitions>
+						
+				<Border BorderThickness="2" 
+						BorderBrush="{Binding IsSuccess, Converter={StaticResource StatusMessageColorConverter}}" 
+						CornerRadius="5" 
+						Width="204">
+					
+					<TextBlock x:Name="StatusMessage"
+							   Foreground="White"
+							   Background="rgba(69, 69, 69, 0.9)"
+							   TextAlignment="Center"
+							   Width="200"
+							   Height="25"
+							   Padding="3"
+							   FontSize="15"
+							   Text="{Binding StatusMessage}"/>
+				</Border>				
 			</StackPanel>
 			
 			<!--Bottom Bar-->

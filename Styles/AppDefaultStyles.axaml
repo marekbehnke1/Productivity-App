@@ -5,7 +5,11 @@
     <Border Padding="20">
       <!-- Add Controls for Previewer Here -->
 
-		<Button Classes="CarouselButton">Hello</Button>
+		<Image Grid.Row="1"
+							Height="20"
+							Width="20"
+							Source="{SvgImage /Assets/Images/loading.svg}"
+							Classes="Spinning"/>
 		
 	</Border>
 	  
@@ -64,5 +68,31 @@
 	<Style Selector="Button.CarouselButton">
 		<!--Stuff to go here-->
 	</Style>
-	
+
+	<Style Selector="Image.Spinning">
+		<Style.Animations>
+			<Animation Duration="0:0:2"
+					   IterationCount="Infinite">
+				
+				<KeyFrame Cue="0%">
+					<Setter Property="RotateTransform.Angle" Value="0"/>
+				</KeyFrame>
+				<KeyFrame Cue="25%">
+					<Setter Property="RotateTransform.Angle" Value="90"/>
+				</KeyFrame>
+				<KeyFrame Cue="50%">
+					<Setter Property="RotateTransform.Angle" Value="180"/>
+				</KeyFrame>
+				<KeyFrame Cue="75%">
+					<Setter Property="RotateTransform.Angle" Value="270"/>
+				</KeyFrame>
+				<KeyFrame Cue="100%">
+					<Setter Property="RotateTransform.Angle" Value="360"/>
+				</KeyFrame>
+			</Animation>
+		</Style.Animations>
+		<Setter Property="RenderTransform">
+			<RotateTransform/>
+		</Setter>
+	</Style>	
 </Styles>
