@@ -25,7 +25,13 @@ namespace LearnAvalonia.ViewModels
 
         // Will hold any error messages we need to display
         [ObservableProperty]
-        private string _errorMessage = string.Empty;
+        private string _statusMessage = string.Empty;
+
+        [ObservableProperty]
+        private bool _hasMessage = false;
+
+        [ObservableProperty]
+        private bool _isSuccess;
 
         [ObservableProperty]
         private int _currentPanelIndex = 0;
@@ -56,13 +62,24 @@ namespace LearnAvalonia.ViewModels
 
         }
 
+        private async Task DisplayMessage(string message, bool success)
+        {
+            StatusMessage = message;
+            HasMessage = true;
+            IsSuccess = success;
+
+            await Task.Delay(3000);
+
+            StatusMessage = string.Empty;
+            HasMessage = false;
+        }
+
         // This initialises the async loading of data from the database
         private async Task InitialiseAsync()
         {
             try
             {
                 IsLoading = true;
-                ErrorMessage = string.Empty;
 
                 await _taskService.InitialiseDatabaseAsync();
 
@@ -71,7 +88,7 @@ namespace LearnAvalonia.ViewModels
             }
             catch (Exception ex)
             {
-                ErrorMessage = $"Failed to initialise database: {ex.Message}";
+                await DisplayMessage($"Failed to initialise database: {ex.Message}", false);
                 // If load fails, load sample data - otherwise the app will do nothing
                 LoadSampleData();
 
@@ -107,7 +124,7 @@ namespace LearnAvalonia.ViewModels
             }
             catch (Exception ex)
             {
-                ErrorMessage = $"Failed to load tasks from database{ex.Message}";
+                await DisplayMessage($"Failed to load tasks from database{ex.Message}", false);
             }
             finally
             {
@@ -138,7 +155,7 @@ namespace LearnAvalonia.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    ErrorMessage = $"Failed to create sample tasks: {ex.Message}";
+                    await DisplayMessage($"Failed to create sample tasks: {ex.Message}", false);
                 }
             }
         }
@@ -172,10 +189,11 @@ namespace LearnAvalonia.ViewModels
 
                 // Add task to UI list
                 Tasks.Add(savedTask);
+                await DisplayMessage("Task added succesfully", true);
             }
             catch (Exception ex)
             {
-                ErrorMessage = $"Could not add task to database: {ex.Message}"; 
+                await DisplayMessage($"Could not add task to database: {ex.Message}", false);
             }
         }
 
@@ -188,10 +206,11 @@ namespace LearnAvalonia.ViewModels
 
                 // remove task from UI
                 Tasks.Remove(task);
+                await DisplayMessage("Task deleted succesfully", true);
             }
             catch (Exception ex)
             {
-                ErrorMessage = $"Failed to delete task from database: {ex.Message}";
+                await DisplayMessage($"Failed to delete task from database: {ex.Message}", false);
 
                 // If database delete failed, but task was removed from UI - reload the UI
                 await LoadTasksAsync();
@@ -206,7 +225,7 @@ namespace LearnAvalonia.ViewModels
             }
             catch (Exception ex)
             {
-                ErrorMessage = $"Failed to update task: {ex.Message}";
+                await DisplayMessage($"Failed to update task: {ex.Message}", false);
             }
         }
 

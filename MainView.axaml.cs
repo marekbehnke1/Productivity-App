@@ -13,6 +13,7 @@ using LearnAvalonia.Models;
 using System.Collections.Generic;
 using System.Drawing;
 using Avalonia.Media;
+using LearnAvalonia.Resources;
 
 namespace LearnAvalonia;
 
@@ -238,9 +239,8 @@ public partial class MainView : Window
                 foreach (Button item in NavButtons)
                 {
                     // TODO: Fix this colour - colour nearly spot on now - think its a touch too dark. maybe.
-                    item.Background = new SolidColorBrush(Avalonia.Media.Color.FromArgb(80, 215, 215, 215));
+                    item.Background = AppBrushes.NavButtonBackground;
                 }
-                //button.Background = new SolidColorBrush(Colors.Gray);
                 NavButtons[viewModel.CurrentPanelIndex].Background = new SolidColorBrush(Colors.Gray);
             }
         }

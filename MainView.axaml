@@ -80,6 +80,7 @@
 		</Animation>
 		
 		<Converters:DropDownArrowConverter x:Key="DropDownArrowConverter"/>
+		<Converters:StatusMessageColorConverter x:Key="StatusMessageColorConverter"/>
 		
 	</Window.Resources>
 		
@@ -96,7 +97,7 @@
 
 		<Border BorderThickness="2" BorderBrush="#2c2c2c">
 			
-		<Grid Name="MainGrid" RowDefinitions="auto, auto, * , auto">
+		<Grid Name="MainGrid" RowDefinitions="auto, auto, * , auto, auto">
 			<!--Top Bar-->
 			<Grid Name="TopBar" Grid.Row="0" ColumnDefinitions="50, *" Margin="5" Height="25">
 				<StackPanel Grid.Column="0" VerticalAlignment="Top" Orientation="Horizontal">
@@ -332,11 +333,23 @@
 				</Grid>				
 
 			</Grid>
+			<!--Status message bar-->
+			<StackPanel x:Name="StatusPanel"
+						Grid.Row="3"
+						Height="20"
+						IsVisible="{Binding HasMessage}"
+						Background="{Binding IsSuccess, Converter={StaticResource StatusMessageColorConverter}}">
+				
+				<TextBlock x:Name="StatusMessage"
+						   Foreground="White"
+						   TextAlignment="Center"
+						   Text="{Binding StatusMessage}"/>
+			</StackPanel>
 			
 			<!--Bottom Bar-->
 			<Grid 
 				Name="BottomBar" 
-				Grid.Row="3" 
+				Grid.Row="4" 
 				Margin="0 0 0 5">
 				<ProgressBar Height="30" x:Name="TimerBar"/>
 				<Grid ColumnDefinitions="100, * , 100">
