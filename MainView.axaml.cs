@@ -231,19 +231,20 @@ public partial class MainView : Window
             {
                 viewModel.CurrentPanelIndex = 0;
             }
-        }
 
-        // TODO: Highlight the current panels button
-        if (sender?.GetType() == typeof(Button))
-        {
-            Button button = (Button)sender;
-
-            foreach (Button item in NavButtons)
+            // Highlight the current panels button
+            if (sender?.GetType() == typeof(Button))
             {
-                item.Background = new SolidColorBrush(Colors.DarkGray);
+                foreach (Button item in NavButtons)
+                {
+                    // TODO: Fix this colour - colour nearly spot on now - think its a touch too dark. maybe.
+                    item.Background = new SolidColorBrush(Avalonia.Media.Color.FromArgb(80, 215, 215, 215));
+                }
+                //button.Background = new SolidColorBrush(Colors.Gray);
+                NavButtons[viewModel.CurrentPanelIndex].Background = new SolidColorBrush(Colors.Gray);
             }
-            button.Background = new SolidColorBrush(Colors.Gray);
         }
+
     }
 
     private void GotoAllTasks(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
