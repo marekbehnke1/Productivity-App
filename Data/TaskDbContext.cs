@@ -13,6 +13,7 @@ namespace LearnAvalonia.Data
     public class TaskDbContext : DbContext
     {
         public DbSet<TaskItem> Tasks { get; set; }
+        public DbSet<Project> Projects { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -44,16 +45,39 @@ namespace LearnAvalonia.Data
                 
                 entity.Property(t => t.Description)
                     .HasMaxLength(1000);
-                
-                // Dont know if this will work??
-                entity.Property(t => t.DueDate)
-                    .HasConversion<DateTime>();
+
+                entity.Property(t => t.DueDate);
                 
                 // This converts the priority enum to an int
                 entity.Property(t => t.TaskPriority)
                     .HasConversion<int>();
                     
             });
+
+            // Defining the Projects database
+            modelBuilder.Entity<Project>(entity =>
+            {
+                entity.HasKey(t => t.Id);
+
+                entity.Property(t => t.Name)
+                .IsRequired()
+                .HasMaxLength(200);
+
+                entity.Property(t => t.Description) 
+                .HasMaxLength(1000);
+
+                entity.Property(t => t.DateCreated) 
+                .IsRequired();
+                   
+            });
+
+
+            // This defines the relationship between taskitem and project
+            modelBuilder.Entity<TaskItem>()         
+                .HasOne<Project>()                      // Task item only belongs to one project
+                .WithMany()                             // Project can have many taskitems
+                .HasForeignKey(t => t.ProjectId)        // Taskitem foreign key is projectid
+                .OnDelete(DeleteBehavior.SetNull);      // If project deleted - set taskitem projectid to null
         }
     }
 }

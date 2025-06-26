@@ -24,6 +24,9 @@ namespace LearnAvalonia.Models
 
         private bool _isCollapsed = false;
 
+        [ObservableProperty]
+        private int? _projectId;
+
 
         public int Id
         {
@@ -61,13 +64,14 @@ namespace LearnAvalonia.Models
         }
         public TaskItem() { }
 
-        public TaskItem(string title, string description, Priority taskPriority, DateTime? dueDate)
+        public TaskItem(string title, string description, Priority taskPriority, DateTime? dueDate, int? projectId)
         {
             _title = title;
             _description = description;
             _taskPriority = taskPriority;
             _dueDate = dueDate;
             _isCollapsed = false;
+            _projectId = projectId;
             //id does not need to be set here becase EFC sets it when a item is added to db
         }
 

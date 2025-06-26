@@ -40,11 +40,11 @@ namespace LearnAvalonia.ViewModels
             // Create sample tasks for design-time preview
             var sampleTasks = new[]
             {
-                new TaskItem("Design Task 1", "This is a sample high priority task for design preview", Priority.High, DateTime.Now.AddDays(2)),
-                new TaskItem("Design Task 2", "This is a sample medium priority task", Priority.Medium, DateTime.Now.AddDays(5)),
-                new TaskItem("Design Task 3", "This is a sample low priority task with a longer description to show text wrapping", Priority.Low, DateTime.Now.AddDays(7)),
-                new TaskItem("Critical Issue", "Urgent task that needs immediate attention", Priority.Critical, DateTime.Now.AddDays(1)),
-                new TaskItem("Completed Work", "This task has been finished", Priority.Complete, DateTime.Now.AddDays(-2))
+                new TaskItem("Design Task 1", "This is a sample high priority task for design preview", Priority.High, DateTime.Now.AddDays(2), null),
+                new TaskItem("Design Task 2", "This is a sample medium priority task", Priority.Medium, DateTime.Now.AddDays(5), null),
+                new TaskItem("Design Task 3", "This is a sample low priority task with a longer description to show text wrapping", Priority.Low, DateTime.Now.AddDays(7), null),
+                new TaskItem("Critical Issue", "Urgent task that needs immediate attention", Priority.Critical, DateTime.Now.AddDays(1), null),
+                new TaskItem("Completed Work", "This task has been finished", Priority.Complete, DateTime.Now.AddDays(-2), null)
             };
 
             // Initialize all collections

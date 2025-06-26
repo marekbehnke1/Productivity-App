@@ -5,14 +5,11 @@
     <Border Padding="20">
       <!-- Add Controls for Previewer Here -->
 
-		<Image Grid.Row="1"
-							Height="20"
-							Width="20"
-							Source="{SvgImage /Assets/Images/loading.svg}"
-							Classes="Spinning"/>
+		
+
+		
 		
 	</Border>
-	  
   </Design.PreviewWith>
 
   <!-- Add Styles Here -->

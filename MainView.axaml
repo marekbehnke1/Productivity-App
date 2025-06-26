@@ -354,21 +354,21 @@
 					</Transitions>
 				</StackPanel.Transitions>
 						
-				<Border BorderThickness="2" 
-						BorderBrush="{Binding IsSuccess, Converter={StaticResource StatusMessageColorConverter}}" 
-						CornerRadius="5" 
-						Width="204">
 					
-					<TextBlock x:Name="StatusMessage"
-							   Foreground="White"
-							   Background="rgba(69, 69, 69, 0.9)"
-							   TextAlignment="Center"
-							   Width="200"
-							   Height="25"
-							   Padding="3"
-							   FontSize="15"
-							   Text="{Binding StatusMessage}"/>
-				</Border>				
+				<Border BorderThickness="2"
+						BorderBrush="{Binding IsSuccess, Converter={StaticResource StatusMessageColorConverter}}" 
+						CornerRadius="5"
+						Width="205">
+				<TextBlock x:Name="StatusMessage"
+							Foreground="White"
+							Background="rgba(69, 69, 69, 0.9)"
+							TextAlignment="Center"
+							Width="200"
+							Height="25"
+							Padding="3"
+							FontSize="15"
+							Text="{Binding StatusMessage}"/>
+				</Border>
 			</StackPanel>
 			
 			<!--Bottom Bar-->

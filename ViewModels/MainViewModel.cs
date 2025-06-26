@@ -137,12 +137,12 @@ namespace LearnAvalonia.ViewModels
         {
             var sampleTasks = new List<TaskItem>
             {
-                new TaskItem("Complete Project Proposal", "Write and submit the Q4 project proposal document", Priority.High, DateTime.Now.AddDays(3)),
-                new TaskItem("Team Meeting", "Weekly standup with development team", Priority.Critical, DateTime.Now.AddDays(1)),
-                new TaskItem("Code Review", "Review pull requests from team members", Priority.Medium, DateTime.Now.AddDays(2)),
-                new TaskItem("Update Documentation", "Update API documentation for new features", Priority.Low, DateTime.Now.AddDays(1)),
-                new TaskItem("Research New Framework", "Investigate new UI framework options", Priority.Low, DateTime.Now.AddDays(2)),
-                new TaskItem("Create a thing", "Do Some other stuff", Priority.Complete, DateTime.Now.AddDays(7))
+                new TaskItem("Complete Project Proposal", "Write and submit the Q4 project proposal document", Priority.High, DateTime.Now.AddDays(3), null),
+                new TaskItem("Team Meeting", "Weekly standup with development team", Priority.Critical, DateTime.Now.AddDays(1), null),
+                new TaskItem("Code Review", "Review pull requests from team members", Priority.Medium, DateTime.Now.AddDays(2), null),
+                new TaskItem("Update Documentation", "Update API documentation for new features", Priority.Low, DateTime.Now.AddDays(1), null),
+                new TaskItem("Research New Framework", "Investigate new UI framework options", Priority.Low, DateTime.Now.AddDays(2), null),
+                new TaskItem("Create a thing", "Do Some other stuff", Priority.Complete, DateTime.Now.AddDays(7), null)
             };
 
             // Add the sample tasks to the database
@@ -165,9 +165,9 @@ namespace LearnAvalonia.ViewModels
         {
             var sampleTasks = new List<TaskItem>
             {
-                new TaskItem("Complete Project Proposal", "Write and submit the Q4 project proposal document", Priority.High, DateTime.Now.AddDays(3)),
-                new TaskItem("Team Meeting", "Weekly standup with development team", Priority.Critical, DateTime.Now.AddDays(1)),
-                new TaskItem("Code Review", "Review pull requests from team members", Priority.Medium, DateTime.Now.AddDays(2)),
+                new TaskItem("Complete Project Proposal", "Write and submit the Q4 project proposal document", Priority.High, DateTime.Now.AddDays(3), null),
+                new TaskItem("Team Meeting", "Weekly standup with development team", Priority.Critical, DateTime.Now.AddDays(1), null),
+                new TaskItem("Code Review", "Review pull requests from team members", Priority.Medium, DateTime.Now.AddDays(2), null),
             };
 
             Tasks.Clear();
@@ -182,7 +182,7 @@ namespace LearnAvalonia.ViewModels
         {
             try
             {
-                var newTask = new TaskItem("", "", Priority.Low, DateTime.Today);
+                var newTask = new TaskItem("", "", Priority.Low, DateTime.Today, null);
 
                 // Add task to db first
                 var savedTask = await _taskService.AddTaskAsync(newTask);
