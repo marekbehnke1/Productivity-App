@@ -18,18 +18,13 @@ namespace LearnAvalonia.ViewModels
     public partial class DesignViewModel : ViewModelBase
     {
         public static DesignViewModel Instance { get; } = new DesignViewModel();
-        [ObservableProperty]
-        private string _test = "Design-time test string";
         public int CurrentPanelIndex { get; set; } = 0;
         public bool IsLoading { get; set; } = false;
         public string ErrorMessage { get; set; } = string.Empty;
 
         public ObservableCollection<TaskItem> Tasks { get; set; }
-        public ObservableCollection<TaskItem> CriticalPrioTasks { get; set; }
-        public ObservableCollection<TaskItem> HighPrioTasks { get; set; }
-        public ObservableCollection<TaskItem> MediumPrioTasks { get; set; }
-        public ObservableCollection<TaskItem> LowPrioTasks { get; set; }
-        public ObservableCollection<TaskItem> CompletedTasks { get; set; }
+        public ObservableCollection<Project> Projects { get; set; }
+        
 
         /// <summary>
         /// Parameterless constructor that the designer can use
@@ -47,28 +42,26 @@ namespace LearnAvalonia.ViewModels
                 new TaskItem("Completed Work", "This task has been finished", Priority.Complete, DateTime.Now.AddDays(-2), null)
             };
 
+            var sampleProjects = new[]
+            {
+                new Project("New Website", "Create a new Website for the business"),
+                new Project("Productivity App", "A small productivity app using avalonia"),
+                new Project("Stock Trading Site", "Online stocks trading platform, using python and flask")
+            };
+
             // Initialize all collections
             Tasks = new ObservableCollection<TaskItem>(sampleTasks);
+            Projects = new ObservableCollection<Project>(sampleProjects);
+            
 
-            // Filter tasks by priority for design preview
-            CriticalPrioTasks = new ObservableCollection<TaskItem>(
-                sampleTasks.Where(t => t.TaskPriority == Priority.Critical));
-
-            HighPrioTasks = new ObservableCollection<TaskItem>(
-                sampleTasks.Where(t => t.TaskPriority == Priority.High));
-
-            MediumPrioTasks = new ObservableCollection<TaskItem>(
-                sampleTasks.Where(t => t.TaskPriority == Priority.Medium));
-
-            LowPrioTasks = new ObservableCollection<TaskItem>(
-                sampleTasks.Where(t => t.TaskPriority == Priority.Low));
-
-            CompletedTasks = new ObservableCollection<TaskItem>(
-                sampleTasks.Where(t => t.TaskPriority == Priority.Complete));
+            
         }
 
         // Empty methods for design-time (won't be called)
         public void AddNewTask() { }
+        public void AddNewProjectAsync() { }
+        public void DeleteProjectAsync() { }
+        public void SwitchToProject() { }
         public void DeleteTask(TaskItem task) { }
     }
 }

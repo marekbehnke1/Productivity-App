@@ -23,21 +23,21 @@ public partial class MainView : Window
     private bool TimerRunning { get; set; } = false;
     private System.Timers.Timer? animTimer;
     private CancellationTokenSource? animationCts;
-    private List<Button> NavButtons { get; set; }
+    //private List<Button> NavButtons { get; set; }
     public MainView()
     {
         InitializeComponent();
 
         // Create List of UI nav buttons
-        NavButtons = new List<Button>
-        {
-            AllTasksBtn,
-            CritPrioTasksBtn,
-            HighPrioTasksBtn,
-            MedPrioTasksBtn,
-            LowPrioTasksBtn,
-            CompletedTasksBtn
-        };
+        //NavButtons = new List<Button>
+        //{
+        //    AllTasksBtn,
+        //    CritPrioTasksBtn,
+        //    HighPrioTasksBtn,
+        //    MedPrioTasksBtn,
+        //    LowPrioTasksBtn,
+        //    CompletedTasksBtn
+        //};
     }
    
     // Registering Collapse Property
@@ -233,16 +233,16 @@ public partial class MainView : Window
                 viewModel.CurrentPanelIndex = 0;
             }
 
-            // Highlight the current panels button
-            if (sender?.GetType() == typeof(Button))
-            {
-                foreach (Button item in NavButtons)
-                {
-                    // TODO: Fix this colour - colour nearly spot on now - think its a touch too dark. maybe.
-                    item.Background = AppBrushes.NavButtonBackground;
-                }
-                NavButtons[viewModel.CurrentPanelIndex].Background = new SolidColorBrush(Colors.Gray);
-            }
+            //// Highlight the current panels button
+            //if (sender?.GetType() == typeof(Button))
+            //{
+            //    foreach (Button item in NavButtons)
+            //    {
+            //        // TODO: Fix this colour - colour nearly spot on now - think its a touch too dark. maybe.
+            //        item.Background = AppBrushes.NavButtonBackground;
+            //    }
+            //    NavButtons[viewModel.CurrentPanelIndex].Background = new SolidColorBrush(Colors.Gray);
+            //}
         }
 
     }

@@ -115,11 +115,24 @@
 						Grid.Row="1"
 						Height="30"
 						Orientation="Horizontal"
-						HorizontalAlignment="Center"
+						HorizontalAlignment="Left"
 						Margin="0 0 0 10"
 						Spacing="2">
-				
-				<!--Carousel Control Buttons-->
+
+				<Menu> 
+					<MenuItem>
+						<MenuItem.Header>
+							<Image Width="20" Height="20" Source="{SvgImage /Assets/Images/filtericon.svg}"/>
+						</MenuItem.Header>
+						<MenuItem Header="Critical"/>
+						<MenuItem Header="High"/>
+						<MenuItem Header="Medium"/>
+						<MenuItem Header="Low"/>
+						<MenuItem Header="Complete"/>
+					</MenuItem>
+				</Menu>
+				<!--
+					Carousel Control Buttons
 					<Button Classes="CarouselButton" Click="Previous" HorizontalAlignment="Left">&lt; </Button>
 					<Button x:Name="AllTasksBtn" Classes="CarouselButton" Click="GotoAllTasks">All</Button>
 					<Button x:Name="CritPrioTasksBtn" Classes="CarouselButton" Click="GotoCriticalTasks"><Image Source="{SvgImage /Assets/Images/priorityCritical.svg}"/></Button>
@@ -128,6 +141,7 @@
 					<Button x:Name="LowPrioTasksBtn" Classes="CarouselButton" Click="GotoLowTasks">Low</Button>
 					<Button x:Name="CompletedTasksBtn" Classes="CarouselButton" Click="GotoCompletedTasks"><Image Source="{SvgImage /Assets/Images/complete.svg}"/></Button>
 					<Button Classes="CarouselButton" Click="Next" HorizontalAlignment="Right">&gt;</Button>
+				-->
 			</StackPanel>
 			
 				<!--Main Panel-->
@@ -179,140 +193,7 @@
 									</ItemsControl>
 								</ScrollViewer>
 								
-								<!--Critical Prio Tasks-->
-								<ScrollViewer>
-									<!--The area where our collection items will be displayed-->
-									<ItemsControl ItemsSource="{Binding CriticalPrioTasks}">
-										<ItemsControl.ItemsPanel>
-											<!--Specifies a container for the items-->
-											<ItemsPanelTemplate>
-												<StackPanel ClipToBounds="True" Spacing="10"/>
-											</ItemsPanelTemplate>
-										</ItemsControl.ItemsPanel>
-							
-										<!--Describes the data and UI layouts-->
-										<ItemsControl.ItemTemplate>
-											<!--This is the data layout-->
-											<DataTemplate DataType="{x:Type Models:TaskItem}">
-												<!--This specifies a control to use for the ui layout-->
-												<Controls:ListItem
-													Title="{Binding Title}"
-													Description="{Binding Description}"
-													DueDate="{Binding DueDate}"
-													TaskPriority="{Binding TaskPriority}"
-													IsCollapsed="{Binding IsCollapsed}"/>
-											</DataTemplate>
-										</ItemsControl.ItemTemplate>
-									</ItemsControl>
-								</ScrollViewer>
 								
-								<!--High Prio Tasks-->
-								<ScrollViewer>
-									<!--The area where our collection items will be displayed-->
-									<ItemsControl ItemsSource="{Binding HighPrioTasks}">
-										<ItemsControl.ItemsPanel>
-											<!--Specifies a container for the items-->
-											<ItemsPanelTemplate>
-												<StackPanel ClipToBounds="True" Spacing="10"/>
-											</ItemsPanelTemplate>
-										</ItemsControl.ItemsPanel>
-							
-										<!--Describes the data and UI layouts-->
-										<ItemsControl.ItemTemplate>
-											<!--This is the data layout-->
-											<DataTemplate DataType="{x:Type Models:TaskItem}">
-												<!--This specifies a control to use for the ui layout-->
-												<Controls:ListItem
-													Title="{Binding Title}"
-													Description="{Binding Description}"
-													DueDate="{Binding DueDate}"
-													TaskPriority="{Binding TaskPriority}"
-													IsCollapsed="{Binding IsCollapsed}"/>
-											</DataTemplate>
-										</ItemsControl.ItemTemplate>
-									</ItemsControl>
-								</ScrollViewer>
-								
-								<!--Medium Prio tasks-->
-								<ScrollViewer>
-									<!--The area where our collection items will be displayed-->
-									<ItemsControl ItemsSource="{Binding MediumPrioTasks}">
-										<ItemsControl.ItemsPanel>
-											<!--Specifies a container for the items-->
-											<ItemsPanelTemplate>
-												<StackPanel ClipToBounds="True" Spacing="10"/>
-											</ItemsPanelTemplate>
-										</ItemsControl.ItemsPanel>
-							
-										<!--Describes the data and UI layouts-->
-										<ItemsControl.ItemTemplate>
-											<!--This is the data layout-->
-											<DataTemplate DataType="{x:Type Models:TaskItem}">
-												<!--This specifies a control to use for the ui layout-->
-												<Controls:ListItem
-													Title="{Binding Title}"
-													Description="{Binding Description}"
-													DueDate="{Binding DueDate}"
-													TaskPriority="{Binding TaskPriority}"
-													IsCollapsed="{Binding IsCollapsed}"/>
-											</DataTemplate>
-										</ItemsControl.ItemTemplate>
-									</ItemsControl>
-								</ScrollViewer>
-								
-								<!--Low Prio tasks-->
-								<ScrollViewer>
-									<!--The area where our collection items will be displayed-->
-									<ItemsControl ItemsSource="{Binding LowPrioTasks}">
-										<ItemsControl.ItemsPanel>
-											<!--Specifies a container for the items-->
-											<ItemsPanelTemplate>
-												<StackPanel ClipToBounds="True" Spacing="10"/>
-											</ItemsPanelTemplate>
-										</ItemsControl.ItemsPanel>
-							
-										<!--Describes the data and UI layouts-->
-										<ItemsControl.ItemTemplate>
-											<!--This is the data layout-->
-											<DataTemplate DataType="{x:Type Models:TaskItem}">
-												<!--This specifies a control to use for the ui layout-->
-												<Controls:ListItem
-													Title="{Binding Title}"
-													Description="{Binding Description}"
-													DueDate="{Binding DueDate}"
-													TaskPriority="{Binding TaskPriority}"
-													IsCollapsed="{Binding IsCollapsed}"/>
-											</DataTemplate>
-										</ItemsControl.ItemTemplate>
-									</ItemsControl>
-								</ScrollViewer>
-								
-								<!--Completed tasks-->
-								<ScrollViewer>
-									<!--The area where our collection items will be displayed-->
-									<ItemsControl ItemsSource="{Binding CompletedTasks}">
-										<ItemsControl.ItemsPanel>
-											<!--Specifies a container for the items-->
-											<ItemsPanelTemplate>
-												<StackPanel ClipToBounds="True" Spacing="10"/>
-											</ItemsPanelTemplate>
-										</ItemsControl.ItemsPanel>
-							
-										<!--Describes the data and UI layouts-->
-										<ItemsControl.ItemTemplate>
-											<!--This is the data layout-->
-											<DataTemplate DataType="{x:Type Models:TaskItem}">
-												<!--This specifies a control to use for the ui layout-->
-												<Controls:ListItem
-													Title="{Binding Title}"
-													Description="{Binding Description}"
-													DueDate="{Binding DueDate}"
-													TaskPriority="{Binding TaskPriority}"
-													IsCollapsed="{Binding IsCollapsed}"/>
-											</DataTemplate>
-										</ItemsControl.ItemTemplate>
-									</ItemsControl>
-								</ScrollViewer>
 							
 							</Carousel.Items>
 						</Carousel>
@@ -336,6 +217,7 @@
 							Source="{SvgImage /Assets/Images/loading.svg}" 
 							IsVisible="{Binding IsLoading}"
 							Classes="Spinning"/>
+						  
 				</Grid>				
 
 			</Grid>
