@@ -36,27 +36,41 @@ namespace LearnAvalonia.ViewModels
         [ObservableProperty]
         private int _currentPanelIndex = 0;
 
+        [ObservableProperty]
+        private Project? _selectedProject;
+
+        [ObservableProperty]
+        private Priority? _selectedPriorityFilter;
+
         // This is the collection that the UI binds to
         // It is the single true data store for all task items
         public ObservableCollection<TaskItem> Tasks { get; set; }
 
+        // Collection of all projects
+        public ObservableCollection<Project> Projects { get; set; }
+
+        // Current projects tasks
+        public ObservableCollection<TaskItem> CurrentProjectTasks => new(Tasks.Where(t => t.ProjectId == SelectedProject?.Id));
+        public ObservableCollection<TaskItem> CurrentFilteredTasks => new(CurrentProjectTasks.Where(t => SelectedPriorityFilter == null || t.TaskPriority == SelectedPriorityFilter.Value));
+
         // These collections are filtered versions of the main tasks collections, where a certain condition is met
-        public ObservableCollection<TaskItem> CriticalPrioTasks => new(Tasks.Where(t => t.TaskPriority == Priority.Critical));
-        public ObservableCollection<TaskItem> HighPrioTasks => new(Tasks.Where(t => t.TaskPriority == Priority.High));
-        public ObservableCollection<TaskItem> MediumPrioTasks => new(Tasks.Where(t => t.TaskPriority == Priority.Medium));
-        public ObservableCollection<TaskItem> LowPrioTasks => new(Tasks.Where(t => t.TaskPriority == Priority.Low));
-        public ObservableCollection<TaskItem> CompletedTasks => new(Tasks.Where(t => t.TaskPriority == Priority.Complete));
+        //public ObservableCollection<TaskItem> CriticalPrioTasks => new(Tasks.Where(t => t.TaskPriority == Priority.Critical && t.ProjectId == SelectedProject?.Id));
+        //public ObservableCollection<TaskItem> HighPrioTasks => new(Tasks.Where(t => t.TaskPriority == Priority.High && t.ProjectId == SelectedProject?.Id));
+        //public ObservableCollection<TaskItem> MediumPrioTasks => new(Tasks.Where(t => t.TaskPriority == Priority.Medium && t.ProjectId == SelectedProject?.Id));
+        //public ObservableCollection<TaskItem> LowPrioTasks => new(Tasks.Where(t => t.TaskPriority == Priority.Low && t.ProjectId == SelectedProject?.Id));
+        //public ObservableCollection<TaskItem> CompletedTasks => new(Tasks.Where(t => t.TaskPriority == Priority.Complete && t.ProjectId == SelectedProject?.Id));
         public MainViewModel(ITaskService taskService)
         {
             // Throw a new exception if we cannot load the task service
             _taskService = taskService ?? throw new ArgumentNullException(nameof(taskService));
 
             Tasks = new ObservableCollection<TaskItem>();
+            Projects = new ObservableCollection<Project>();
 
             // Event is called whenever the tasks list is updated in any way
             Tasks.CollectionChanged += OnTasksCollectionChanged;
 
-            // This begins loading the tasks
+            // This begins loading the tasks & projects
             // Constructors cannot be async - so we have to call a one use async method.
             _ = InitialiseAsync();
 
@@ -84,6 +98,7 @@ namespace LearnAvalonia.ViewModels
                 await _taskService.InitialiseDatabaseAsync();
 
                 await LoadTasksAsync();
+                await LoadProjectsAsync();
 
             }
             catch (Exception ex)
@@ -129,6 +144,30 @@ namespace LearnAvalonia.ViewModels
             finally
             {
                 IsLoading = false;
+            }
+        }
+
+        private async Task LoadProjectsAsync()
+        {
+            try
+            {
+                IsLoading = true;
+
+                var projectsFromDb = await _taskService.GetProjectsAsync();
+                Projects.Clear();
+
+                foreach(var project in projectsFromDb)
+                {
+                    Projects.Add(project);
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayMessage($"Failed to load projects: {ex.Message}", false);
+            }
+            finally
+            {
+                IsLoading=false;
             }
         }
 
@@ -272,11 +311,14 @@ namespace LearnAvalonia.ViewModels
         }
         private void RefreshFilteredCollections()
         {
-            OnPropertyChanged(nameof(CriticalPrioTasks));
-            OnPropertyChanged(nameof(HighPrioTasks));
-            OnPropertyChanged(nameof(MediumPrioTasks));
-            OnPropertyChanged(nameof(LowPrioTasks));
-            OnPropertyChanged(nameof(CompletedTasks));
+            //OnPropertyChanged(nameof(CriticalPrioTasks));
+            //OnPropertyChanged(nameof(HighPrioTasks));
+            //OnPropertyChanged(nameof(MediumPrioTasks));
+            //OnPropertyChanged(nameof(LowPrioTasks));
+            //OnPropertyChanged(nameof(CompletedTasks));
+
+            OnPropertyChanged(nameof(CurrentProjectTasks));
+            OnPropertyChanged(nameof(CurrentFilteredTasks));
         }
 
         // Legacy methods for backwards compatability
