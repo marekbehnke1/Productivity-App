@@ -223,6 +223,8 @@ namespace LearnAvalonia.ViewModels
             {
                 var newTask = new TaskItem("", "", Priority.Low, DateTime.Today, null);
 
+                newTask.ProjectId = SelectedProject?.Id;
+
                 // Add task to db first
                 var savedTask = await _taskService.AddTaskAsync(newTask);
 
@@ -330,6 +332,45 @@ namespace LearnAvalonia.ViewModels
         public void DeleteTask(TaskItem task)
         {
             _ = DeleteTaskAsync(task);
+        }
+
+        public async Task AddNewProjectAsync(string title, string description)
+        {
+            try
+            {
+                var newProject = new Project(title, description); 
+
+                // Adds the new project to database.
+                var savedProject = await _taskService.AddProjectAsync(newProject);
+
+                Projects.Add(savedProject); 
+
+                await DisplayMessage("Project created!", true);
+            }
+            catch (Exception ex)
+            {
+                await DisplayMessage($"Failed to add project: {ex.Message}", false);
+            }
+        }
+        public async Task DeleteProjectAsync(Project project)
+        {
+            try
+            {
+                await _taskService.DeleteProjectAsync(project.Id);
+                Projects.Remove(project);
+            }
+            catch (Exception ex)
+            {
+                await DisplayMessage($"Unable to delete Project: {ex.Message}", false );
+            }
+            
+        }
+        public void SwitchToProject(Project project)
+        {
+            // Set current project to this project
+            SelectedProject = project;
+            SelectedPriorityFilter = null;
+            RefreshFilteredCollections() ;
         }
 
     }
