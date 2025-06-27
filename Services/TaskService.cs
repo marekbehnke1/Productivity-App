@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using LearnAvalonia.Data;
 using LearnAvalonia.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace LearnAvalonia.Services
 {
@@ -25,7 +26,7 @@ namespace LearnAvalonia.Services
             return await context.Tasks.ToListAsync();
         }
 
-        public async Task <List<TaskItem>> GetTasksByPriorityAsync(Priority priority)
+        public async Task<List<TaskItem>> GetTasksByPriorityAsync(Priority priority)
         {
             using var context = new TaskDbContext();
 
@@ -72,5 +73,56 @@ namespace LearnAvalonia.Services
 
             return await context.Tasks.FindAsync(taskId);
         } 
+
+        public async Task<List<Project>> GetProjectsAsync()
+        {
+            using var context = new TaskDbContext();
+
+            return await context.Projects.ToListAsync();
+        }
+
+        public async Task<Project> AddProjectAsync(Project project)
+        {
+            using var context = new TaskDbContext();
+
+            context.Projects.Add(project);
+
+            await context.SaveChangesAsync();
+
+            return project;
+
+        }
+
+        public async Task<Project> UpdateProjectAsync(Project project)
+        {
+            using var context = new TaskDbContext();
+
+            context.Projects.Update(project);
+            await context.SaveChangesAsync();
+
+            return project;
+        }
+
+        public async Task DeleteProjectAsync(int projectId)
+        {
+            using var context = new TaskDbContext();
+
+            var project = await context.Projects.FindAsync(projectId);
+
+            if (project != null)
+            {
+                context.Remove(project);
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public async Task<List<TaskItem>> GetTasksByProjectAsync(int? projectId)
+        {
+            using var context = new TaskDbContext();
+
+            return await context.Tasks
+                .Where(t => t.ProjectId == projectId)
+                .ToListAsync();
+        }
     }
 }

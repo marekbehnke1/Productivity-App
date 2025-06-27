@@ -30,5 +30,20 @@ namespace LearnAvalonia.Services
         //Initialises the db, creates tables etc.
         // This will be called when the app starts
         Task InitialiseDatabaseAsync();
+
+        // Returns a list of all Projects
+        Task<List<Project>> GetProjectsAsync();
+
+        //Add a project to DB
+        Task<Project> AddProjectAsync(Project project);
+
+        //Update a Project
+        Task<Project> UpdateProjectAsync(Project project);
+
+        //Delete a Project
+        Task DeleteProjectAsync(int projectId);
+
+        // Get tasks by project
+        Task<List<TaskItem>> GetTasksByProjectAsync(int? projectId);
     }
 }
