@@ -98,7 +98,7 @@
 
 		<Border BorderThickness="2" BorderBrush="#2c2c2c">
 			
-		<Grid Name="MainGrid" RowDefinitions="auto, auto, * , auto">
+		<Grid Name="MainGrid" RowDefinitions="auto, auto, *, auto">
 			<!--Top Bar-->
 			<Grid Name="TopBar" Grid.Row="0" ColumnDefinitions="50, *" Margin="5" Height="25">
 				<StackPanel Grid.Column="0" VerticalAlignment="Top" Orientation="Horizontal" Spacing="30">
@@ -112,7 +112,7 @@
 				</StackPanel>
 			</Grid>
 			
-			<!--Carousel Nav Bar-->
+			<!--Project Nav Bar-->
 			<StackPanel x:Name="ProjectNavBar"
 						Grid.Row="1"
 						Height="30"
@@ -140,7 +140,7 @@
 				<Button Content="+" Click="CreateProject"/>
 				
 				<Button Content="All" Classes="ProjectButton" Click="SetToAllProjects"/>
-				
+					
 				<!--List of project buttons-->
 				<ItemsControl ItemsSource="{Binding Projects}">
 					<ItemsControl.ItemsPanel>
@@ -161,11 +161,9 @@
 					</ItemsControl.ItemTemplate>
 					
 				</ItemsControl>
-
-				
 			</StackPanel>
 			
-				<!--Main Panel-->
+			<!--Main Panel-->
 			<Grid
 				x:Name="MainPanel"
 				Classes="MainPanel"
@@ -174,36 +172,46 @@
 				MaxHeight="700"
 				ClipToBounds="True"
 				>
-
-				<!--Main Notes Area-->
-								
-								<!-- All Tasks-->
-								<ScrollViewer>
-									<!--The area where our collection items will be displayed-->
-									<ItemsControl ItemsSource="{Binding CurrentFilteredTasks}">
-										<ItemsControl.ItemsPanel>
-											<!--Specifies a container for the items-->
-											<ItemsPanelTemplate>
-												<StackPanel ClipToBounds="True" Spacing="10"/>
-											</ItemsPanelTemplate>
-										</ItemsControl.ItemsPanel>
+				<!--Project Header-->
+				<Grid RowDefinitions="auto, *">
+					<Grid Grid.Row="0"
+						  IsVisible="{Binding SelectedProject, Converter={x:Static ObjectConverters.IsNotNull}}">
+						<Controls:ProjectHeader DataContext="{Binding SelectedProject}"
+												Margin="0 10 0 10"/>
+					</Grid>
+					<Grid Grid.Row="1">
+						<!--Main Notes Area-->
+						<ScrollViewer>
+							<StackPanel>
+								<!--The area where our collection items will be displayed-->
+								<ItemsControl ItemsSource="{Binding CurrentFilteredTasks}">
+									<ItemsControl.ItemsPanel>
+										<!--Specifies a container for the items-->
+										<ItemsPanelTemplate>
+											<StackPanel ClipToBounds="True" Spacing="10"/>
+										</ItemsPanelTemplate>
+									</ItemsControl.ItemsPanel>
 							
-										<!--Describes the data and UI layouts-->
-										<ItemsControl.ItemTemplate>
-											<!--This is the data layout-->
-											<DataTemplate DataType="{x:Type Models:TaskItem}">
-												<!--This specifies a control to use for the ui layout-->
-												<Controls:ListItem
-													Title="{Binding Title}"
-													Description="{Binding Description}"
-													DueDate="{Binding DueDate}"
-													TaskPriority="{Binding TaskPriority}"
-													IsCollapsed="{Binding IsCollapsed}"/>
-											</DataTemplate>
-										</ItemsControl.ItemTemplate>
-									</ItemsControl>
-								</ScrollViewer>
-								
+									<!--Describes the data and UI layouts-->
+									<ItemsControl.ItemTemplate>
+										<!--This is the data layout-->
+										<DataTemplate DataType="{x:Type Models:TaskItem}">
+											<!--This specifies a control to use for the ui layout-->
+											<Controls:ListItem
+												Title="{Binding Title}"
+												Description="{Binding Description}"
+												DueDate="{Binding DueDate}"
+												TaskPriority="{Binding TaskPriority}"
+												IsCollapsed="{Binding IsCollapsed}"/>
+										</DataTemplate>
+									</ItemsControl.ItemTemplate>
+								</ItemsControl>
+							</StackPanel>									
+						</ScrollViewer>
+						
+					</Grid>
+					
+				</Grid>
 
 				<!--Right Side Bar-->
 				<Grid RowDefinitions="*, auto" Grid.Column="1">

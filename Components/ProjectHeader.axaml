@@ -3,22 +3,54 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:local="clr-namespace:LearnAvalonia.Components"
-			 x:Class="LearnAvalonia.ProjectHeader">
+			 xmlns:models="clr-namespace:LearnAvalonia.Models;assembly=LearnAvalonia"
+			 x:Class="LearnAvalonia.Components.ProjectHeader"
+			 x:DataType="models:Project">
 
 	<StackPanel Width="400">
 	<Border BorderThickness="2" CornerRadius="5" BorderBrush="White" Padding="5">
 		<StackPanel HorizontalAlignment="Center">
 			
-			<TextBlock Text="Project Title" FontSize="25"/>
+			<Grid ColumnDefinitions="3*, 1*">
+				
+				<!--Title Box-->
+				<TextBox Grid.Column="0" 
+						 x:Name="ProjectTitle"
+						 Classes="titleBox" 
+						 Watermark="Enter a title.." 
+						 Text="{Binding Name, Mode=TwoWay}"
+						 FontSize="25"/>
+				
+				<!--Delete Button-->
+				<Button Grid.Column="1"
+						x:Name="DeleteButton"
+						HorizontalAlignment="Right" 
+						Margin="0 0 10 0"
+						Click="DeleteProject"
+						Content="DEL"/>
+			</Grid>
 			
 			<Grid ColumnDefinitions="2*, 1*" Width="400">
 				
-				<Grid Grid.Column="0" Background="Wheat" HorizontalAlignment="Left" Margin="5">
-					<TextBox Text="Project Description" TextAlignment="Start"/>
+				<Grid Grid.Column="0" HorizontalAlignment="Left" Margin="5">
+					<!--Description Box-->
+					<TextBox x:Name="ProjectDescription" 
+							 Classes="mainTextBox" 
+							 FontSize="18" 
+							 Watermark="Enter a description here.." 
+							 TextWrapping="Wrap" 
+							 TextAlignment="Left"
+							 Text="{Binding Description, Mode=TwoWay}"/>
 				</Grid>
 
-				<Grid Grid.Column="1" Background="DarkBlue" Margin="5">
-					<TextBlock Text="Date Created"/>
+				<Grid Grid.Column="1" Margin="5">
+					<!--Date Created-->
+					<TextBlock x:Name="DateCreated" 
+							   Text="{Binding DateCreated, StringFormat='Created: {0:dd/MM/yyyy}'}" 
+							   VerticalAlignment="Bottom" 
+							   HorizontalAlignment="Right" 
+							   Padding="0 0 10 10"
+							   />
 				</Grid>
 				
 			</Grid>			

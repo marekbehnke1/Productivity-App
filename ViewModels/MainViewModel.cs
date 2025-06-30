@@ -70,6 +70,8 @@ namespace LearnAvalonia.ViewModels
             // Event is called whenever the tasks list is updated in any way
             Tasks.CollectionChanged += OnTasksCollectionChanged;
 
+            Projects.CollectionChanged += OnProjectsCollectionChanged;
+
             // This begins loading the tasks & projects
             // Constructors cannot be async - so we have to call a one use async method.
             _ = InitialiseAsync();
@@ -284,6 +286,7 @@ namespace LearnAvalonia.ViewModels
                 }
             }
 
+            // Subscribe to new items
             if (e.NewItems != null)
             {
                 foreach (TaskItem item in e.NewItems)
@@ -293,6 +296,28 @@ namespace LearnAvalonia.ViewModels
             }
 
             RefreshFilteredCollections();
+        }
+
+        // Triggers events whenever items in the collection are changed
+        private void OnProjectsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            // Unsubscrive from old items
+            if (e.OldItems != null)
+            {
+                foreach (Project item in e.OldItems)
+                {
+                    item.PropertyChanged -= OnProjectPropertyChanged;
+                }
+            }
+
+            // Subscribe to new items
+            if (e.NewItems != null)
+            {
+                foreach (Project item in e.NewItems)
+                {
+                    item.PropertyChanged += OnProjectPropertyChanged;
+                }
+            }
         }
 
         // This method handles when individual items properties change
@@ -309,6 +334,26 @@ namespace LearnAvalonia.ViewModels
             {
                 // Refresh the collections when priority is changed
                 RefreshFilteredCollections();
+            }
+        }
+
+        private async void OnProjectPropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (sender is Project project)
+            {
+                await SaveProjectAsync(project);
+            }
+        }
+
+        private async Task SaveProjectAsync(Project project)
+        {
+            try
+            {
+                await _taskService.UpdateProjectAsync(project);
+            }
+            catch (Exception ex)
+            {
+                await DisplayMessage($"Failed to update Project: {ex.Message}", false);
             }
         }
         private void RefreshFilteredCollections()
