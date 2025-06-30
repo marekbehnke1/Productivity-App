@@ -101,11 +101,13 @@
 		<Grid Name="MainGrid" RowDefinitions="auto, auto, * , auto">
 			<!--Top Bar-->
 			<Grid Name="TopBar" Grid.Row="0" ColumnDefinitions="50, *" Margin="5" Height="25">
-				<StackPanel Grid.Column="0" VerticalAlignment="Top" Orientation="Horizontal">
+				<StackPanel Grid.Column="0" VerticalAlignment="Top" Orientation="Horizontal" Spacing="30">
 					<!--Collapse Button-->
 					<Button Classes="CollapseButton" Click="CollapseApp" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0">
 						<Image Width="20" Source="{Binding !IsCollapsed, ElementName=MainAppWindow ,Converter={StaticResource DropDownArrowConverter}}"></Image>
 					</Button>
+
+					<TextBlock HorizontalAlignment="Center" Text="{Binding SelectedProject.Name}"/>
 	
 				</StackPanel>
 			</Grid>
@@ -125,30 +127,41 @@
 						<MenuItem.Header>
 							<Image Width="20" Height="20" Source="{SvgImage /Assets/Images/filtericon.svg}"/>
 						</MenuItem.Header>
+						<MenuItem Header="All Tasks" Command="{Binding SetNoFilterCommand}"/>
 						<MenuItem Header="Critical" Command="{Binding SetCriticalFilterCommand}"/>
 						<MenuItem Header="High" Command="{Binding SetHighFilterCommand}"/>
 						<MenuItem Header="Medium" Command="{Binding SetMediumFilterCommand}"/>
 						<MenuItem Header="Low" Command="{Binding SetLowFilterCommand}"/>
-						<MenuItem Header="Complete" Command="{Binding SetNoFilterCommand}"/>
+						<MenuItem Header="Complete" Command="{Binding SetCompletedFilterCommand}"/>
 					</MenuItem>
 				</Menu>
-				<!--
-					Carousel Control Buttons
-					<Button Classes="CarouselButton" Click="Previous" HorizontalAlignment="Left">&lt; </Button>
-					<Button x:Name="AllTasksBtn" Classes="CarouselButton" Click="GotoAllTasks">All</Button>
-					<Button x:Name="CritPrioTasksBtn" Classes="CarouselButton" Click="GotoCriticalTasks"><Image Source="{SvgImage /Assets/Images/priorityCritical.svg}"/></Button>
-					<Button x:Name="HighPrioTasksBtn" Classes="CarouselButton" Click="GotoHighTasks">High</Button>
-					<Button x:Name="MedPrioTasksBtn" Classes="CarouselButton" Click="GotoMediumTasks">Med</Button>
-					<Button x:Name="LowPrioTasksBtn" Classes="CarouselButton" Click="GotoLowTasks">Low</Button>
-					<Button x:Name="CompletedTasksBtn" Classes="CarouselButton" Click="GotoCompletedTasks"><Image Source="{SvgImage /Assets/Images/complete.svg}"/></Button>
-					<Button Classes="CarouselButton" Click="Next" HorizontalAlignment="Right">&gt;</Button>
-				-->
-				<Button Classes="ProjectButton">Project 1</Button>
-				<Button Classes="ProjectButton">Project 1</Button>
-				<Button Classes="ProjectButton">Project 1</Button>
-				<Button Classes="ProjectButton">Project 1</Button>
-				<Button Classes="ProjectButton">Project 1</Button>
-				<Button Classes="ProjectButton">Project 1</Button>
+				
+				<!--Add new Project Button-->
+				<Button Content="+" Click="CreateProject"/>
+				
+				<Button Content="All" Classes="ProjectButton" Click="SetToAllProjects"/>
+				
+				<!--List of project buttons-->
+				<ItemsControl ItemsSource="{Binding Projects}">
+					<ItemsControl.ItemsPanel>
+						<ItemsPanelTemplate>
+							<StackPanel ClipToBounds="False" Orientation="Horizontal" Spacing="5"/>
+						</ItemsPanelTemplate>
+					</ItemsControl.ItemsPanel>
+
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<!--This sets each button to pass itself into the switch proj comamnd-->
+							<Button Classes="ProjectButton" 
+									Content="{Binding Name}"
+									Command="{Binding DataContext.SwitchProjectCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+									CommandParameter="{Binding}"
+									/>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+					
+				</ItemsControl>
+
 				
 			</StackPanel>
 			
@@ -163,21 +176,11 @@
 				>
 
 				<!--Main Notes Area-->
-
-						<!--Carousel to hold the different filtered notes panels-->
-						<Carousel Name="NotesCarousel"
-								  SelectedIndex="{Binding CurrentPanelIndex}">
-							<Carousel.PageTransition>
-								<CompositePageTransition>
-									<PageSlide Duration="0:0:0.3" Orientation="Horizontal"/>
-								</CompositePageTransition>
-							</Carousel.PageTransition>
-							<Carousel.Items>
 								
 								<!-- All Tasks-->
 								<ScrollViewer>
 									<!--The area where our collection items will be displayed-->
-									<ItemsControl ItemsSource="{Binding Tasks}">
+									<ItemsControl ItemsSource="{Binding CurrentFilteredTasks}">
 										<ItemsControl.ItemsPanel>
 											<!--Specifies a container for the items-->
 											<ItemsPanelTemplate>
@@ -201,10 +204,6 @@
 									</ItemsControl>
 								</ScrollViewer>
 								
-								
-							
-							</Carousel.Items>
-						</Carousel>
 
 				<!--Right Side Bar-->
 				<Grid RowDefinitions="*, auto" Grid.Column="1">

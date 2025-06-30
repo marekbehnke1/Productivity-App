@@ -374,33 +374,65 @@ namespace LearnAvalonia.ViewModels
         }
 
         [RelayCommand]
+        private void SwitchProject(Project project)
+        {
+            SwitchToProject(project);
+        }
+
+        //For the all projects button
+        public void SwitchToAll()
+        {
+            SelectedProject = null;
+            SelectedPriorityFilter = null;
+            RefreshFilteredCollections();
+        }
+
+        [RelayCommand]
         private void SetCriticalFilter()
         {
             SelectedPriorityFilter = Priority.Critical;
+            RefreshFilteredCollections();
+
             System.Diagnostics.Debug.WriteLine($"Priority filter is now: {SelectedPriorityFilter}");
         }
         [RelayCommand]
         private void SetHighFilter()
         {
             SelectedPriorityFilter = Priority.High;
+            RefreshFilteredCollections();
+
             System.Diagnostics.Debug.WriteLine($"Priority filter is now: {SelectedPriorityFilter}");
         }
         [RelayCommand]
         private void SetMediumFilter()
         {
             SelectedPriorityFilter = Priority.Medium;
+            RefreshFilteredCollections();
+
             System.Diagnostics.Debug.WriteLine($"Priority filter is now: {SelectedPriorityFilter}");
         }
         [RelayCommand]
         private void SetLowFilter()
         {
             SelectedPriorityFilter = Priority.Low;
+            RefreshFilteredCollections();
+
             System.Diagnostics.Debug.WriteLine($"Priority filter is now: {SelectedPriorityFilter}");
         }
         [RelayCommand]
         private void SetNoFilter()
         {
             SelectedPriorityFilter = null;
+            RefreshFilteredCollections();
+
+            System.Diagnostics.Debug.WriteLine($"Priority filter is now: {SelectedPriorityFilter}");
+        }
+        [RelayCommand]
+        private void SetCompletedFilter()
+        {
+            SelectedPriorityFilter = Priority.Complete;
+            RefreshFilteredCollections();
+
             System.Diagnostics.Debug.WriteLine($"Priority filter is now: {SelectedPriorityFilter}");
         }
 

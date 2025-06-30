@@ -22,9 +22,17 @@ namespace LearnAvalonia.ViewModels
         public bool IsLoading { get; set; } = false;
         public string ErrorMessage { get; set; } = string.Empty;
 
+        [ObservableProperty]
+        private Project? _selectedProject;
+
+        [ObservableProperty]
+        private Priority? _selectedPriorityFilter;
+
         public ObservableCollection<TaskItem> Tasks { get; set; }
         public ObservableCollection<Project> Projects { get; set; }
-        
+        public ObservableCollection<TaskItem> CurrentProjectTasks => new(Tasks.Where(t => t.ProjectId == SelectedProject?.Id));
+        public ObservableCollection<TaskItem> CurrentFilteredTasks => new(CurrentProjectTasks.Where(t => SelectedPriorityFilter == null || t.TaskPriority == SelectedPriorityFilter.Value));
+
 
         /// <summary>
         /// Parameterless constructor that the designer can use
@@ -59,7 +67,7 @@ namespace LearnAvalonia.ViewModels
 
         // Empty methods for design-time (won't be called)
         public void AddNewTask() { }
-        public void AddNewProjectAsync() { }
+        public void  AddNewProjectAsync(string title, string description) { }
         public void DeleteProjectAsync() { }
         public void SwitchToProject() { }
         public void DeleteTask(TaskItem task) { }

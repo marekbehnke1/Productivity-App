@@ -199,54 +199,71 @@ public partial class MainView : Window
         }
 
     }
-    public void Previous(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+
+    private async void CreateProject(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        if (DataContext is MainViewModel viewModel)
+        if (DataContext is MainViewModel mainView)
         {
-            GotoPanelIndex(viewModel.CurrentPanelIndex - 1, sender);
-            System.Diagnostics.Debug.WriteLine($"Current index is: {viewModel.CurrentPanelIndex}");
+            await mainView.AddNewProjectAsync("test Proj", "this description is a test");
+        }   
+    }
+
+    private void SetToAllProjects(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        if (DataContext is MainViewModel mainView)
+        {
+            mainView.SwitchToAll();
         }
     }
 
-    public void Next(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
-    {
-        if(DataContext  is MainViewModel viewModel)
-        {
-            GotoPanelIndex(viewModel.CurrentPanelIndex + 1, sender);
-            System.Diagnostics.Debug.WriteLine($"Current index is: {viewModel.CurrentPanelIndex}");
-        }
-    }
-    public void GotoPanelIndex(int index, object? sender)
-    {
-        if (DataContext is MainViewModel viewModel)
-        {
-            // Check panel index is within range
-            if (index >= 0 && index < NotesCarousel.ItemCount)
-            {
-                viewModel.CurrentPanelIndex = index;
-            }
-            else if(index < 0)
-            {
-                viewModel.CurrentPanelIndex = NotesCarousel.ItemCount - 1;
-            }
-            else if(index > NotesCarousel.ItemCount - 1)
-            {
-                viewModel.CurrentPanelIndex = 0;
-            }
-
-            //// Highlight the current panels button
-            //if (sender?.GetType() == typeof(Button))
-            //{
-            //    foreach (Button item in NavButtons)
-            //    {
-            //        // TODO: Fix this colour - colour nearly spot on now - think its a touch too dark. maybe.
-            //        item.Background = AppBrushes.NavButtonBackground;
-            //    }
-            //    NavButtons[viewModel.CurrentPanelIndex].Background = new SolidColorBrush(Colors.Gray);
-            //}
-        }
-
-    }
+    //public void Previous(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    //{
+    //    if (DataContext is MainViewModel viewModel)
+    //    {
+    //        GotoPanelIndex(viewModel.CurrentPanelIndex - 1, sender);
+    //        System.Diagnostics.Debug.WriteLine($"Current index is: {viewModel.CurrentPanelIndex}");
+    //    }
+    //}
+    //
+    //public void Next(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    //{
+    //    if(DataContext  is MainViewModel viewModel)
+    //    {
+    //        GotoPanelIndex(viewModel.CurrentPanelIndex + 1, sender);
+    //        System.Diagnostics.Debug.WriteLine($"Current index is: {viewModel.CurrentPanelIndex}");
+    //    }
+    //}
+    //public void GotoPanelIndex(int index, object? sender)
+    //{
+    //    if (DataContext is MainViewModel viewModel)
+    //    {
+    //        // Check panel index is within range
+    //        if (index >= 0 && index < NotesCarousel.ItemCount)
+    //        {
+    //            viewModel.CurrentPanelIndex = index;
+    //        }
+    //        else if(index < 0)
+    //        {
+    //            viewModel.CurrentPanelIndex = NotesCarousel.ItemCount - 1;
+    //        }
+    //        else if(index > NotesCarousel.ItemCount - 1)
+    //        {
+    //            viewModel.CurrentPanelIndex = 0;
+    //        }
+    //
+    //        //// Highlight the current panels button
+    //        //if (sender?.GetType() == typeof(Button))
+    //        //{
+    //        //    foreach (Button item in NavButtons)
+    //        //    {
+    //        //        // TODO: Fix this colour - colour nearly spot on now - think its a touch too dark. maybe.
+    //        //        item.Background = AppBrushes.NavButtonBackground;
+    //        //    }
+    //        //    NavButtons[viewModel.CurrentPanelIndex].Background = new SolidColorBrush(Colors.Gray);
+    //        //}
+    //    }
+    //
+    //}
 
     //private void GotoAllTasks(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     //{
