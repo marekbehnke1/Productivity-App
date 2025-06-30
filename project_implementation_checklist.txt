@@ -1,5 +1,0 @@
-TODO List:
-
-When you delete a project - the tasks all end up in general tasks, they dont get deleted.
-When you delete a project that project and tasks all remain on the screen
-A better projects menu
