@@ -1,0 +1,29 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:LearnAvalonia.Components"
+			 x:Class="LearnAvalonia.ProjectHeader">
+
+	<StackPanel Width="400">
+	<Border BorderThickness="2" CornerRadius="5" BorderBrush="White" Padding="5">
+		<StackPanel HorizontalAlignment="Center">
+			
+			<TextBlock Text="Project Title" FontSize="25"/>
+			
+			<Grid ColumnDefinitions="2*, 1*" Width="400">
+				
+				<Grid Grid.Column="0" Background="Wheat" HorizontalAlignment="Left" Margin="5">
+					<TextBox Text="Project Description" TextAlignment="Start"/>
+				</Grid>
+
+				<Grid Grid.Column="1" Background="DarkBlue" Margin="5">
+					<TextBlock Text="Date Created"/>
+				</Grid>
+				
+			</Grid>			
+			
+		</StackPanel>
+	</Border>
+	</StackPanel>
+</UserControl>

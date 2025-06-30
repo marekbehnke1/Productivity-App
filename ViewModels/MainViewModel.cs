@@ -313,12 +313,6 @@ namespace LearnAvalonia.ViewModels
         }
         private void RefreshFilteredCollections()
         {
-            //OnPropertyChanged(nameof(CriticalPrioTasks));
-            //OnPropertyChanged(nameof(HighPrioTasks));
-            //OnPropertyChanged(nameof(MediumPrioTasks));
-            //OnPropertyChanged(nameof(LowPrioTasks));
-            //OnPropertyChanged(nameof(CompletedTasks));
-
             OnPropertyChanged(nameof(CurrentProjectTasks));
             OnPropertyChanged(nameof(CurrentFilteredTasks));
         }

@@ -36,6 +36,9 @@
     <Compile Update="Components\ListItem.axaml.cs">
       <DependentUpon>ListItem.axaml</DependentUpon>
     </Compile>
+    <Compile Update="Components\ProjectHeader.axaml.cs">
+      <DependentUpon>ProjectHeader.axaml</DependentUpon>
+    </Compile>
     <Compile Update="MainView.axaml.cs">
       <DependentUpon>MainView.axaml</DependentUpon>
     </Compile>
