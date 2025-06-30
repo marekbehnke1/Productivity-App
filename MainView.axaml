@@ -119,6 +119,7 @@
 						Margin="0 0 0 10"
 						Spacing="2">
 
+				<!--Filter Menu-->
 				<Menu> 
 					<MenuItem>
 						<MenuItem.Header>
@@ -142,6 +143,13 @@
 					<Button x:Name="CompletedTasksBtn" Classes="CarouselButton" Click="GotoCompletedTasks"><Image Source="{SvgImage /Assets/Images/complete.svg}"/></Button>
 					<Button Classes="CarouselButton" Click="Next" HorizontalAlignment="Right">&gt;</Button>
 				-->
+				<Button Classes="ProjectButton">Project 1</Button>
+				<Button Classes="ProjectButton">Project 1</Button>
+				<Button Classes="ProjectButton">Project 1</Button>
+				<Button Classes="ProjectButton">Project 1</Button>
+				<Button Classes="ProjectButton">Project 1</Button>
+				<Button Classes="ProjectButton">Project 1</Button>
+				
 			</StackPanel>
 			
 				<!--Main Panel-->
@@ -236,7 +244,7 @@
 					</Transitions>
 				</StackPanel.Transitions>
 						
-					
+				<!--Status Message-->
 				<Border BorderThickness="2"
 						BorderBrush="{Binding IsSuccess, Converter={StaticResource StatusMessageColorConverter}}" 
 						CornerRadius="5"
