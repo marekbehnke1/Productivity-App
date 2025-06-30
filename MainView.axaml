@@ -124,11 +124,11 @@
 						<MenuItem.Header>
 							<Image Width="20" Height="20" Source="{SvgImage /Assets/Images/filtericon.svg}"/>
 						</MenuItem.Header>
-						<MenuItem Header="Critical"/>
-						<MenuItem Header="High"/>
-						<MenuItem Header="Medium"/>
-						<MenuItem Header="Low"/>
-						<MenuItem Header="Complete"/>
+						<MenuItem Header="Critical" Command="{Binding SetCriticalFilterCommand}"/>
+						<MenuItem Header="High" Command="{Binding SetHighFilterCommand}"/>
+						<MenuItem Header="Medium" Command="{Binding SetMediumFilterCommand}"/>
+						<MenuItem Header="Low" Command="{Binding SetLowFilterCommand}"/>
+						<MenuItem Header="Complete" Command="{Binding SetNoFilterCommand}"/>
 					</MenuItem>
 				</Menu>
 				<!--

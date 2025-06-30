@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using Avalonia.Media;
 using LearnAvalonia.Resources;
+using CommunityToolkit.Mvvm.Input;
 
 namespace LearnAvalonia;
 
@@ -247,33 +248,34 @@ public partial class MainView : Window
 
     }
 
-    private void GotoAllTasks(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
-    {
-        GotoPanelIndex(0, sender);
+    //private void GotoAllTasks(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    //{
+    //    GotoPanelIndex(0, sender);
+    //
+    //}
+    //private void GotoCriticalTasks(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    //{
+    //    GotoPanelIndex(1, sender);
+    //}
+    //
+    //private void GotoHighTasks(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    //{
+    //    GotoPanelIndex(2, sender);
+    //}
+    //
+    //private void GotoMediumTasks(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    //{
+    //    GotoPanelIndex(3, sender);
+    //}
+    //
+    //private void GotoLowTasks(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    //{
+    //    GotoPanelIndex(4, sender);
+    //}
+    //
+    //private void GotoCompletedTasks(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    //{
+    //    GotoPanelIndex(5, sender);
+    //}
 
-    }
-    private void GotoCriticalTasks(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
-    {
-        GotoPanelIndex(1, sender);
-    }
-
-    private void GotoHighTasks(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
-    {
-        GotoPanelIndex(2, sender);
-    }
-
-    private void GotoMediumTasks(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
-    {
-        GotoPanelIndex(3, sender);
-    }
-
-    private void GotoLowTasks(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
-    {
-        GotoPanelIndex(4, sender);
-    }
-
-    private void GotoCompletedTasks(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
-    {
-        GotoPanelIndex(5, sender);
-    }
 }

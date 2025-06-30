@@ -373,6 +373,37 @@ namespace LearnAvalonia.ViewModels
             RefreshFilteredCollections() ;
         }
 
+        [RelayCommand]
+        private void SetCriticalFilter()
+        {
+            SelectedPriorityFilter = Priority.Critical;
+            System.Diagnostics.Debug.WriteLine($"Priority filter is now: {SelectedPriorityFilter}");
+        }
+        [RelayCommand]
+        private void SetHighFilter()
+        {
+            SelectedPriorityFilter = Priority.High;
+            System.Diagnostics.Debug.WriteLine($"Priority filter is now: {SelectedPriorityFilter}");
+        }
+        [RelayCommand]
+        private void SetMediumFilter()
+        {
+            SelectedPriorityFilter = Priority.Medium;
+            System.Diagnostics.Debug.WriteLine($"Priority filter is now: {SelectedPriorityFilter}");
+        }
+        [RelayCommand]
+        private void SetLowFilter()
+        {
+            SelectedPriorityFilter = Priority.Low;
+            System.Diagnostics.Debug.WriteLine($"Priority filter is now: {SelectedPriorityFilter}");
+        }
+        [RelayCommand]
+        private void SetNoFilter()
+        {
+            SelectedPriorityFilter = null;
+            System.Diagnostics.Debug.WriteLine($"Priority filter is now: {SelectedPriorityFilter}");
+        }
+
     }
     
 
