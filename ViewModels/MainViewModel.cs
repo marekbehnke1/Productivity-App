@@ -42,6 +42,9 @@ namespace LearnAvalonia.ViewModels
         [ObservableProperty]
         private Priority? _selectedPriorityFilter;
 
+        [ObservableProperty]
+        private bool _showOnlyUncompleted;
+
         // This is the collection that the UI binds to
         // It is the single true data store for all task items
         public ObservableCollection<TaskItem> Tasks { get; set; }
@@ -51,14 +54,15 @@ namespace LearnAvalonia.ViewModels
 
         // Current projects tasks
         public ObservableCollection<TaskItem> CurrentProjectTasks => new(Tasks.Where(t => t.ProjectId == SelectedProject?.Id));
-        public ObservableCollection<TaskItem> CurrentFilteredTasks => new(CurrentProjectTasks.Where(t => SelectedPriorityFilter == null || t.TaskPriority == SelectedPriorityFilter.Value));
+        public ObservableCollection<TaskItem> CurrentFilteredTasks => new(
+            CurrentProjectTasks.Where(t => 
 
-        // These collections are filtered versions of the main tasks collections, where a certain condition is met
-        //public ObservableCollection<TaskItem> CriticalPrioTasks => new(Tasks.Where(t => t.TaskPriority == Priority.Critical && t.ProjectId == SelectedProject?.Id));
-        //public ObservableCollection<TaskItem> HighPrioTasks => new(Tasks.Where(t => t.TaskPriority == Priority.High && t.ProjectId == SelectedProject?.Id));
-        //public ObservableCollection<TaskItem> MediumPrioTasks => new(Tasks.Where(t => t.TaskPriority == Priority.Medium && t.ProjectId == SelectedProject?.Id));
-        //public ObservableCollection<TaskItem> LowPrioTasks => new(Tasks.Where(t => t.TaskPriority == Priority.Low && t.ProjectId == SelectedProject?.Id));
-        //public ObservableCollection<TaskItem> CompletedTasks => new(Tasks.Where(t => t.TaskPriority == Priority.Complete && t.ProjectId == SelectedProject?.Id));
+                // Apply uncompleted filter if its active
+                (!ShowOnlyUncompleted || t.TaskPriority != Priority.Complete) &&
+                (SelectedPriorityFilter == null || t.TaskPriority == SelectedPriorityFilter.Value)
+            )
+        );
+
         public MainViewModel(ITaskService taskService)
         {
             // Throw a new exception if we cannot load the task service
@@ -384,7 +388,11 @@ namespace LearnAvalonia.ViewModels
 
                 Projects.Add(savedProject); 
 
+                // Sets the new project as current project
+                SwitchToProject(savedProject);
+
                 await DisplayMessage("Project created!", true);
+
             }
             catch (Exception ex)
             {
@@ -395,8 +403,23 @@ namespace LearnAvalonia.ViewModels
         {
             try
             {
+                // create a list of all tasks to remove
+                var tasksToremove = Tasks.Where(t => t.ProjectId == project.Id).ToList();
+                foreach (var task in tasksToremove)
+                {
+                    Tasks.Remove(task);
+                    await _taskService.DeleteTaskAsync(task.Id);
+                }
+
+                // Delete from database
                 await _taskService.DeleteProjectAsync(project.Id);
+                // Removes project from UI
                 Projects.Remove(project);
+                // Switch view to all
+                SwitchToAll();
+
+
+                await DisplayMessage("Project Deleted", true);
             }
             catch (Exception ex)
             {
@@ -429,52 +452,54 @@ namespace LearnAvalonia.ViewModels
         [RelayCommand]
         private void SetCriticalFilter()
         {
+            ShowOnlyUncompleted = false;
             SelectedPriorityFilter = Priority.Critical;
             RefreshFilteredCollections();
-
-            System.Diagnostics.Debug.WriteLine($"Priority filter is now: {SelectedPriorityFilter}");
         }
         [RelayCommand]
         private void SetHighFilter()
         {
+            ShowOnlyUncompleted = false;
             SelectedPriorityFilter = Priority.High;
             RefreshFilteredCollections();
-
-            System.Diagnostics.Debug.WriteLine($"Priority filter is now: {SelectedPriorityFilter}");
         }
         [RelayCommand]
         private void SetMediumFilter()
         {
+            ShowOnlyUncompleted = false;
             SelectedPriorityFilter = Priority.Medium;
             RefreshFilteredCollections();
-
-            System.Diagnostics.Debug.WriteLine($"Priority filter is now: {SelectedPriorityFilter}");
         }
         [RelayCommand]
         private void SetLowFilter()
         {
+            ShowOnlyUncompleted = false;
             SelectedPriorityFilter = Priority.Low;
             RefreshFilteredCollections();
-
-            System.Diagnostics.Debug.WriteLine($"Priority filter is now: {SelectedPriorityFilter}");
         }
         [RelayCommand]
         private void SetNoFilter()
         {
+            ShowOnlyUncompleted = false;
             SelectedPriorityFilter = null;
             RefreshFilteredCollections();
-
-            System.Diagnostics.Debug.WriteLine($"Priority filter is now: {SelectedPriorityFilter}");
         }
         [RelayCommand]
         private void SetCompletedFilter()
         {
+            ShowOnlyUncompleted = false;
             SelectedPriorityFilter = Priority.Complete;
             RefreshFilteredCollections();
-
-            System.Diagnostics.Debug.WriteLine($"Priority filter is now: {SelectedPriorityFilter}");
         }
 
+        [RelayCommand]
+        private void SetUncompletedFilter()
+
+        {
+            ShowOnlyUncompleted = true;
+            SelectedPriorityFilter = null;
+            RefreshFilteredCollections();
+        }
     }
     
 

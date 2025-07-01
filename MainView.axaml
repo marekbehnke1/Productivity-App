@@ -128,6 +128,7 @@
 							<Image Width="20" Height="20" Source="{SvgImage /Assets/Images/filtericon.svg}"/>
 						</MenuItem.Header>
 						<MenuItem Header="All Tasks" Command="{Binding SetNoFilterCommand}"/>
+						<MenuItem Header="All Uncompleted" Command="{Binding SetUncompletedFilterCommand}"/>
 						<MenuItem Header="Critical" Command="{Binding SetCriticalFilterCommand}"/>
 						<MenuItem Header="High" Command="{Binding SetHighFilterCommand}"/>
 						<MenuItem Header="Medium" Command="{Binding SetMediumFilterCommand}"/>
