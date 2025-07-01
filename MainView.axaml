@@ -112,57 +112,68 @@
 				</StackPanel>
 			</Grid>
 			
-			<!--Project Nav Bar-->
-			<StackPanel x:Name="ProjectNavBar"
-						Grid.Row="1"
-						Height="30"
-						Orientation="Horizontal"
-						HorizontalAlignment="Left"
-						Margin="0 0 0 10"
-						Spacing="5">
+				<Grid Grid.Row="1" ColumnDefinitions="auto, *">
+					<Grid Grid.Column="0">
+						<!--Project Nav Bar-->
+						<StackPanel x:Name="ProjectNavBar"
+									Height="30"
+									Orientation="Horizontal"
+									HorizontalAlignment="Left"
+									Margin="0 0 0 10"
+									Spacing="5">
 
-				<!--Filter Menu-->
-				<Menu> 
-					<MenuItem>
-						<MenuItem.Header>
-							<Image Width="20" Height="20" Source="{SvgImage /Assets/Images/filtericon.svg}"/>
-						</MenuItem.Header>
-						<MenuItem Header="All Tasks" Command="{Binding SetNoFilterCommand}"/>
-						<MenuItem Header="All Uncompleted" Command="{Binding SetUncompletedFilterCommand}"/>
-						<MenuItem Header="Critical" Command="{Binding SetCriticalFilterCommand}"/>
-						<MenuItem Header="High" Command="{Binding SetHighFilterCommand}"/>
-						<MenuItem Header="Medium" Command="{Binding SetMediumFilterCommand}"/>
-						<MenuItem Header="Low" Command="{Binding SetLowFilterCommand}"/>
-						<MenuItem Header="Complete" Command="{Binding SetCompletedFilterCommand}"/>
-					</MenuItem>
-				</Menu>
+							<!--Filter Menu-->
+							<Menu> 
+								<MenuItem>
+									<MenuItem.Header>
+										<Image Width="20" Height="20" Source="{SvgImage /Assets/Images/filtericon.svg}"/>
+									</MenuItem.Header>
+									<MenuItem Header="All Tasks" Command="{Binding SetNoFilterCommand}"/>
+									<MenuItem Header="All Uncompleted" Command="{Binding SetUncompletedFilterCommand}"/>
+									<MenuItem Header="Critical" Command="{Binding SetCriticalFilterCommand}"/>
+									<MenuItem Header="High" Command="{Binding SetHighFilterCommand}"/>
+									<MenuItem Header="Medium" Command="{Binding SetMediumFilterCommand}"/>
+									<MenuItem Header="Low" Command="{Binding SetLowFilterCommand}"/>
+									<MenuItem Header="Complete" Command="{Binding SetCompletedFilterCommand}"/>
+								</MenuItem>
+							</Menu>
 				
-				<!--Add new Project Button-->
-				<Button Content="+" Click="CreateProject"/>
-				
-				<Button Content="All" Classes="ProjectButton" Click="SetToAllProjects"/>
+							<!--Add new Project Button-->
+							<Button Content="+" Click="CreateProject"/>
+							<!--All Projects Button-->
+							<Button Content="All" Classes="ProjectButton" Click="SetToAllProjects"/>
+						</StackPanel>
+					</Grid>
 					
-				<!--List of project buttons-->
-				<ItemsControl ItemsSource="{Binding Projects}">
-					<ItemsControl.ItemsPanel>
-						<ItemsPanelTemplate>
-							<StackPanel ClipToBounds="False" Orientation="Horizontal" Spacing="5"/>
-						</ItemsPanelTemplate>
-					</ItemsControl.ItemsPanel>
+					<Grid Grid.Column="1" VerticalAlignment="Top">
+							
+						<ScrollViewer HorizontalScrollBarVisibility="Auto" 
+									  VerticalScrollBarVisibility="Disabled"
+									  Margin="5 0 0 0">
+					
+							<!--List of project buttons-->
+							<ItemsControl ItemsSource="{Binding Projects}">
+								<ItemsControl.ItemsPanel>
+									<ItemsPanelTemplate>
+										<StackPanel ClipToBounds="False" Orientation="Horizontal" Spacing="5"/>
+									</ItemsPanelTemplate>
+								</ItemsControl.ItemsPanel>
 
-					<ItemsControl.ItemTemplate>
-						<DataTemplate>
-							<!--This sets each button to pass itself into the switch proj comamnd-->
-							<Button Classes="ProjectButton" 
-									Content="{Binding Name}"
-									Command="{Binding DataContext.SwitchProjectCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-									CommandParameter="{Binding}"
-									/>
-						</DataTemplate>
-					</ItemsControl.ItemTemplate>
-					
-				</ItemsControl>
-			</StackPanel>
+								<ItemsControl.ItemTemplate>
+									<DataTemplate>
+										<!--This sets each button to pass itself into the switch proj comamnd-->
+										<Button Classes="ProjectButton" 
+												Content="{Binding Name}"
+												Command="{Binding DataContext.SwitchProjectCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+												CommandParameter="{Binding}"
+												/>
+									</DataTemplate>
+								</ItemsControl.ItemTemplate>
+							</ItemsControl>
+						</ScrollViewer>		
+					</Grid>
+				</Grid>
+				
 			
 			<!--Main Panel-->
 			<Grid

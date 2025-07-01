@@ -3,7 +3,7 @@ TODO List:
   A better projects menu
   	  Add project button needs redo
   	  delete project button needs icon
-  	  Button spacing
+  	  Button spacing - done
 
   Collapse property does not persist when ui reloads
 
