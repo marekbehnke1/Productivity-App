@@ -1,13 +1,28 @@
 TODO List:
 
-  A better projects menu
-  	  Add project button needs redo
-  	  delete project button needs icon
-  	  Button spacing - done
+Features
+------------------
 
+Styling
+-----------------
+  A better projects menu - partially redone - deffo needs a rethink
+
+  Priority dropdown & date picker need restyle.
+  Dates on project header need fixing
+
+Bugs
+-----------------
   Collapse property does not persist when ui reloads
+  Fix collapse spacing etc.
 
+
+-----------------
+  DONE
+------------------
 / When you click new project - switch to it - done
 / Filter needs an "uncompleted tasks option"   - done
 / When you delete a project - the tasks all end up in general tasks, they dont get deleted. - done
 / When you delete a project, that project and tasks all remain on the screen - done
+  	  / Button spacing - done
+  	  / Add project button needs redo - done
+  	  / delete project button needs icon - done

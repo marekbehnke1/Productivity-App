@@ -24,10 +24,13 @@
 				<!--Delete Button-->
 				<Button Grid.Column="1"
 						x:Name="DeleteButton"
-						HorizontalAlignment="Right" 
-						Margin="0 0 10 0"
+						HorizontalAlignment="Right"
 						Click="DeleteProject"
-						Content="DEL"/>
+						Classes="DeleteButton"
+						Padding="5">
+					<Image Width="20" Height="20" Source="{SvgImage /Assets/Images/delete.svg}"/>
+				</Button>
+						
 			</Grid>
 			
 			<Grid ColumnDefinitions="2*, 1*" Width="400">

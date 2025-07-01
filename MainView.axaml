@@ -106,9 +106,6 @@
 					<Button Classes="CollapseButton" Click="CollapseApp" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0">
 						<Image Width="20" Source="{Binding !IsCollapsed, ElementName=MainAppWindow ,Converter={StaticResource DropDownArrowConverter}}"></Image>
 					</Button>
-
-					<TextBlock HorizontalAlignment="Center" Text="{Binding SelectedProject.Name}"/>
-	
 				</StackPanel>
 			</Grid>
 			
@@ -123,10 +120,10 @@
 									Spacing="5">
 
 							<!--Filter Menu-->
-							<Menu> 
-								<MenuItem>
+							<Menu CornerRadius="5"> 
+								<MenuItem CornerRadius="10" Padding="5 0" Margin="5 0 0 0">
 									<MenuItem.Header>
-										<Image Width="20" Height="20" Source="{SvgImage /Assets/Images/filtericon.svg}"/>
+										<Image Width="25" Height="25" Source="{SvgImage /Assets/Images/filtericon.svg}"/>
 									</MenuItem.Header>
 									<MenuItem Header="All Tasks" Command="{Binding SetNoFilterCommand}"/>
 									<MenuItem Header="All Uncompleted" Command="{Binding SetUncompletedFilterCommand}"/>
@@ -138,8 +135,6 @@
 								</MenuItem>
 							</Menu>
 				
-							<!--Add new Project Button-->
-							<Button Content="+" Click="CreateProject"/>
 							<!--All Projects Button-->
 							<Button Content="All" Classes="ProjectButton" Click="SetToAllProjects"/>
 						</StackPanel>
@@ -229,8 +224,11 @@
 				<Grid RowDefinitions="*, auto" Grid.Column="1">
 					
 					<StackPanel Grid.Row="0" MaxWidth="30" Orientation="Vertical">
+						<Button Classes="CreateNote" Click="CreateProject" Padding="5">
+							<Image Height="20" Width="20" Source="{SvgImage /Assets/Images/addproject.svg}"/>
+						</Button>
 						<Button Classes="CreateNote" Click="CreateNote" Padding="5">
-							<Image Height="20" Width="20" Source="{SvgImage /Assets/Images/write.svg}"/>
+							<Image Height="20" Width="20" Source="{SvgImage /Assets/Images/addnote.svg}"/>
 						</Button>
 						<Button Classes="SettingsButton" Click="" Padding="5">
 							<Image Height="20" Width="20" Source="{SvgImage /Assets/Images/settings.svg}"/>
