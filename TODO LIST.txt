@@ -8,3 +8,5 @@ A better projects menu
 	Button spacing
 
 Collapse property does not persist when ui reloads
+When you click new project - switch to it
+filter needs an "uncompleted tasks option"
