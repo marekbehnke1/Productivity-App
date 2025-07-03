@@ -5,6 +5,7 @@ using LearnAvalonia.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.DependencyInjection;
 using LearnAvalonia.Services;
+using System;
 
 namespace LearnAvalonia;
 
@@ -25,7 +26,14 @@ public partial class App : Application
         var services = new ServiceCollection();
 
         // Register the TaskService
-        services.AddSingleton<ITaskService, TaskService>();
+        //services.AddSingleton<ITaskService, TaskService>();
+
+        //Register the HTTPService
+        services.AddHttpClient<ITaskService, ApiTaskService>(client =>
+        {
+            // URL of your API
+            client.BaseAddress = new Uri("https://localhost:7116/");
+        });
 
         //Register the MainViewModel
         services.AddTransient<MainViewModel>();

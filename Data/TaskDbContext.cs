@@ -54,7 +54,7 @@ namespace LearnAvalonia.Data
                     
             });
 
-            // Defining the Projects database
+            // Defining the Projects table
             modelBuilder.Entity<Project>(entity =>
             {
                 entity.HasKey(t => t.Id);
