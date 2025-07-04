@@ -85,17 +85,27 @@ namespace LearnAvalonia.Services
             //because the api returns no response - we just ust deleteasync
             var response = await _httpClient.DeleteAsync($"/api/tasks/{id}");
 
-            // exceptions handled in viewmodel
+            // exceptions handled in viewmodel - this method throws an exception if not succesful
             response.EnsureSuccessStatusCode();
 
         }
         public async Task<TaskItem?> GetTaskByIdAsync(int id)
         {
-            throw new NotImplementedException("TODO: Implement API Call");
+            try
+            {
+                var response = await _httpClient.GetFromJsonAsync<ApiTask>($"/api/tasks/{id}");
+                return response != null ? ConvertToTaskItem(response) : null ;
+            }
+            catch(HttpRequestException ex)
+            {
+                Console.WriteLine($"API could not be reached: {ex.Message}");
+                return null;
+            }
+
         }
         public async Task InitialiseDatabaseAsync()
         {
-            // For the api service - the database does not have be initialised
+            // For the api service - the database does not have be initialised, as it is always running
             // So this is a no-method
             await Task.CompletedTask;
         }
@@ -104,7 +114,7 @@ namespace LearnAvalonia.Services
             //throw new NotImplementedException("TODO: Implement API Call");
             try
             {
-                var apiProjects = await _httpClient.GetFromJsonAsync<List<ApiProject>>("api/tasks");
+                var apiProjects = await _httpClient.GetFromJsonAsync<List<ApiProject>>("api/projects");
                 return apiProjects?.Select(ConvertToProject).ToList() ?? new List<Project>();
 
             }
