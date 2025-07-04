@@ -45,8 +45,6 @@ namespace LearnAvalonia.Services
                 (int)task.TaskPriority,
                 task.IsCollapsed,                
                 task.DueDate,
-                DateTime.UtcNow,
-                DateTime.UtcNow,
                 1, //Userid is hardcoded for now - TODO: change when we add user auth
                 task.ProjectId
                 
@@ -60,12 +58,26 @@ namespace LearnAvalonia.Services
         {
             Project project = new Project(
                 apiProject.Name,
-                apiProject.Description);
+                apiProject.Description
+            );
 
             project.Id = apiProject.Id;
             project.DateCreated = apiProject.DateCreated;
 
             return project;
+        }
+
+        private ApiProject ConvertToApiProject(Project project)
+        {
+            ApiProject apiProject = new ApiProject(
+                project.Name,
+                project.Description,
+                1 //This is hardcoded for now until we add auth - TODO: Change when auth is added
+            );
+            apiProject.Id = project.Id;
+            apiProject.DateCreated = project.DateCreated;
+
+            return apiProject;
         }
        
 
@@ -156,7 +168,6 @@ namespace LearnAvalonia.Services
         }
         public async Task<List<Project>> GetProjectsAsync()
         {
-            //throw new NotImplementedException("TODO: Implement API Call");
             try
             {
                 var apiProjects = await _httpClient.GetFromJsonAsync<List<ApiProject>>("api/projects");
@@ -171,19 +182,56 @@ namespace LearnAvalonia.Services
         }
         public async Task<Project> AddProjectAsync(Project project)
         {
-            throw new NotImplementedException("TODO: Implement API Call");
+            // Convert project
+            var apiProject = ConvertToApiProject(project);
+            // Send Project
+            var response = await _httpClient.PostAsJsonAsync("/api/projects", apiProject);
+
+            //Ensure successul send
+            response.EnsureSuccessStatusCode();
+
+            // store returned data
+            var createdProject = await response.Content.ReadFromJsonAsync<ApiProject>();
+
+            // check for null
+            if (createdProject == null)
+            {
+                throw new HttpRequestException("Could not parse project");
+            }
+
+            // return as converted
+            return ConvertToProject(createdProject);
         }
         public async Task<Project> UpdateProjectAsync(Project project)
         {
-            throw new NotImplementedException("TODO: Implement API Call");
+            // Convert to Api type
+            var apiProject = ConvertToApiProject(project);
+            // Send to api
+            var response = await _httpClient.PutAsJsonAsync($"/api/projects/{project.Id}", apiProject);
+            // check response
+            response.EnsureSuccessStatusCode();
+
+            // return if ok
+            return ConvertToProject(apiProject);
         }
         public async Task DeleteProjectAsync(int projectId)
         {
-            throw new NotImplementedException("TODO: Implement API Call");
+            // send delete request
+            var response = await _httpClient.DeleteAsync($"/api/projects/{projectId}");
+
+            // check response
+            response.EnsureSuccessStatusCode();
         }
         public async Task<List<TaskItem>> GetTasksByProjectAsync(int? projectId)
         {
-            throw new NotImplementedException("TODO: Implement API Call");
+            var tasks = await GetAllTasksAsync();
+            
+            // LINQ to filter the tasks list
+            var filteredTasks = tasks.Where(task => 
+                                task.ProjectId == projectId)
+                                .ToList();
+
+            return filteredTasks;
         }
 
     }

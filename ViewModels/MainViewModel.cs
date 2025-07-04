@@ -227,7 +227,7 @@ namespace LearnAvalonia.ViewModels
         {
             try
             {
-                var newTask = new TaskItem("", "", Priority.Low, DateTime.Today, null);
+                var newTask = new TaskItem("New Task", "", Priority.Low, DateTime.Today, null);
 
                 newTask.ProjectId = SelectedProject?.Id;
 
@@ -240,7 +240,8 @@ namespace LearnAvalonia.ViewModels
             }
             catch (Exception ex)
             {
-                await DisplayMessage($"Could not add task to database: {ex.Message}", false);
+                await DisplayMessage($"{ex.Message}", false);
+                System.Diagnostics.Debug.WriteLine($"The exception msg is: {ex.Message}");
             }
         }
 

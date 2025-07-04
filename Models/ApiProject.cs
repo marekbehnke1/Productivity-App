@@ -19,5 +19,16 @@ namespace LearnAvaloniaApi.Models
 
         public int UserId { get; set; }
 
+        public ApiProject() { }
+
+        public ApiProject(string name, string description, int userId)
+        {
+            Name = name;
+            Description = description;
+            DateCreated = DateTime.UtcNow;
+            UpdatedAt = DateTime.UtcNow;
+            UserId = userId;
+        }
+
     }
 }

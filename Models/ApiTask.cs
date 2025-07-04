@@ -27,15 +27,15 @@ namespace LearnAvaloniaApi.Models
         public int? ProjectId { get; set; }
 
         public ApiTask() { }
-        public ApiTask(string title, string description, int priority, bool isCollapsed, DateTime? dueDate, DateTime createdAt, DateTime updatedAt, int userId, int? projectId)
+        public ApiTask(string title, string description, int priority, bool isCollapsed, DateTime? dueDate, int userId, int? projectId)
         {
             Title = title;
             Description = description;
             Priority = priority;
             IsCollapsed = isCollapsed;
             DueDate = dueDate;
-            CreatedAt = createdAt;
-            UpdatedAt = updatedAt;
+            CreatedAt = DateTime.UtcNow;
+            UpdatedAt = DateTime.UtcNow;
             UserId = userId;
             ProjectId = projectId;
         }
