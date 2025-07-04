@@ -35,6 +35,18 @@ namespace LearnAvalonia.Services
 
             return taskItem;
         }
+
+        private Project ConvertToProject(ApiProject apiProject)
+        {
+            Project project = new Project(
+                apiProject.Name,
+                apiProject.Description);
+
+            project.Id = apiProject.Id;
+            project.DateCreated = apiProject.DateCreated;
+
+            return project;
+        }
        
 
         public async Task<List<TaskItem>> GetAllTasksAsync()
@@ -69,7 +81,13 @@ namespace LearnAvalonia.Services
         }
         public async Task DeleteTaskAsync(int id)
         {
-            throw new NotImplementedException("TODO: Implement API Call");
+
+            //because the api returns no response - we just ust deleteasync
+            var response = await _httpClient.DeleteAsync($"/api/tasks/{id}");
+
+            // exceptions handled in viewmodel
+            response.EnsureSuccessStatusCode();
+
         }
         public async Task<TaskItem?> GetTaskByIdAsync(int id)
         {
@@ -77,11 +95,24 @@ namespace LearnAvalonia.Services
         }
         public async Task InitialiseDatabaseAsync()
         {
-            throw new NotImplementedException("TODO: Implement API Call");
+            // For the api service - the database does not have be initialised
+            // So this is a no-method
+            await Task.CompletedTask;
         }
         public async Task<List<Project>> GetProjectsAsync()
         {
-            throw new NotImplementedException("TODO: Implement API Call");
+            //throw new NotImplementedException("TODO: Implement API Call");
+            try
+            {
+                var apiProjects = await _httpClient.GetFromJsonAsync<List<ApiProject>>("api/tasks");
+                return apiProjects?.Select(ConvertToProject).ToList() ?? new List<Project>();
+
+            }
+            catch(HttpRequestException ex)
+            {
+                Console.WriteLine($"API Could not be reached{ex.Message}");
+                return new List<Project>();
+            }
         }
         public async Task<Project> AddProjectAsync(Project project)
         {
