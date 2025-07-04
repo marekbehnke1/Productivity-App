@@ -36,6 +36,26 @@ namespace LearnAvalonia.Services
             return taskItem;
         }
 
+        //Converst TaskItem to ApiTask
+        private ApiTask ConvertToApiTask(TaskItem task)
+        {
+            ApiTask apiTask = new ApiTask(
+                task.Title,
+                task.Description,
+                (int)task.TaskPriority,
+                task.IsCollapsed,                
+                task.DueDate,
+                DateTime.UtcNow,
+                DateTime.UtcNow,
+                1, //Userid is hardcoded for now - TODO: change when we add user auth
+                task.ProjectId
+                
+            );
+            apiTask.Id = task.Id;
+            
+            return apiTask;
+        }
+
         private Project ConvertToProject(ApiProject apiProject)
         {
             Project project = new Project(
@@ -69,15 +89,40 @@ namespace LearnAvalonia.Services
 
         public async Task<List<TaskItem>> GetTasksByPriorityAsync(Priority priority)
         {
-            throw new NotImplementedException("TODO: Implement API Call");
+            var tasks = await GetAllTasksAsync();
+            var filteredTasks = tasks.Where(x => 
+                x.TaskPriority == priority).ToList(); 
+
+            return filteredTasks;
         }
+
         public async Task<TaskItem> AddTaskAsync(TaskItem task)
         {
-            throw new NotImplementedException("TODO: Implement API Call");
+            var apiTask = ConvertToApiTask(task);
+            var response = await _httpClient.PostAsJsonAsync("/api/tasks", apiTask);
+
+            // throwns exception if not succesfull
+            response.EnsureSuccessStatusCode();
+
+            // This gets the newly created task back from the db
+            var createdApiTask = await response.Content.ReadFromJsonAsync<ApiTask>();
+
+            if (createdApiTask == null)
+            {
+                throw new HttpRequestException("Could not parse returned object");
+            }
+
+            return ConvertToTaskItem(createdApiTask);
         }
+
         public async Task<TaskItem> UpdateTaskAsync(TaskItem task)
         {
-            throw new NotImplementedException("TODO: Implement API Call");
+            var apiTask = ConvertToApiTask(task);
+
+            var response = await _httpClient.PutAsJsonAsync($"/api/tasks/{task.Id}", apiTask);
+            response.EnsureSuccessStatusCode();
+
+            return task;
         }
         public async Task DeleteTaskAsync(int id)
         {
