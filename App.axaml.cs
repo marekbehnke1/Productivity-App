@@ -25,10 +25,10 @@ public partial class App : Application
     {
         var services = new ServiceCollection();
 
-        // Register the TaskService
+        // Register the TaskService <- Local task service
         //services.AddSingleton<ITaskService, TaskService>();
 
-        //Register the HTTPService
+        //Register the HTTPService <- API task service
         services.AddHttpClient<ITaskService, ApiTaskService>(client =>
         {
             // URL of your API

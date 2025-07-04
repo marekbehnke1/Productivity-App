@@ -9,6 +9,7 @@ Styling
 
   Priority dropdown & date picker need restyle.
   Dates on project header need fixing
+  Error success messages need to be better - they currently dont show enough information
 
 Bugs
 -----------------
