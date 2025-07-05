@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using LearnAvalonia.Models;
 using LearnAvaloniaApi.Models;
@@ -111,9 +112,21 @@ namespace LearnAvalonia.Services
         public async Task<TaskItem> AddTaskAsync(TaskItem task)
         {
             var apiTask = ConvertToApiTask(task);
+
+            var json = JsonSerializer.Serialize(apiTask);
+            System.Diagnostics.Debug.WriteLine($"Sending Json: {json}");
+
+
             var response = await _httpClient.PostAsJsonAsync("/api/tasks", apiTask);
 
-            // throwns exception if not succesfull
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                System.Diagnostics.Debug.WriteLine($"API Error: {response.StatusCode}");
+                System.Diagnostics.Debug.WriteLine($"Error Details: {errorContent}");
+            }
+
+            // throws exception if not succesfull
             response.EnsureSuccessStatusCode();
 
             // This gets the newly created task back from the db
