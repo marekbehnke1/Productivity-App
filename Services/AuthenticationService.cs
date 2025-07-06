@@ -127,5 +127,63 @@ namespace LearnAvalonia.Services
             await Task.CompletedTask;
         }
 
+        public async Task<AuthResponse> RegisterAsync(ApiRegisterRequest request)
+        {
+            // get server response
+            var response = await _httpClient.PostAsJsonAsync("/api/auth/register", request);
+
+            //check response status
+            if (!response.IsSuccessStatusCode)
+            {
+                //check response status is bad request?
+                if (response.StatusCode == HttpStatusCode.BadRequest)
+                {
+                    //Invalid data sent to req
+                    return new AuthResponse
+                    {
+                        User = null,
+                        Success = false,
+                        Token = string.Empty,
+                        Message = "Email address already registered, try logging in"
+                    };
+                }
+                else
+                {
+                    // else throw api ex
+                    throw new ApiException("Could not connect to API");
+                }
+            }
+
+            // we know we have a valid response at this point - check properties
+            // try parse response as json
+            var authResponse = await response.Content.ReadFromJsonAsync<AuthResponse>();
+            
+            // check for null
+            if(authResponse == null)
+            {
+                throw new ApiException("Invalid response from server");
+            }
+
+            // check response has valid user and token
+            if (string.IsNullOrEmpty(authResponse.Token) || authResponse.User == null)
+            {
+                throw new ApiException("Invalid user credentials");
+            }
+
+            //update properties
+            _currentToken = authResponse.Token;
+            _currentUser = authResponse.User;
+            _isAuthenticated = true;
+
+            // fire state change event
+            AuthStateChanged?.Invoke(this, new AuthStateChangedEventArgs(
+                user: _currentUser,
+                changeReason: AuthChangeReason.RegisterSucceeded,
+                isAuthenticated: true
+            ));
+
+            //TODO return authResponse
+        }
+
     }
 }

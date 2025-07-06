@@ -13,6 +13,7 @@ namespace LearnAvalonia.Models
         TokenExpired,
         TokenRefreshed,
         NetworkError,
-        ApiError
+        ApiError,
+        RegisterSucceeded
     }
 }
