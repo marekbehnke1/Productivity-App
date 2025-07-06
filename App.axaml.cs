@@ -25,6 +25,12 @@ public partial class App : Application
     {
         var services = new ServiceCollection();
 
+        // Configure the http client for auth service
+        services.AddHttpClient<IAuthenticationService, AuthenticationService>(client =>
+        {
+            client.BaseAddress = new Uri("https://localhost:7116");
+        });
+
         // Register the TaskService <- Local task service
         //services.AddSingleton<ITaskService, TaskService>();
 

@@ -49,12 +49,6 @@ namespace LearnAvalonia.Services
         public Task LogoutAsync();
 
         /// <summary>
-        /// Validates the current authentication token
-        /// </summary>
-        /// <returns>True if token is valid, false otherwise</returns>
-        public Task<bool>CheckTokenValidityAsync();
-
-        /// <summary>
         /// Initializes authentication state on application startup
         /// </summary>
         public Task InitalizeAuthAsync();

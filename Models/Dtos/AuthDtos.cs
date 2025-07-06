@@ -36,9 +36,10 @@ namespace LearnAvalonia.Models.Dtos
     // Object which carries the server's authorisation response
     public class AuthResponse
     {
-        public string Token { get; set; } = string.Empty;
-        public string Message {  get; set; } = string.Empty;
-        public UserDto User { get; set; } = null!;
+        public bool Success { get; set; }
+        public string? Token { get; set; } = string.Empty;
+        public string? Message {  get; set; } = string.Empty;
+        public UserDto? User { get; set; } = null!;
     }
 
     // Carries the information of the logged in user
@@ -54,11 +55,11 @@ namespace LearnAvalonia.Models.Dtos
     /// </summary>
     public class AuthStateChangedEventArgs : EventArgs
     {
-        public UserDto User { get; }
+        public UserDto? User { get; }
         public bool IsAuthenticated { get; }
         public AuthChangeReason ChangeReason { get; }
 
-        public AuthStateChangedEventArgs(UserDto user, AuthChangeReason changeReason, bool isAuthenticated)
+        public AuthStateChangedEventArgs(UserDto? user, AuthChangeReason changeReason, bool isAuthenticated)
         {
             User = user;
             ChangeReason = changeReason;
