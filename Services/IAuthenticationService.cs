@@ -51,7 +51,8 @@ namespace LearnAvalonia.Services
         /// <summary>
         /// Initializes authentication state on application startup
         /// </summary>
-        public Task InitalizeAuthAsync();
+        public Task InitializeAuthAsync();
+
         /// <summary>
         /// Raised when authentication state changes (login, logout, token expiry)
         /// </summary>

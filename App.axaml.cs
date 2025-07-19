@@ -50,6 +50,8 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
+        
+
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             // Get the MainViewModel from the service provider instead of declaring it manually
@@ -59,6 +61,11 @@ public partial class App : Application
             {
                 DataContext = mainViewModel
             };
+
+            //Fire and forget auth initialisation
+            // Will have to change this when we are using secure storage
+            var authService = ServiceProvider?.GetRequiredService<IAuthenticationService>();
+            _ = authService?.InitializeAuthAsync();
             
         }
 

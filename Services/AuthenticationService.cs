@@ -129,60 +129,85 @@ namespace LearnAvalonia.Services
 
         public async Task<AuthResponse> RegisterAsync(ApiRegisterRequest request)
         {
-            // get server response
-            var response = await _httpClient.PostAsJsonAsync("/api/auth/register", request);
-
-            //check response status
-            if (!response.IsSuccessStatusCode)
+            try
             {
-                //check response status is bad request?
-                if (response.StatusCode == HttpStatusCode.BadRequest)
+                // get server response
+                var response = await _httpClient.PostAsJsonAsync("/api/auth/register", request);
+
+                //check response status
+                if (!response.IsSuccessStatusCode)
                 {
-                    //Invalid data sent to req
-                    return new AuthResponse
+                    //check response status is bad request?
+                    if (response.StatusCode == HttpStatusCode.BadRequest)
                     {
-                        User = null,
-                        Success = false,
-                        Token = string.Empty,
-                        Message = "Email address already registered, try logging in"
-                    };
+                        //Invalid data sent to req
+                        return new AuthResponse
+                        {
+                            User = null,
+                            Success = false,
+                            Token = string.Empty,
+                            Message = "Email address already registered, try logging in"
+                        };
+                    }
+                    else
+                    {
+                        // else throw api ex
+                        throw new ApiException("Could not connect to API");
+                    }
                 }
-                else
-                {
-                    // else throw api ex
-                    throw new ApiException("Could not connect to API");
-                }
-            }
 
-            // we know we have a valid response at this point - check properties
-            // try parse response as json
-            var authResponse = await response.Content.ReadFromJsonAsync<AuthResponse>();
+                // we know we have a valid response at this point - check properties
+                // try parse response as json
+                var authResponse = await response.Content.ReadFromJsonAsync<AuthResponse>();
             
-            // check for null
-            if(authResponse == null)
-            {
-                throw new ApiException("Invalid response from server");
+                // check for null
+                if(authResponse == null)
+                {
+                    throw new ApiException("Invalid response from server");
+                }
+
+                // check response has valid user and token
+                if (string.IsNullOrEmpty(authResponse.Token) || authResponse.User == null)
+                {
+                    throw new ApiException("Invalid registration response");
+                }
+
+                //update properties
+                _currentToken = authResponse.Token;
+                _currentUser = authResponse.User;
+                _isAuthenticated = true;
+
+                // fire state change event
+                AuthStateChanged?.Invoke(this, new AuthStateChangedEventArgs(
+                    user: _currentUser,
+                    changeReason: AuthChangeReason.RegisterSucceeded,
+                    isAuthenticated: true
+                ));
+
+                //TODO return authResponse
+                authResponse.Success = true;
+
+                return authResponse;
             }
-
-            // check response has valid user and token
-            if (string.IsNullOrEmpty(authResponse.Token) || authResponse.User == null)
+            catch (HttpRequestException ex)
             {
-                throw new ApiException("Invalid user credentials");
+                throw new NetworkException($"Cannot connect to authentication server: {ex.Message}");
             }
+            catch (JsonException ex)
+            {
+                throw new ApiException($"Server return invalid response: {ex.Message}");
+            }
+        }
 
-            //update properties
-            _currentToken = authResponse.Token;
-            _currentUser = authResponse.User;
-            _isAuthenticated = true;
+        //finish auth init.
+        public async Task InitializeAuthAsync()
+        {
+            //This method will be configured for in-memory storage for the time being
+            // The auth service constructor defaults to "logged out" so we dont need to set any properties here
+            // Secure OS Storage will be implemented later on
+            //TODO: add the persistent token storage
 
-            // fire state change event
-            AuthStateChanged?.Invoke(this, new AuthStateChangedEventArgs(
-                user: _currentUser,
-                changeReason: AuthChangeReason.RegisterSucceeded,
-                isAuthenticated: true
-            ));
-
-            //TODO return authResponse
+            await Task.CompletedTask;
         }
 
     }
