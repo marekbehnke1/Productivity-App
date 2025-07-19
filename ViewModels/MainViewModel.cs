@@ -93,6 +93,7 @@ namespace LearnAvalonia.ViewModels
         }
 
         // Auth state changed event handler
+        // This waits till after we have authorisation before loading the UI
         private async void OnAuthStateChanged(object? sender, AuthStateChangedEventArgs e)
         {
             Debug.WriteLine($"AuthStateChanged: IsAuth={e.IsAuthenticated}, Reason={e.ChangeReason}");
@@ -132,31 +133,6 @@ namespace LearnAvalonia.ViewModels
                 System.Diagnostics.Debug.WriteLine($"AuthService Hash: {authService.GetHashCode()}");
                 System.Diagnostics.Debug.WriteLine("-------- End Auth Login test --------");
 
-
-                //if (authService.IsAuthenticated)
-                //{
-                //    System.Diagnostics.Debug.WriteLine("-------- Testing API call --------");
-                //    System.Diagnostics.Debug.WriteLine($"Token exists: {!string.IsNullOrEmpty(authService.CurrentToken)}");
-                //
-                //    try
-                //    {
-                //        var tasks = await _taskService.GetAllTasksAsync();
-                //        System.Diagnostics.Debug.WriteLine($"API call success. Retrieved {tasks.Count} tasks");
-                //
-                //    }
-                //    catch(HttpRequestException ex)
-                //    {
-                //        if (ex.Message.Contains("SSL") || ex.Message.Contains("certificate"))
-                //        {
-                //            System.Diagnostics.Debug.WriteLine("SSL/Certificate issue detected");
-                //        }
-                //        else if (ex.Message.Contains("connection"))
-                //        {
-                //            System.Diagnostics.Debug.WriteLine("Connection issue - is API server running?");
-                //        }
-                //    }
-                //
-                //}
             }
             catch (Exception ex)
             {

@@ -48,7 +48,6 @@ namespace LearnAvalonia.Services
                 task.DueDate,
                 task.ProjectId
                 
-                
             );
             apiTask.Id = task.Id;
             
