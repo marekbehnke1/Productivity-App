@@ -12,6 +12,7 @@ using LearnAvalonia.Models;
 using LearnAvalonia.Models.Dtos;
 using LearnAvalonia.Exceptions;
 using System.Reflection.Metadata.Ecma335;
+using System.Diagnostics;
 
 namespace LearnAvalonia.Services
 {
@@ -208,6 +209,52 @@ namespace LearnAvalonia.Services
             //TODO: add the persistent token storage
 
             await Task.CompletedTask;
+        }
+
+        // Testing method
+        public async Task TestIntegrationAsync()
+        {
+            try
+            {
+                Debug.WriteLine("-------- Auth Service Integration Test --------");
+                Debug.WriteLine("\n1. Testing Registration...");
+                var registerRequest = new ApiRegisterRequest
+                {
+                    FirstName = "Test",
+                    LastName = "User",
+                    Email = "testuser@example.com",
+                    Password = "testpassword123"
+                };
+
+                var registerResult = await RegisterAsync(registerRequest);
+                Debug.WriteLine($"Register Success: {registerResult.Success}");
+                Debug.WriteLine($"IsAuthenticated: {IsAuthenticated}");
+                Debug.WriteLine($"Current User: {CurrentUser?.FirstName}");
+
+                Debug.WriteLine("\n2. Testing Logout...");
+                await LogoutAsync();
+                Debug.WriteLine($"IsAuthenticated after logout: {IsAuthenticated}");
+
+                Debug.WriteLine("\n3. Testing Login...");
+                var loginRequest = new ApiLoginRequest
+                {
+                    Email = "Marek@example.com",
+                    Password = "TestPassword1"
+                };
+
+                var loginResult = await LoginAsync(loginRequest);
+                Debug.WriteLine($"Login Success: {loginResult.Success}");
+                Debug.WriteLine($"IsAuthenticated: {IsAuthenticated}");
+                Debug.WriteLine($"Current User: {CurrentUser?.FirstName}");
+
+                Debug.WriteLine("-------- Ending Auth Service Integration Test --------");
+
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error: {ex.Message}");
+            }
         }
 
     }

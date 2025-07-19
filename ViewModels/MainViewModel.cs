@@ -63,7 +63,7 @@ namespace LearnAvalonia.ViewModels
             )
         );
 
-        public MainViewModel(ITaskService taskService)
+        public MainViewModel(ITaskService taskService, IAuthenticationService authService)
         {
             // Throw a new exception if we cannot load the task service
             _taskService = taskService ?? throw new ArgumentNullException(nameof(taskService));
@@ -79,6 +79,9 @@ namespace LearnAvalonia.ViewModels
             // This begins loading the tasks & projects
             // Constructors cannot be async - so we have to call a one use async method.
             _ = InitialiseAsync();
+
+            // Temporary auth integration test
+            _ = Task.Run(async () => await ((AuthenticationService)authService).TestIntegrationAsync());
 
         }
 
@@ -111,7 +114,7 @@ namespace LearnAvalonia.ViewModels
             {
                 await DisplayMessage($"Failed to initialise database: {ex.Message}", false);
                 // If load fails, load sample data - otherwise the app will do nothing
-                LoadSampleData();
+                // LoadSampleData();
 
             }
             finally
@@ -137,11 +140,11 @@ namespace LearnAvalonia.ViewModels
                     Tasks.Add(task);
                 }
 
-                // Create some sample data if no tasks exist
-                if (Tasks.Count == 0)
-                {
-                    await CreateSampleDataAsync();
-                }
+                //// Create some sample data if no tasks exist
+                //if (Tasks.Count == 0)
+                //{
+                //    await CreateSampleDataAsync();
+                //}
             }
             catch (Exception ex)
             {
