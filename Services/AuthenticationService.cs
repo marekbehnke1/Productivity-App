@@ -211,6 +211,21 @@ namespace LearnAvalonia.Services
             await Task.CompletedTask;
         }
 
+        public void HandleUnauthorized()
+        {
+            var previousUser = _currentUser;
+
+            _currentUser = null;
+            _isAuthenticated = false;
+            _currentToken = null;
+
+            AuthStateChanged?.Invoke(this, new AuthStateChangedEventArgs(
+                user: previousUser,
+                changeReason: AuthChangeReason.TokenExpired,
+                isAuthenticated: false
+            ));
+        }
+
         // Testing method
         public async Task TestIntegrationAsync()
         {

@@ -8,6 +8,7 @@ using LearnAvalonia.Data;
 using LearnAvalonia.Models;
 using System.ComponentModel.DataAnnotations;
 
+// This service only related to local DB storage - not through the API
 namespace LearnAvalonia.Services
 {
     internal class TaskService : ITaskService

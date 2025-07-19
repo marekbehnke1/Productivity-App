@@ -37,7 +37,7 @@ namespace LearnAvalonia.Services
             return taskItem;
         }
 
-        //Converst TaskItem to ApiTask
+        //Converts TaskItem to ApiTask
         private ApiTask ConvertToApiTask(TaskItem task)
         {
             ApiTask apiTask = new ApiTask(
@@ -114,6 +114,7 @@ namespace LearnAvalonia.Services
             var apiTask = ConvertToApiTask(task);
 
             var json = JsonSerializer.Serialize(apiTask);
+            System.Diagnostics.Debug.WriteLine($"Adding Task from ApiTaskService: {json}");
             System.Diagnostics.Debug.WriteLine($"Sending Json: {json}");
 
 

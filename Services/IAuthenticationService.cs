@@ -54,6 +54,11 @@ namespace LearnAvalonia.Services
         public Task InitializeAuthAsync();
 
         /// <summary>
+        /// Handles unauthorized responses from the server
+        /// </summary>
+        void HandleUnauthorized();
+
+        /// <summary>
         /// Raised when authentication state changes (login, logout, token expiry)
         /// </summary>
         event EventHandler<AuthStateChangedEventArgs> AuthStateChanged;

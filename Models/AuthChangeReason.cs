@@ -14,6 +14,6 @@ namespace LearnAvalonia.Models
         TokenRefreshed,
         NetworkError,
         ApiError,
-        RegisterSucceeded
+        RegisterSucceeded,
     }
 }
