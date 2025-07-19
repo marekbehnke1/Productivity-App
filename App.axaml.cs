@@ -6,6 +6,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.DependencyInjection;
 using LearnAvalonia.Services;
 using System;
+using System.Net.Http;
 
 namespace LearnAvalonia;
 
@@ -25,26 +26,27 @@ public partial class App : Application
     {
         var services = new ServiceCollection();
 
-        // Configure the http client for auth service
-        services.AddHttpClient<IAuthenticationService, AuthenticationService>(client =>
+        services.AddSingleton<IAuthenticationService>(provider =>
         {
-            client.BaseAddress = new Uri("https://localhost:7116");
+            var httpClient = new HttpClient
+            {
+                BaseAddress = new Uri("https://localhost:7116/")
+            };
+            return new AuthenticationService(httpClient);
         });
-
-        // Register the TaskService <- Local task service
-        //services.AddSingleton<ITaskService, TaskService>();
 
         // Add the http auth handler to the list of services
         services.AddTransient<AuthenticationHandler>();
 
-        //Register the HTTPService <- API task service
+        // Register the TaskService <- Local task service
+        //services.AddSingleton<ITaskService, TaskService>();
+
+        //Register the API task service
         services.AddHttpClient<ITaskService, ApiTaskService>(client =>
         {
             // URL of your API
             client.BaseAddress = new Uri("https://localhost:7116/");
-        })
-            // Adding the http service here, ensures that the token in injected into all of the requests the task service sends
-            .AddHttpMessageHandler<AuthenticationHandler>();
+        }).AddHttpMessageHandler<AuthenticationHandler>();
 
         //Register the MainViewModel
         services.AddTransient<MainViewModel>();

@@ -12,12 +12,16 @@ using LearnAvalonia.Models;
 using System.ComponentModel;
 using System.Collections.Specialized;
 using LearnAvalonia.Services;
+using LearnAvalonia.Models.Dtos;
+using System.Net.Http;
+using System.Diagnostics;
 
 namespace LearnAvalonia.ViewModels
 {
     public partial class MainViewModel : ViewModelBase
     {
         private readonly ITaskService _taskService;
+        private readonly IAuthenticationService _authService;
 
         // This will be used to demonstrate when the db is loading
         [ObservableProperty]
@@ -67,22 +71,99 @@ namespace LearnAvalonia.ViewModels
         {
             // Throw a new exception if we cannot load the task service
             _taskService = taskService ?? throw new ArgumentNullException(nameof(taskService));
+            _authService = authService ?? throw new ArgumentNullException(nameof(authService));
 
             Tasks = new ObservableCollection<TaskItem>();
             Projects = new ObservableCollection<Project>();
 
             // Event is called whenever the tasks list is updated in any way
             Tasks.CollectionChanged += OnTasksCollectionChanged;
-
             Projects.CollectionChanged += OnProjectsCollectionChanged;
+
+            _authService.AuthStateChanged += OnAuthStateChanged;
 
             // This begins loading the tasks & projects
             // Constructors cannot be async - so we have to call a one use async method.
-            _ = InitialiseAsync();
+            // _ = InitialiseAsync();
 
             // Temporary auth integration test
-            _ = Task.Run(async () => await ((AuthenticationService)authService).TestIntegrationAsync());
+            System.Diagnostics.Debug.WriteLine($"MAINVIEWMODEL Hash: {authService.GetHashCode()}");
+            _ = TestAuthentication(authService);
 
+        }
+
+        // Auth state changed event handler
+        private async void OnAuthStateChanged(object? sender, AuthStateChangedEventArgs e)
+        {
+            Debug.WriteLine($"AuthStateChanged: IsAuth={e.IsAuthenticated}, Reason={e.ChangeReason}");
+
+            if (e.IsAuthenticated && e.ChangeReason == AuthChangeReason.Login)
+            {
+                Debug.WriteLine($"User authenticated - loading UI data");
+
+                // Now load the UI data after we are logged in
+                await InitialiseAsync();
+            }
+            else if (!e.IsAuthenticated)
+            {
+                Debug.WriteLine("User logged out - clearing data");
+                Tasks.Clear();
+                Projects.Clear();
+            }
+        }
+
+        // Test method for login
+        private async Task TestAuthentication(IAuthenticationService authService)
+        {
+            try
+            {
+                var response = await authService.LoginAsync(new ApiLoginRequest()
+                {
+                    Email = "Marek@example.com",
+                    Password = "TestPassword1"
+                });
+
+            
+                System.Diagnostics.Debug.WriteLine("-------- Auth Login test --------");
+                System.Diagnostics.Debug.WriteLine($"Login Result: {response.Success}");
+                System.Diagnostics.Debug.WriteLine($"Response Message:{response.Message}");
+                System.Diagnostics.Debug.WriteLine($"Is Authenticated?:{authService.IsAuthenticated}");
+                System.Diagnostics.Debug.WriteLine($"Current User:{authService.CurrentUser?.FirstName}");
+                System.Diagnostics.Debug.WriteLine($"AuthService Hash: {authService.GetHashCode()}");
+                System.Diagnostics.Debug.WriteLine("-------- End Auth Login test --------");
+
+
+                //if (authService.IsAuthenticated)
+                //{
+                //    System.Diagnostics.Debug.WriteLine("-------- Testing API call --------");
+                //    System.Diagnostics.Debug.WriteLine($"Token exists: {!string.IsNullOrEmpty(authService.CurrentToken)}");
+                //
+                //    try
+                //    {
+                //        var tasks = await _taskService.GetAllTasksAsync();
+                //        System.Diagnostics.Debug.WriteLine($"API call success. Retrieved {tasks.Count} tasks");
+                //
+                //    }
+                //    catch(HttpRequestException ex)
+                //    {
+                //        if (ex.Message.Contains("SSL") || ex.Message.Contains("certificate"))
+                //        {
+                //            System.Diagnostics.Debug.WriteLine("SSL/Certificate issue detected");
+                //        }
+                //        else if (ex.Message.Contains("connection"))
+                //        {
+                //            System.Diagnostics.Debug.WriteLine("Connection issue - is API server running?");
+                //        }
+                //    }
+                //
+                //}
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Test failed {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"Stack Trace {ex.StackTrace}");
+            }
+            System.Diagnostics.Debug.WriteLine("-------- Test Complete --------");
         }
 
         private async Task DisplayMessage(string message, bool success)

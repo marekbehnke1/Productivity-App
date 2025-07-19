@@ -46,8 +46,8 @@ namespace LearnAvalonia.Services
                 (int)task.TaskPriority,
                 task.IsCollapsed,                
                 task.DueDate,
-                1, //Userid is hardcoded for now - TODO: change when we add user auth
                 task.ProjectId
+                
                 
             );
             apiTask.Id = task.Id;
@@ -72,8 +72,7 @@ namespace LearnAvalonia.Services
         {
             ApiProject apiProject = new ApiProject(
                 project.Name,
-                project.Description,
-                1 //This is hardcoded for now until we add auth - TODO: Change when auth is added
+                project.Description
             );
             apiProject.Id = project.Id;
             apiProject.DateCreated = project.DateCreated;
