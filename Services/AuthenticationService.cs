@@ -206,6 +206,7 @@ namespace LearnAvalonia.Services
             //This method will be configured for in-memory storage for the time being
             // The auth service constructor defaults to "logged out" so we dont need to set any properties here
             // Secure OS Storage will be implemented later on
+
             //TODO: add the persistent token storage
 
             await Task.CompletedTask;
@@ -232,7 +233,7 @@ namespace LearnAvalonia.Services
             try
             {
                 Debug.WriteLine("-------- Auth Service Integration Test --------");
-                Debug.WriteLine("\n1. Testing Registration...");
+                Debug.WriteLine("1. Testing Registration...");
                 var registerRequest = new ApiRegisterRequest
                 {
                     FirstName = "Test",
@@ -246,11 +247,11 @@ namespace LearnAvalonia.Services
                 Debug.WriteLine($"IsAuthenticated: {IsAuthenticated}");
                 Debug.WriteLine($"Current User: {CurrentUser?.FirstName}");
 
-                Debug.WriteLine("\n2. Testing Logout...");
+                Debug.WriteLine("2. Testing Logout...");
                 await LogoutAsync();
                 Debug.WriteLine($"IsAuthenticated after logout: {IsAuthenticated}");
 
-                Debug.WriteLine("\n3. Testing Login...");
+                Debug.WriteLine("3. Testing Login...");
                 var loginRequest = new ApiLoginRequest
                 {
                     Email = "Marek@example.com",

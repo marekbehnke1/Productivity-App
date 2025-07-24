@@ -30,7 +30,8 @@ public partial class App : Application
         {
             var httpClient = new HttpClient
             {
-                BaseAddress = new Uri("https://localhost:7116/")
+                //BaseAddress = new Uri("https://localhost:7116/")
+                BaseAddress = new Uri("https://notesapp-api-mb-htgkhxg7dxfpbdfd.canadacentral-01.azurewebsites.net/")
             };
             return new AuthenticationService(httpClient);
         });
@@ -45,7 +46,9 @@ public partial class App : Application
         services.AddHttpClient<ITaskService, ApiTaskService>(client =>
         {
             // URL of your API
-            client.BaseAddress = new Uri("https://localhost:7116/");
+            //client.BaseAddress = new Uri("https://localhost:7116/");
+            client.BaseAddress = new Uri("https://notesapp-api-mb-htgkhxg7dxfpbdfd.canadacentral-01.azurewebsites.net/");
+
         }).AddHttpMessageHandler<AuthenticationHandler>();
 
         //Register the MainViewModel

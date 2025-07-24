@@ -87,7 +87,6 @@ namespace LearnAvalonia.ViewModels
             // _ = InitialiseAsync();
 
             // Temporary auth integration test
-            System.Diagnostics.Debug.WriteLine($"MAINVIEWMODEL Hash: {authService.GetHashCode()}");
             _ = TestAuthentication(authService);
 
         }
@@ -120,8 +119,8 @@ namespace LearnAvalonia.ViewModels
             {
                 var response = await authService.LoginAsync(new ApiLoginRequest()
                 {
-                    Email = "Marek@example.com",
-                    Password = "TestPassword1"
+                    Email = "azure.test@example.com",
+                    Password = "TestPassword123"
                 });
 
             
@@ -130,7 +129,6 @@ namespace LearnAvalonia.ViewModels
                 System.Diagnostics.Debug.WriteLine($"Response Message:{response.Message}");
                 System.Diagnostics.Debug.WriteLine($"Is Authenticated?:{authService.IsAuthenticated}");
                 System.Diagnostics.Debug.WriteLine($"Current User:{authService.CurrentUser?.FirstName}");
-                System.Diagnostics.Debug.WriteLine($"AuthService Hash: {authService.GetHashCode()}");
                 System.Diagnostics.Debug.WriteLine("-------- End Auth Login test --------");
 
             }
@@ -301,7 +299,7 @@ namespace LearnAvalonia.ViewModels
             catch (Exception ex)
             {
                 await DisplayMessage($"{ex.Message}", false);
-                System.Diagnostics.Debug.WriteLine($"The exception msg is: {ex.Message}");
+                Debug.WriteLine($"The exception msg is: {ex.Message}");
             }
         }
 
