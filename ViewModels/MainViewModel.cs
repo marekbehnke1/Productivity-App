@@ -15,6 +15,7 @@ using LearnAvalonia.Services;
 using LearnAvalonia.Models.Dtos;
 using System.Net.Http;
 using System.Diagnostics;
+using System.Threading;
 
 namespace LearnAvalonia.ViewModels
 {
@@ -48,6 +49,24 @@ namespace LearnAvalonia.ViewModels
 
         [ObservableProperty]
         private bool _showOnlyUncompleted;
+
+        [ObservableProperty]
+        private bool _timerRunning = false;
+
+        [ObservableProperty]
+        private string _timerText = "25:00:00";
+
+        [ObservableProperty]
+        private string _timerButtonText = "Start";
+
+        [ObservableProperty]
+        private double _timerProgress = 0;
+
+        [ObservableProperty]
+        private int _timerDuration = 25;
+
+        private System.Timers.Timer? _animTimer;
+        private CancellationTokenSource? _animationCts;
 
         // This is the collection that the UI binds to
         // It is the single true data store for all task items
@@ -87,7 +106,7 @@ namespace LearnAvalonia.ViewModels
             // _ = InitialiseAsync();
 
             // Temporary auth integration test
-            _ = TestAuthentication(authService);
+            //_ = TestAuthentication(authService);
 
         }
 
@@ -124,20 +143,20 @@ namespace LearnAvalonia.ViewModels
                 });
 
             
-                System.Diagnostics.Debug.WriteLine("-------- Auth Login test --------");
-                System.Diagnostics.Debug.WriteLine($"Login Result: {response.Success}");
-                System.Diagnostics.Debug.WriteLine($"Response Message:{response.Message}");
-                System.Diagnostics.Debug.WriteLine($"Is Authenticated?:{authService.IsAuthenticated}");
-                System.Diagnostics.Debug.WriteLine($"Current User:{authService.CurrentUser?.FirstName}");
-                System.Diagnostics.Debug.WriteLine("-------- End Auth Login test --------");
+                Debug.WriteLine("-------- Auth Login test --------");
+                Debug.WriteLine($"Login Result: {response.Success}");
+                Debug.WriteLine($"Response Message:{response.Message}");
+                Debug.WriteLine($"Is Authenticated?:{authService.IsAuthenticated}");
+                Debug.WriteLine($"Current User:{authService.CurrentUser?.FirstName}");
+                Debug.WriteLine("-------- End Auth Login test --------");
 
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Test failed {ex.Message}");
-                System.Diagnostics.Debug.WriteLine($"Stack Trace {ex.StackTrace}");
+                Debug.WriteLine($"Test failed {ex.Message}");
+                Debug.WriteLine($"Stack Trace {ex.StackTrace}");
             }
-            System.Diagnostics.Debug.WriteLine("-------- Test Complete --------");
+            Debug.WriteLine("-------- Test Complete --------");
         }
 
         private async Task DisplayMessage(string message, bool success)
@@ -558,6 +577,65 @@ namespace LearnAvalonia.ViewModels
             ShowOnlyUncompleted = true;
             SelectedPriorityFilter = null;
             RefreshFilteredCollections();
+        }
+
+        [RelayCommand]
+        private async Task StartTimerAsync()
+        {
+            if (TimerRunning)
+            {
+                TimerRunning = false;
+                _animationCts?.Cancel();
+                _animTimer?.Stop();
+                _animTimer?.Dispose();
+
+                TimerButtonText = "Start";
+                TimerProgress = 0;
+                TimerText = "00:00:00";
+                return;
+            }
+
+            TimerRunning = true;
+            TimerButtonText = "Stop";
+            TimerText = "25:00:00";
+
+            _animationCts = new CancellationTokenSource();
+
+            try
+            {
+                var duration = TimeSpan.FromMinutes(TimerDuration);
+                var endTime = DateTime.Now + duration;
+
+                _animTimer = new System.Timers.Timer(1000);
+                _animTimer.Elapsed += (sender, e) => UpdateTimerDisplay(endTime);
+                _animTimer.AutoReset = true;
+                _animTimer.Start();
+
+                // TODO: Replace with actual animation
+                var totalSeconds = duration.TotalSeconds;
+                for (int i = 0; i <=totalSeconds && !_animationCts.Token.IsCancellationRequested; i++)
+                {
+                    TimerProgress = (i / totalSeconds) * 100;
+                    await Task.Delay(1000, _animationCts.Token);
+                }
+
+            }
+
+            catch(OperationCanceledException) { }
+
+            finally
+            {
+                TimerRunning = false;
+                _animationCts?.Dispose();
+                _animTimer?.Dispose();
+            }
+        }
+
+        private void UpdateTimerDisplay(DateTime endTime)
+        {
+            var remaining = endTime - DateTime.Now;
+            TimerText = remaining > TimeSpan.Zero ?
+                remaining.ToString(@"hh\:mm\:ss") : "00:00:00";
         }
     }
     

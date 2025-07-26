@@ -64,18 +64,22 @@ public partial class App : Application
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            // Get the MainViewModel from the service provider instead of declaring it manually
+            // Get all services from DI
+
             var mainViewModel = ServiceProvider?.GetRequiredService<MainViewModel>();
+            var authService = ServiceProvider?.GetRequiredService<IAuthenticationService>();
+            var taskService = ServiceProvider?.GetRequiredService<ITaskService>();
+
+            var navigationViewModel = new NavigationViewModel(authService!, taskService!, mainViewModel!);
 
             desktop.MainWindow = new MainView
             {
-                DataContext = mainViewModel
+                DataContext = navigationViewModel
             };
 
             //Fire and forget auth initialisation
             // Will have to change this when we are using secure storage
-            var authService = ServiceProvider?.GetRequiredService<IAuthenticationService>();
-            _ = authService?.InitializeAuthAsync();
+            //_ = authService?.InitializeAuthAsync();
             
         }
 
