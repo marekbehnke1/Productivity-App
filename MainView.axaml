@@ -5,9 +5,9 @@
 		xmlns:Controls="clr-namespace:LearnAvalonia.Components"
 		xmlns:Converters="using:LearnAvalonia.Converters"
 		xmlns:Models="clr-namespace:LearnAvalonia.Models"
-		mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="800"
+		mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="300"
 		Width="450"
-		Height="800"
+		Height="{Binding CurrentViewModel.WindowHeight, FallbackValue=800}"
         x:Class="LearnAvalonia.MainView"
 		x:Name="MainAppWindow"
 		Classes="MainAppWindow"
@@ -87,41 +87,122 @@
 		
 	<ContentControl Content="{Binding CurrentViewModel}">
 		<ContentControl.DataTemplates>
+			
 			<!--Login View Model-->
 			<DataTemplate DataType="{x:Type vm:LoginViewModel}">
 				
-				<StackPanel>
-					<TextBlock Text="Welcome!"/>
-					<TextBox Watermark="Email Address"
-							 Text="{Binding Email}"
-							 IsEnabled="{Binding !IsLoading}"
-							 />
-					
-					<TextBox Watermark="Password"
-							 PasswordChar="●"
-							 Text="{Binding Password}"
-							 IsEnabled="{Binding !IsLoading}"
-							/>
-				
-					<Button Content="Log in"
-							Command="{Binding LoginCommand}"
-							IsEnabled="{Binding !IsLoading}"
+					<!--Main Login Form-->
+					<Grid RowDefinitions="200, 100">
+						<Grid Grid.Row="0" 
+							  Margin="0 50 0 0">
+
+							<StackPanel Spacing="10">
+								<TextBox Watermark="Email Address"
+										 Text="{Binding Email}"
+										 IsEnabled="{Binding !IsLoading}"
+										 Width="250" />
+
+								<TextBox Watermark="Password"
+										 PasswordChar="●"
+										 Text="{Binding Password}"
+										 IsEnabled="{Binding !IsLoading}"
+										 Width="250"/>
+
+								<Button Content="Log in"
+										Command="{Binding LoginCommand}"
+										IsEnabled="{Binding !IsLoading}"
+										HorizontalAlignment="Center" />
+
+								<Image Height="20"
+										Width="20"
+										Source="{SvgImage /Assets/Images/loading.svg}"
+										IsVisible="{Binding IsLoading}"
+										Classes="Spinning"/>
+							</StackPanel>
+							
+						</Grid>
 						
-							/>
-				
-					<!--Register Link-->
-					<StackPanel>
-						<TextBlock Text="Don't have an account yet?"/>
-						<Button Content="Register"
-								Command="{Binding NavigateToRegisterCommand}"/>
-					</StackPanel>
-				</StackPanel>
+						<!--Register Link-->
+						<Grid Grid.Row="1" 
+							  Margin="0 0 0 20">
+							
+							<TextBlock Text="Don't have an account yet?"
+									   Margin="0 20 0 0"
+									   HorizontalAlignment="Center"
+									   />
+
+							<Button Content="Register"
+									HorizontalAlignment="Center"
+									VerticalAlignment="Bottom"
+									Command="{Binding NavigateToRegisterViewCommand}"/>
+						</Grid>
+					</Grid>
 			
 			</DataTemplate>
 			<!--Register View Model-->
 			<DataTemplate DataType="{x:Type vm:RegisterViewModel}">
-				
-				<TextBlock Text="This is the Register viewmodel!"/>
+
+				<Grid RowDefinitions="*, 80">
+					
+					<Grid Grid.Row="0">
+						
+						<StackPanel Width="250"
+									Spacing="15"
+									Margin="0 50 0 0">
+							
+							<TextBox Watermark="First Name"
+									 Text="{Binding FirstName}"
+									 TextAlignment="Center"/>
+							
+							<TextBox Watermark="Last Name"
+									 Text="{Binding LastName}"
+									 TextAlignment="Center"/>
+							
+							<TextBox Watermark="Email Address"
+									 Text="{Binding Email}"
+									 TextAlignment="Center"/>
+							
+							<TextBox Watermark="Password"
+									 PasswordChar="●"
+									 Text="{Binding Password}"
+									 TextAlignment="Center"/>
+							
+							<TextBox Watermark="Confirm Password"
+									 PasswordChar="●"
+									 Text="{Binding PasswordConfirm}"
+									 TextAlignment="Center"/>
+							
+							<Button Content="Register"
+									HorizontalAlignment="Center"
+									Command="{Binding RegisterCommand}"/>
+
+							<Image Height="20"
+										Width="20"
+										Source="{SvgImage /Assets/Images/loading.svg}"
+										IsVisible="{Binding IsLoading}"
+										Classes="Spinning"/>
+							
+						</StackPanel>
+						
+					</Grid>
+					
+					<Grid Grid.Row="1" Background="">
+
+						<TextBlock IsVisible="{Binding HasError}"
+									Height="40"
+									TextWrapping="Wrap"
+									Text="{Binding ErrorMessage}"
+									TextAlignment="Center"
+								   VerticalAlignment="Top"/>
+						
+						<Button Content="Login"
+								Margin="0 0 0 10"
+								HorizontalAlignment="Center"
+								VerticalAlignment="Bottom"
+								Command="{Binding NavigateToLoginViewCommand}"/>
+					</Grid>
+					
+				</Grid>
 			
 			</DataTemplate>
 			<!--Main View Model-->
@@ -144,7 +225,7 @@
 					<Grid Name="TopBar" Grid.Row="0" ColumnDefinitions="50, *" Margin="5" Height="25">
 						<StackPanel Grid.Column="0" VerticalAlignment="Top" Orientation="Horizontal" Spacing="30">
 							<!--Collapse Button-->
-							<Button Classes="CollapseButton" Click="CollapseApp" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0">
+							<Button Classes="CollapseButton" Command="{Binding ToggleCollapseCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0">
 								<Image Width="20" Source="{Binding !IsCollapsed, ElementName=MainAppWindow ,Converter={StaticResource DropDownArrowConverter}}"></Image>
 							</Button>
 						</StackPanel>

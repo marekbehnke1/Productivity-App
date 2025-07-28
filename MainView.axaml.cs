@@ -30,6 +30,7 @@ public partial class MainView : Window
     public static readonly StyledProperty<bool> IsCollapsedProperty =
         AvaloniaProperty.Register<MainView, bool>(nameof(IsCollapsed));
 
+
     public bool IsCollapsed
     {
         get => GetValue(IsCollapsedProperty);
@@ -154,12 +155,12 @@ public partial class MainView : Window
         }
     }
 
-    private void CollapseApp(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
-    {
-        IsCollapsed = !IsCollapsed;
-
-        // TODO: Update this & move into MainVieModel
-
+    //private void CollapseApp(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    //{
+    //    IsCollapsed = !IsCollapsed;
+    //
+    //    // TODO: Update this & move into MainVieModel
+    //
     //    System.Diagnostics.Debug.WriteLine($"IsCollapsed is now: {IsCollapsed}");
     //
     //    var collapseAnim = (Animation?)Resources["WindowCollapse"];
@@ -183,7 +184,7 @@ public partial class MainView : Window
     //        //System.Diagnostics.Debug.WriteLine($"MainPanel height is: {MainPanel.Height}");
     //        //System.Diagnostics.Debug.WriteLine($"ProjectNavBar height is: {ProjectNavBar.Height}");
     //    }
-    }
+    //}
 
     private async void CreateProject(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {

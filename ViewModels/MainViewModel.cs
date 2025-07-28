@@ -1,21 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Avalonia;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LearnAvalonia.Components;
 using LearnAvalonia.Models;
-using System.ComponentModel;
-using System.Collections.Specialized;
-using LearnAvalonia.Services;
 using LearnAvalonia.Models.Dtos;
-using System.Net.Http;
-using System.Diagnostics;
-using System.Threading;
+using LearnAvalonia.Services;
 
 namespace LearnAvalonia.ViewModels
 {
@@ -51,6 +52,18 @@ namespace LearnAvalonia.ViewModels
         private bool _showOnlyUncompleted;
 
         [ObservableProperty]
+        private bool _isCollapsed = false;
+
+        [ObservableProperty]
+        private double _windowHeight = 800;
+
+        [ObservableProperty]
+        private double _mainPanelMaxHeight = 700;
+
+        [ObservableProperty]
+        private double _projectNavBarHeight = 30;
+
+        [ObservableProperty]
         private bool _timerRunning = false;
 
         [ObservableProperty]
@@ -78,7 +91,7 @@ namespace LearnAvalonia.ViewModels
         // Current projects tasks
         public ObservableCollection<TaskItem> CurrentProjectTasks => new(Tasks.Where(t => t.ProjectId == SelectedProject?.Id));
         public ObservableCollection<TaskItem> CurrentFilteredTasks => new(
-            CurrentProjectTasks.Where(t => 
+            CurrentProjectTasks.Where(t =>
 
                 // Apply uncompleted filter if its active
                 (!ShowOnlyUncompleted || t.TaskPriority != Priority.Complete) &&
@@ -142,7 +155,7 @@ namespace LearnAvalonia.ViewModels
                     Password = "TestPassword123"
                 });
 
-            
+
                 Debug.WriteLine("-------- Auth Login test --------");
                 Debug.WriteLine($"Login Result: {response.Success}");
                 Debug.WriteLine($"Response Message:{response.Message}");
@@ -239,7 +252,7 @@ namespace LearnAvalonia.ViewModels
                 var projectsFromDb = await _taskService.GetProjectsAsync();
                 Projects.Clear();
 
-                foreach(var project in projectsFromDb)
+                foreach (var project in projectsFromDb)
                 {
                     Projects.Add(project);
                 }
@@ -250,7 +263,7 @@ namespace LearnAvalonia.ViewModels
             }
             finally
             {
-                IsLoading=false;
+                IsLoading = false;
             }
         }
 
@@ -459,12 +472,12 @@ namespace LearnAvalonia.ViewModels
         {
             try
             {
-                var newProject = new Project(title, description); 
+                var newProject = new Project(title, description);
 
                 // Adds the new project to database.
                 var savedProject = await _taskService.AddProjectAsync(newProject);
 
-                Projects.Add(savedProject); 
+                Projects.Add(savedProject);
 
                 // Sets the new project as current project
                 SwitchToProject(savedProject);
@@ -501,16 +514,16 @@ namespace LearnAvalonia.ViewModels
             }
             catch (Exception ex)
             {
-                await DisplayMessage($"Unable to delete Project: {ex.Message}", false );
+                await DisplayMessage($"Unable to delete Project: {ex.Message}", false);
             }
-            
+
         }
         public void SwitchToProject(Project project)
         {
             // Set current project to this project
             SelectedProject = project;
             SelectedPriorityFilter = null;
-            RefreshFilteredCollections() ;
+            RefreshFilteredCollections();
         }
 
         [RelayCommand]
@@ -613,7 +626,7 @@ namespace LearnAvalonia.ViewModels
 
                 // TODO: Replace with actual animation
                 var totalSeconds = duration.TotalSeconds;
-                for (int i = 0; i <=totalSeconds && !_animationCts.Token.IsCancellationRequested; i++)
+                for (int i = 0; i <= totalSeconds && !_animationCts.Token.IsCancellationRequested; i++)
                 {
                     TimerProgress = (i / totalSeconds) * 100;
                     await Task.Delay(1000, _animationCts.Token);
@@ -621,7 +634,7 @@ namespace LearnAvalonia.ViewModels
 
             }
 
-            catch(OperationCanceledException) { }
+            catch (OperationCanceledException) { }
 
             finally
             {
@@ -637,8 +650,46 @@ namespace LearnAvalonia.ViewModels
             TimerText = remaining > TimeSpan.Zero ?
                 remaining.ToString(@"hh\:mm\:ss") : "00:00:00";
         }
-    }
-    
+        [RelayCommand]
+        private async Task ToggleCollapseAsync()
+        {
+            IsCollapsed = !IsCollapsed;
 
+            Debug.WriteLine($"IS app collapsed?: {IsCollapsed}");
+
+            if (IsCollapsed)
+            {
+                await AnimateCollapseAsync();
+            }
+            else
+            {
+                await AnimateExpandAsync();
+            }
+
+        }
+
+        private async Task AnimateCollapseAsync()
+        {
+            MainPanelMaxHeight = 0;
+            ProjectNavBarHeight = 0;
+            WindowHeight = 80;
+
+            //TODO - Include proper animations
+            await Task.Delay(200);
+            Debug.WriteLine($"Window height collapsed to: {WindowHeight}");
+        }
+        private async Task AnimateExpandAsync()
+        {
+            WindowHeight = 800;
+            MainPanelMaxHeight = 700;
+            ProjectNavBarHeight = 30;
+
+            //TODO - Include proper animations
+            await Task.Delay(200);
+            Debug.WriteLine($"Window expanded to: {WindowHeight}");
+        }
+
+
+    }
 
 }

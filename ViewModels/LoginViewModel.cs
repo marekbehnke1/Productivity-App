@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -31,6 +32,9 @@ namespace LearnAvalonia.ViewModels
 
         [ObservableProperty]
         private bool _hasError = false;
+
+        [ObservableProperty]
+        private double _windowHeight = 300;
 
         //Events for navigation
         public event EventHandler? LoginSucceeded;

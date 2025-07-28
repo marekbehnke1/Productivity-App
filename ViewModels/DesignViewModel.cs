@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using LearnAvalonia.Models;
+using LearnAvalonia.Services;
 
 
 namespace LearnAvalonia.ViewModels
@@ -18,9 +21,10 @@ namespace LearnAvalonia.ViewModels
     public partial class DesignViewModel : ViewModelBase
     {
         public static DesignViewModel Instance { get; } = new DesignViewModel();
-        public int CurrentPanelIndex { get; set; } = 0;
         public bool IsLoading { get; set; } = false;
         public string ErrorMessage { get; set; } = string.Empty;
+
+
 
         [ObservableProperty]
         private Project? _selectedProject;
@@ -33,6 +37,14 @@ namespace LearnAvalonia.ViewModels
         public ObservableCollection<TaskItem> CurrentProjectTasks => new(Tasks.Where(t => t.ProjectId == SelectedProject?.Id));
         public ObservableCollection<TaskItem> CurrentFilteredTasks => new(CurrentProjectTasks.Where(t => SelectedPriorityFilter == null || t.TaskPriority == SelectedPriorityFilter.Value));
 
+        [ObservableProperty]
+        private ViewModelBase? _currentViewModel;
+
+        [ObservableProperty]
+        private double _windowHeight = 450;
+
+        [ObservableProperty]
+        private LoginViewModel? _loginViewModel;
 
         /// <summary>
         /// Parameterless constructor that the designer can use
@@ -60,8 +72,9 @@ namespace LearnAvalonia.ViewModels
             // Initialize all collections
             Tasks = new ObservableCollection<TaskItem>(sampleTasks);
             Projects = new ObservableCollection<Project>(sampleProjects);
-            
 
+            
+            CurrentViewModel = this;
             
         }
 

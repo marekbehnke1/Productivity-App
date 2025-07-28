@@ -147,7 +147,7 @@ namespace LearnAvalonia.Services
                             User = null,
                             Success = false,
                             Token = string.Empty,
-                            Message = "Email address already registered, try logging in"
+                            Message = "Email address already registered, or password too short"
                         };
                     }
                     else
