@@ -186,12 +186,12 @@ public partial class MainView : Window
     //    }
     //}
 
-    private async void CreateProject(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
-    {
-        if (DataContext is MainViewModel mainView)
-        {
-            await mainView.AddNewProjectAsync("New Project", "");
-        }   
-    }
+    //private async void CreateProject(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    //{
+    //    if (DataContext is MainViewModel mainView)
+    //    {
+    //        await mainView.AddNewProjectAsync("New Project", "");
+    //    }   
+    //}
 
 }

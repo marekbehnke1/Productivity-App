@@ -313,7 +313,8 @@ namespace LearnAvalonia.ViewModels
             }
         }
 
-        public async Task AddNewTaskAsync()
+        [RelayCommand]
+        private async Task AddNewTaskAsync()
         {
             try
             {
@@ -468,11 +469,13 @@ namespace LearnAvalonia.ViewModels
             _ = DeleteTaskAsync(task);
         }
 
-        public async Task AddNewProjectAsync(string title, string description)
+        // Need to wire this up as a command
+        [RelayCommand]
+        private async Task AddNewProjectAsync()
         {
             try
             {
-                var newProject = new Project(title, description);
+                var newProject = new Project("New Project", "");
 
                 // Adds the new project to database.
                 var savedProject = await _taskService.AddProjectAsync(newProject);
@@ -533,6 +536,7 @@ namespace LearnAvalonia.ViewModels
         }
 
         //For the all projects button
+        [RelayCommand]
         public void SwitchToAll()
         {
             SelectedProject = null;

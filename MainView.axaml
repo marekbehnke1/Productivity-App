@@ -92,7 +92,7 @@
 			<DataTemplate DataType="{x:Type vm:LoginViewModel}">
 				
 					<!--Main Login Form-->
-					<Grid RowDefinitions="200, 100">
+					<Grid RowDefinitions="*, 100">
 						<Grid Grid.Row="0" 
 							  Margin="0 50 0 0">
 
@@ -118,6 +118,14 @@
 										Source="{SvgImage /Assets/Images/loading.svg}"
 										IsVisible="{Binding IsLoading}"
 										Classes="Spinning"/>
+
+								<TextBlock IsVisible="{Binding HasError}"
+											Height="40"
+											TextWrapping="Wrap"
+											Text="{Binding ErrorMessage}"
+											TextAlignment="Center"
+										   VerticalAlignment="Top"/>
+								
 							</StackPanel>
 							
 						</Grid>
@@ -258,9 +266,7 @@
 									</Menu>
 				
 									<!--All Projects Button-->
-									
-									<!--TODO - Replace button click with command-->
-									<Button Content="All" Classes="ProjectButton" Click=""/>
+									<Button Content="All" Classes="ProjectButton" Command="{Binding SwitchToAllCommand}"/>
 								</StackPanel>
 							</Grid>
 					
@@ -281,9 +287,10 @@
 										<ItemsControl.ItemTemplate>
 											<DataTemplate>
 												<!--This sets each button to pass itself into the switch proj comamnd-->
+												<!--TODO: get the project buttons working-->
 												<Button Classes="ProjectButton" 
 														Content="{Binding Name}"
-														Command="{Binding DataContext.SwitchProjectCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+														Command="{Binding DataContext.CurrentViewModel.SwitchProjectCommand, RelativeSource={RelativeSource AncestorType=Window}}"
 														CommandParameter="{Binding}"
 														/>
 											</DataTemplate>
@@ -346,14 +353,17 @@
 
 						<!--Right Side Bar-->
 						<Grid RowDefinitions="*, auto" Grid.Column="1">
-					
+							
+							<!--Add Project Button-->
 							<StackPanel Grid.Row="0" MaxWidth="30" Orientation="Vertical">
-								<Button Classes="CreateNote" Click="CreateProject" Padding="5">
+								<Button Classes="CreateNote" Command="{Binding AddNewProjectCommand}" Padding="5">
 									<Image Height="20" Width="20" Source="{SvgImage /Assets/Images/addproject.svg}"/>
 								</Button>
-								<Button Classes="CreateNote" Click="CreateNote" Padding="5">
+								<!--Add Task Button-->
+								<Button Classes="CreateNote" Command="{Binding AddNewTaskCommand}" Padding="5">
 									<Image Height="20" Width="20" Source="{SvgImage /Assets/Images/addnote.svg}"/>
 								</Button>
+								<!--Setting Menu-->
 								<Button Classes="SettingsButton" Click="" Padding="5">
 									<Image Height="20" Width="20" Source="{SvgImage /Assets/Images/settings.svg}"/>
 								</Button>
@@ -409,8 +419,8 @@
 						Margin="0 0 0 5">
 						<ProgressBar Height="30" x:Name="TimerBar"/>
 						<Grid ColumnDefinitions="100, * , 100">
-							<!--TODO - Replace button click with command-->
-							<Button Click="" 
+							<!--TODO - Think this needs the animation to work properly-->
+							<Button Command="{Binding StartTimerCommand}" 
 									x:Name="TimerButton" 
 									Grid.Column="0" 
 									HorizontalAlignment="Center" 

@@ -41,7 +41,7 @@ namespace LearnAvalonia.ViewModels
         private ViewModelBase? _currentViewModel;
 
         [ObservableProperty]
-        private double _windowHeight = 450;
+        private double _windowHeight = 300;
 
         [ObservableProperty]
         private LoginViewModel? _loginViewModel;
