@@ -287,7 +287,6 @@
 										<ItemsControl.ItemTemplate>
 											<DataTemplate>
 												<!--This sets each button to pass itself into the switch proj comamnd-->
-												<!--TODO: get the project buttons working-->
 												<Button Classes="ProjectButton" 
 														Content="{Binding Name}"
 														Command="{Binding DataContext.CurrentViewModel.SwitchProjectCommand, RelativeSource={RelativeSource AncestorType=Window}}"

@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
@@ -20,15 +21,19 @@ public partial class ProjectHeader : UserControl
 
     private async void DeleteProject(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
+
         var mainView = this.FindAncestorOfType<MainView>();
-        if (mainView?.DataContext is MainViewModel viewModel && 
+
+        Debug.WriteLine($"Project header viewmodel is: {mainView?.DataContext}");
+
+        if (mainView?.DataContext is NavigationViewModel viewModel && 
             this.DataContext is Project project)
         {
             var result = await ShowConfirmationDialog(mainView, project.Name);
 
-            if (result)
+            if (result && viewModel.CurrentViewModel is MainViewModel mainViewModel)
             {
-                await viewModel.DeleteProjectAsync(project);
+                await mainViewModel.DeleteProjectAsync(project);
             }
         }
     }

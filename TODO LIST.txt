@@ -2,9 +2,7 @@ TODO List:
 
 Features
 ------------------
-Fix the add project and add note commands
-Finish styling login form
-Finish register form
+
 
 Styling
 -----------------
@@ -30,3 +28,6 @@ Bugs
   	  / Button spacing - done
   	  / Add project button needs redo - done
   	  / delete project button needs icon - done
+/ Fix the add project and add note commands
+/ Finish styling login form
+/ Finish register form

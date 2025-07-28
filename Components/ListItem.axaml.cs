@@ -85,9 +85,12 @@ public partial class ListItem : UserControl
     private void DeleteTask(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
         var mainView = this.FindAncestorOfType<MainView>();
-        if (mainView?.DataContext is MainViewModel viewModel && this.DataContext is TaskItem task)
+        if (mainView?.DataContext is NavigationViewModel viewModel && this.DataContext is TaskItem task)
         {
-            viewModel.DeleteTask(task);
+            if (viewModel.CurrentViewModel is MainViewModel mainViewModel)
+            {
+                mainViewModel?.DeleteTaskAsync(task);
+            }
         }
     }
 

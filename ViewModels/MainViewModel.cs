@@ -458,17 +458,6 @@ namespace LearnAvalonia.ViewModels
             OnPropertyChanged(nameof(CurrentFilteredTasks));
         }
 
-        // Legacy methods for backwards compatability
-        public void AddNewTask()
-        {
-            _ = AddNewTaskAsync();
-        }
-
-        public void DeleteTask(TaskItem task)
-        {
-            _ = DeleteTaskAsync(task);
-        }
-
         // Need to wire this up as a command
         [RelayCommand]
         private async Task AddNewProjectAsync()

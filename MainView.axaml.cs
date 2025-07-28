@@ -144,16 +144,6 @@ public partial class MainView : Window
     //    });
     //}
 
-    private void CreateNote(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
-    {
-
-        if (DataContext is MainViewModel viewModel)
-        {
-            viewModel.AddNewTask();
-            // Scrolls to the end when you add a new note
-            // NotesScroller.ScrollToEnd();
-        }
-    }
 
     //private void CollapseApp(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     //{
@@ -186,12 +176,5 @@ public partial class MainView : Window
     //    }
     //}
 
-    //private async void CreateProject(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
-    //{
-    //    if (DataContext is MainViewModel mainView)
-    //    {
-    //        await mainView.AddNewProjectAsync("New Project", "");
-    //    }   
-    //}
 
 }
