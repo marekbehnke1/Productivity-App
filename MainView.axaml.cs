@@ -15,6 +15,7 @@ using System.Drawing;
 using Avalonia.Media;
 using LearnAvalonia.Resources;
 using CommunityToolkit.Mvvm.Input;
+using System.Diagnostics;
 
 namespace LearnAvalonia;
 
@@ -24,6 +25,7 @@ public partial class MainView : Window
     {
         InitializeComponent();
 
+        Debug.WriteLine($"{this}");
     }
    
     // Registering Collapse Property
@@ -35,7 +37,9 @@ public partial class MainView : Window
     {
         get => GetValue(IsCollapsedProperty);
         set => SetValue(IsCollapsedProperty, value);
+
     }
+
 
     //async private void Timer_Start(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     //{

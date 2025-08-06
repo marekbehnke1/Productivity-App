@@ -2,7 +2,7 @@ TODO List:
 
 Features
 ------------------
-
+Move main connection string to an appsettings.json file
 
 Styling
 -----------------

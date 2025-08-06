@@ -18,6 +18,7 @@ using LearnAvalonia.Models;
 using LearnAvalonia.Models.Dtos;
 using LearnAvalonia.Services;
 
+
 namespace LearnAvalonia.ViewModels
 {
     public partial class MainViewModel : ViewModelBase
@@ -200,8 +201,6 @@ namespace LearnAvalonia.ViewModels
             catch (Exception ex)
             {
                 await DisplayMessage($"Failed to initialise database: {ex.Message}", false);
-                // If load fails, load sample data - otherwise the app will do nothing
-                // LoadSampleData();
 
             }
             finally
@@ -226,12 +225,6 @@ namespace LearnAvalonia.ViewModels
                 {
                     Tasks.Add(task);
                 }
-
-                //// Create some sample data if no tasks exist
-                //if (Tasks.Count == 0)
-                //{
-                //    await CreateSampleDataAsync();
-                //}
             }
             catch (Exception ex)
             {
@@ -264,52 +257,6 @@ namespace LearnAvalonia.ViewModels
             finally
             {
                 IsLoading = false;
-            }
-        }
-
-        // These samples are created if the database has no entries
-        private async Task CreateSampleDataAsync()
-        {
-            var sampleTasks = new List<TaskItem>
-            {
-                new TaskItem("Complete Project Proposal", "Write and submit the Q4 project proposal document", Priority.High, DateTime.Now.AddDays(3), null),
-                new TaskItem("Team Meeting", "Weekly standup with development team", Priority.Critical, DateTime.Now.AddDays(1), null),
-                new TaskItem("Code Review", "Review pull requests from team members", Priority.Medium, DateTime.Now.AddDays(2), null),
-                new TaskItem("Update Documentation", "Update API documentation for new features", Priority.Low, DateTime.Now.AddDays(1), null),
-                new TaskItem("Research New Framework", "Investigate new UI framework options", Priority.Low, DateTime.Now.AddDays(2), null),
-                new TaskItem("Create a thing", "Do Some other stuff", Priority.Complete, DateTime.Now.AddDays(7), null)
-            };
-
-            // Add the sample tasks to the database
-            foreach (var task in sampleTasks)
-            {
-                try
-                {
-                    var savedTask = await _taskService.AddTaskAsync(task);
-                    Tasks.Add(savedTask);
-                }
-                catch (Exception ex)
-                {
-                    await DisplayMessage($"Failed to create sample tasks: {ex.Message}", false);
-                }
-            }
-        }
-
-        // This only gets called if nothing else works
-        private void LoadSampleData()
-        {
-            var sampleTasks = new List<TaskItem>
-            {
-                new TaskItem("Complete Project Proposal", "Write and submit the Q4 project proposal document", Priority.High, DateTime.Now.AddDays(3), null),
-                new TaskItem("Team Meeting", "Weekly standup with development team", Priority.Critical, DateTime.Now.AddDays(1), null),
-                new TaskItem("Code Review", "Review pull requests from team members", Priority.Medium, DateTime.Now.AddDays(2), null),
-            };
-
-            Tasks.Clear();
-
-            foreach (var task in sampleTasks)
-            {
-                Tasks.Add(task);
             }
         }
 
@@ -624,7 +571,6 @@ namespace LearnAvalonia.ViewModels
                     TimerProgress = (i / totalSeconds) * 100;
                     await Task.Delay(1000, _animationCts.Token);
                 }
-
             }
 
             catch (OperationCanceledException) { }
@@ -643,6 +589,7 @@ namespace LearnAvalonia.ViewModels
             TimerText = remaining > TimeSpan.Zero ?
                 remaining.ToString(@"hh\:mm\:ss") : "00:00:00";
         }
+
         [RelayCommand]
         private async Task ToggleCollapseAsync()
         {
