@@ -41,10 +41,25 @@ namespace LearnAvalonia.ViewModels
         private ViewModelBase? _currentViewModel;
 
         [ObservableProperty]
-        private double _windowHeight = 300;
+        private double _windowHeight = 800;
 
         [ObservableProperty]
         private LoginViewModel? _loginViewModel;
+
+        [ObservableProperty]
+        private bool _timerRunning = false;
+
+        [ObservableProperty]
+        private string _timerText = "25:00:00";
+
+        [ObservableProperty]
+        private string _timerButtonText = "Start";
+
+        [ObservableProperty]
+        private double _timerProgress = 0;
+
+        [ObservableProperty]
+        private int _timerDuration = 25;
 
         /// <summary>
         /// Parameterless constructor that the designer can use

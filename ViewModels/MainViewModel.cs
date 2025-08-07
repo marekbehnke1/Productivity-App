@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia;
+using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LearnAvalonia.Components;
@@ -68,7 +69,7 @@ namespace LearnAvalonia.ViewModels
         private bool _timerRunning = false;
 
         [ObservableProperty]
-        private string _timerText = "25:00:00";
+        private string _timerText = string.Empty;
 
         [ObservableProperty]
         private string _timerButtonText = "Start";
@@ -77,7 +78,12 @@ namespace LearnAvalonia.ViewModels
         private double _timerProgress = 0;
 
         [ObservableProperty]
-        private int _timerDuration = 25;
+        // Minutes
+        private int _workTimerDuration = 1;
+
+        [ObservableProperty]
+        // Minutes
+        private int _restTimerDuration = 5;
 
         private System.Timers.Timer? _animTimer;
         private CancellationTokenSource? _animationCts;
@@ -533,7 +539,7 @@ namespace LearnAvalonia.ViewModels
         }
 
         [RelayCommand]
-        private async Task StartTimerAsync()
+        private void StartTimer()
         {
             if (TimerRunning)
             {
@@ -550,27 +556,23 @@ namespace LearnAvalonia.ViewModels
 
             TimerRunning = true;
             TimerButtonText = "Stop";
-            TimerText = "25:00:00";
 
             _animationCts = new CancellationTokenSource();
 
+            _ = RunTimer(_animationCts.Token);
+        }
+
+        //Overall timer method
+        private async Task RunTimer(CancellationToken cancellationToken)
+        {
             try
             {
-                var duration = TimeSpan.FromMinutes(TimerDuration);
-                var endTime = DateTime.Now + duration;
+                // Work Timer
+                await RunTimerPhase(WorkTimerDuration, false, cancellationToken);
 
-                _animTimer = new System.Timers.Timer(1000);
-                _animTimer.Elapsed += (sender, e) => UpdateTimerDisplay(endTime);
-                _animTimer.AutoReset = true;
-                _animTimer.Start();
-
-                // TODO: Replace with actual animation
-                var totalSeconds = duration.TotalSeconds;
-                for (int i = 0; i <= totalSeconds && !_animationCts.Token.IsCancellationRequested; i++)
-                {
-                    TimerProgress = (i / totalSeconds) * 100;
-                    await Task.Delay(1000, _animationCts.Token);
-                }
+                if (cancellationToken.IsCancellationRequested) return;
+                //Break Timer
+                await RunTimerPhase(RestTimerDuration, true, cancellationToken);
             }
 
             catch (OperationCanceledException) { }
@@ -581,6 +583,38 @@ namespace LearnAvalonia.ViewModels
                 _animationCts?.Dispose();
                 _animTimer?.Dispose();
             }
+        }
+
+        //Method to control each phase of the timer
+        private async Task RunTimerPhase(int timerDuration, bool isBreak, CancellationToken cancellationToken)
+        {
+            _animTimer?.Stop();
+            _animTimer?.Dispose();
+
+            var workDuration = TimeSpan.FromMinutes(timerDuration);
+            var endTime = DateTime.Now + workDuration;
+
+            _animTimer = new System.Timers.Timer(1000);
+            _animTimer.Elapsed += (sender, e) => UpdateTimerDisplay(endTime);
+            _animTimer.AutoReset = true;
+            _animTimer.Start();
+
+            var totalMilliSeconds = workDuration.TotalMilliseconds;
+            int updateInterval = 250;
+            for (int i = 0; i < totalMilliSeconds && !cancellationToken.IsCancellationRequested; i+= updateInterval)
+            {
+                if (isBreak)
+                {
+                    TimerProgress = 100 - (i / totalMilliSeconds) * 100;
+                    await Task.Delay(updateInterval, cancellationToken);
+                }
+                else
+                {
+                    TimerProgress = (i / totalMilliSeconds) * 100;
+                    await Task.Delay(updateInterval, cancellationToken);
+                }
+            }
+
         }
 
         private void UpdateTimerDisplay(DateTime endTime)
