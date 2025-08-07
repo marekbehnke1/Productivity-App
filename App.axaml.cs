@@ -51,8 +51,11 @@ public partial class App : Application
 
         }).AddHttpMessageHandler<AuthenticationHandler>();
 
-        //Register the MainViewModel
+        // Register the MainViewModel
         services.AddTransient<MainViewModel>();
+
+        // Register Settings view model
+        services.AddTransient<SettingsViewModel>();
 
         // This builds the services defined above into the ServiceProvider property.
         ServiceProvider = services.BuildServiceProvider();
@@ -67,10 +70,12 @@ public partial class App : Application
             // Get all services from DI
 
             var mainViewModel = ServiceProvider?.GetRequiredService<MainViewModel>();
+            var settingsViewModel = ServiceProvider?.GetRequiredService<SettingsViewModel>();
+
             var authService = ServiceProvider?.GetRequiredService<IAuthenticationService>();
             var taskService = ServiceProvider?.GetRequiredService<ITaskService>();
 
-            var navigationViewModel = new NavigationViewModel(authService!, taskService!, mainViewModel!);
+            var navigationViewModel = new NavigationViewModel(authService!, taskService!, mainViewModel!, settingsViewModel!);
 
             desktop.MainWindow = new MainView
             {

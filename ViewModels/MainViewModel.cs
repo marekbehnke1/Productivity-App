@@ -663,7 +663,11 @@ namespace LearnAvalonia.ViewModels
             Debug.WriteLine($"Window expanded to: {WindowHeight}");
         }
 
-
+        [RelayCommand]
+        private void SwitchToSettings()
+        {
+            //TODO: Finish method to switch to SettingsViewModel
+        }
     }
 
 }

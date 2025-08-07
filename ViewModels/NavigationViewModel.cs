@@ -28,12 +28,16 @@ namespace LearnAvalonia.ViewModels
 
         [ObservableProperty]
         private MainViewModel _mainViewModel;
+        
+        [ObservableProperty]
+        private SettingsViewModel _settingsViewModel;
 
-        public NavigationViewModel(IAuthenticationService authService, ITaskService taskService, MainViewModel mainViewModel)
+        public NavigationViewModel(IAuthenticationService authService, ITaskService taskService, MainViewModel mainViewModel, SettingsViewModel settingsViewModel)
         {
             _authService = authService;
             _taskService = taskService;
             _mainViewModel = mainViewModel;
+            _settingsViewModel = settingsViewModel;
 
             _loginViewModel = new LoginViewModel(_authService);
             _registerViewModel = new RegisterViewModel(_authService);
