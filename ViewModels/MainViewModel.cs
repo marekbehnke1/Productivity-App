@@ -26,6 +26,7 @@ namespace LearnAvalonia.ViewModels
     {
         private readonly ITaskService _taskService;
         private readonly IAuthenticationService _authService;
+        private readonly ISettingsService _settingsService;
 
         // This will be used to demonstrate when the db is loading
         [ObservableProperty]
@@ -79,11 +80,11 @@ namespace LearnAvalonia.ViewModels
 
         [ObservableProperty]
         // Minutes
-        private int _workTimerDuration = 1;
+        private int _workTimerDuration;
 
         [ObservableProperty]
         // Minutes
-        private int _restTimerDuration = 5;
+        private int _breakTimerDuration;
 
         private System.Timers.Timer? _animTimer;
         private CancellationTokenSource? _animationCts;
@@ -109,11 +110,12 @@ namespace LearnAvalonia.ViewModels
             )
         );
 
-        public MainViewModel(ITaskService taskService, IAuthenticationService authService)
+        public MainViewModel(ITaskService taskService, IAuthenticationService authService, ISettingsService settingsService)
         {
             // Throw a new exception if we cannot load the task service
             _taskService = taskService ?? throw new ArgumentNullException(nameof(taskService));
             _authService = authService ?? throw new ArgumentNullException(nameof(authService));
+            _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
 
             Tasks = new ObservableCollection<TaskItem>();
             Projects = new ObservableCollection<Project>();
@@ -123,6 +125,11 @@ namespace LearnAvalonia.ViewModels
             Projects.CollectionChanged += OnProjectsCollectionChanged;
 
             _authService.AuthStateChanged += OnAuthStateChanged;
+            _settingsService = settingsService;
+
+            // Load Settings from Settings service
+            WorkTimerDuration = _settingsService.LoadSettings().WorkDuration;
+            BreakTimerDuration = _settingsService.LoadSettings().BreakDuration;
         }
 
         // Auth state changed event handler
@@ -567,7 +574,7 @@ namespace LearnAvalonia.ViewModels
 
                 if (cancellationToken.IsCancellationRequested) return;
                 //Break Timer
-                await RunTimerPhase(RestTimerDuration, true, cancellationToken);
+                await RunTimerPhase(BreakTimerDuration, true, cancellationToken);
             }
 
             catch (OperationCanceledException) { }

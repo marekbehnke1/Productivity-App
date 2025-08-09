@@ -421,7 +421,7 @@
 			</DataTemplate>
 
 			<!--Settings Screen-->
-			<DataTemplate x:DataType="vm:SettingsViewModel">
+			<DataTemplate x:DataType="vm:DesignViewModel">
 				<Panel>
 					<Grid RowDefinitions="30, *">
 						<Grid Grid.Row="0">
@@ -429,7 +429,8 @@
 									   TextAlignment="Center"/>
 						
 						<Button Content="Exit"
-								Command="{Binding SwitchToMainViewCommand}"/>
+								Command="{Binding SwitchToMainViewCommand}"
+								/>
 						</Grid>
 						<Grid Grid.Row="1">
 							<StackPanel Spacing="10">
@@ -451,6 +452,9 @@
 								</StackPanel>
 								
 							</StackPanel>
+							<Button Content="Save"
+									HorizontalAlignment="Center"
+									Command="{Binding SaveSettingsCommand}"/>
 						</Grid>
 						
 					</Grid>

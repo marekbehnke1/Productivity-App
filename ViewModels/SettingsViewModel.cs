@@ -37,6 +37,7 @@ namespace LearnAvalonia.ViewModels
             _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
             _currentSettings = new SettingsModel();
             LoadSettings();
+
         }
 
         private void LoadSettings()
@@ -53,6 +54,8 @@ namespace LearnAvalonia.ViewModels
             _currentSettings.BreakDuration = TimerBreakDuration;
 
             await _settingsService.SaveSettingsAsync(_currentSettings);
+
+            Debug.WriteLine("Settings Saved");
         }
 
         [RelayCommand]
@@ -60,5 +63,7 @@ namespace LearnAvalonia.ViewModels
         {
             NavigateToMainViewModel?.Invoke(this, EventArgs.Empty);
         }
+
+        
     }
 }

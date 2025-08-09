@@ -19,13 +19,12 @@ namespace LearnAvalonia.Services
         public AuthenticationHandler(IAuthenticationService authService)
         {
             _authService = authService;
-            Debug.WriteLine($"Handler - Auth Service Hash: {authService.GetHashCode()}");
         }
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            System.Diagnostics.Debug.WriteLine($"Handler: Processing {request.Method} {request.RequestUri}");
-            System.Diagnostics.Debug.WriteLine($"Auth State: IsAuth={_authService.IsAuthenticated}, HasToken={!string.IsNullOrEmpty(_authService.CurrentToken)}");
+            Debug.WriteLine($"Handler: Processing {request.Method} {request.RequestUri}");
+            Debug.WriteLine($"Auth State: IsAuth={_authService.IsAuthenticated}, HasToken={!string.IsNullOrEmpty(_authService.CurrentToken)}");
 
 
             // Check if the auth service is authenticated and has a token
