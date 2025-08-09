@@ -427,6 +427,9 @@
 						<Grid Grid.Row="0">
 							<TextBlock Text="Settings" 
 									   TextAlignment="Center"/>
+						
+						<Button Content="Exit"
+								Command="{Binding SwitchToMainViewCommand}"/>
 						</Grid>
 						<Grid Grid.Row="1">
 							<StackPanel Spacing="10">

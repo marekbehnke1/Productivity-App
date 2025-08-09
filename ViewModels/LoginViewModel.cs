@@ -48,7 +48,6 @@ namespace LearnAvalonia.ViewModels
         [RelayCommand]
         private async Task LoginAsync()
         {
-            //TODO add validation
             if (string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Password))
             {
                 ShowError("Please enter both email and password");

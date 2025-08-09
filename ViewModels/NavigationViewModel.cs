@@ -14,6 +14,7 @@ namespace LearnAvalonia.ViewModels
     {
         private readonly IAuthenticationService _authService;
         private readonly ITaskService _taskService;
+        private readonly ISettingsService _settingsService;
 
         // Active ViewModel
 
@@ -32,21 +33,30 @@ namespace LearnAvalonia.ViewModels
         [ObservableProperty]
         private SettingsViewModel _settingsViewModel;
 
-        public NavigationViewModel(IAuthenticationService authService, ITaskService taskService, MainViewModel mainViewModel, SettingsViewModel settingsViewModel)
+        public NavigationViewModel(
+            IAuthenticationService authService, 
+            ITaskService taskService, 
+            MainViewModel mainViewModel, 
+            ISettingsService settingsService)
         {
             _authService = authService;
             _taskService = taskService;
+            _settingsService = settingsService;
             _mainViewModel = mainViewModel;
-            _settingsViewModel = settingsViewModel;
+            
 
             _loginViewModel = new LoginViewModel(_authService);
             _registerViewModel = new RegisterViewModel(_authService);
+
+            _settingsViewModel = new SettingsViewModel(_settingsService);
 
             // Wire up events
             _loginViewModel.LoginSucceeded += OnLoginSucceeded;
             _loginViewModel.NavigateToRegister += OnNavigateToRegister;
             _registerViewModel.RegisterSucceeded += OnRegisterSucceeded;
             _registerViewModel.NavigateToLogin += OnNavigateToLogin;
+            _mainViewModel.NavigateToSettings += OnNavigateToSettings;
+            _settingsViewModel.NavigateToMainViewModel += OnNavigateToMainViewModel;
 
             _authService.AuthStateChanged += OnAuthStateChanged;
 
@@ -70,6 +80,14 @@ namespace LearnAvalonia.ViewModels
         private void OnNavigateToLogin(object? sender, EventArgs e)
         {
             CurrentViewModel = LoginViewModel;
+        }
+        private void OnNavigateToSettings(object? sender, EventArgs e)
+        {
+            CurrentViewModel = SettingsViewModel;
+        }
+        private void OnNavigateToMainViewModel(object? sender, EventArgs e)
+        {
+            CurrentViewModel = MainViewModel;
         }
         private void OnAuthStateChanged(object? sender, AuthStateChangedEventArgs e)
         {

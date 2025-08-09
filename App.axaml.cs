@@ -54,8 +54,10 @@ public partial class App : Application
         // Register the MainViewModel
         services.AddTransient<MainViewModel>();
 
-        // Register Settings view model
-        services.AddTransient<SettingsViewModel>();
+        // Register settings service
+        services.AddSingleton<ISettingsService, SettingsService>();
+
+
 
         // This builds the services defined above into the ServiceProvider property.
         ServiceProvider = services.BuildServiceProvider();
@@ -70,12 +72,15 @@ public partial class App : Application
             // Get all services from DI
 
             var mainViewModel = ServiceProvider?.GetRequiredService<MainViewModel>();
-            var settingsViewModel = ServiceProvider?.GetRequiredService<SettingsViewModel>();
-
+            var settingsService = ServiceProvider?.GetRequiredService<ISettingsService>();
             var authService = ServiceProvider?.GetRequiredService<IAuthenticationService>();
             var taskService = ServiceProvider?.GetRequiredService<ITaskService>();
 
-            var navigationViewModel = new NavigationViewModel(authService!, taskService!, mainViewModel!, settingsViewModel!);
+            var navigationViewModel = new NavigationViewModel(
+                authService!, 
+                taskService!, 
+                mainViewModel!, 
+                settingsService!);
 
             desktop.MainWindow = new MainView
             {

@@ -88,6 +88,9 @@ namespace LearnAvalonia.ViewModels
         private System.Timers.Timer? _animTimer;
         private CancellationTokenSource? _animationCts;
 
+        // Events
+        public event EventHandler? NavigateToSettings;
+
         // This is the collection that the UI binds to
         // It is the single true data store for all task items
         public ObservableCollection<TaskItem> Tasks { get; set; }
@@ -120,14 +123,6 @@ namespace LearnAvalonia.ViewModels
             Projects.CollectionChanged += OnProjectsCollectionChanged;
 
             _authService.AuthStateChanged += OnAuthStateChanged;
-
-            // This begins loading the tasks & projects
-            // Constructors cannot be async - so we have to call a one use async method.
-            // _ = InitialiseAsync();
-
-            // Temporary auth integration test
-            //_ = TestAuthentication(authService);
-
         }
 
         // Auth state changed event handler
@@ -666,7 +661,7 @@ namespace LearnAvalonia.ViewModels
         [RelayCommand]
         private void SwitchToSettings()
         {
-            //TODO: Finish method to switch to SettingsViewModel
+            NavigateToSettings?.Invoke(this, EventArgs.Empty);
         }
     }
 
