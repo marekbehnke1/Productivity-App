@@ -421,7 +421,7 @@
 			</DataTemplate>
 
 			<!--Settings Screen-->
-			<DataTemplate x:DataType="vm:DesignViewModel">
+			<DataTemplate x:DataType="vm:SettingsViewModel">
 				<Panel>
 					<Grid RowDefinitions="30, *">
 						<Grid Grid.Row="0">

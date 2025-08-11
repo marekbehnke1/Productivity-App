@@ -32,6 +32,8 @@ namespace LearnAvalonia.ViewModels
         //Events
         public event EventHandler? NavigateToMainViewModel;
 
+        public event EventHandler? SettingsUpdated;
+
         public SettingsViewModel(ISettingsService settingsService)
         {
             _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
@@ -54,6 +56,8 @@ namespace LearnAvalonia.ViewModels
             _currentSettings.BreakDuration = TimerBreakDuration;
 
             await _settingsService.SaveSettingsAsync(_currentSettings);
+
+            SettingsUpdated?.Invoke(this, EventArgs.Empty);
 
             Debug.WriteLine("Settings Saved");
         }

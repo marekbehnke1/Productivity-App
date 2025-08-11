@@ -58,6 +58,8 @@ namespace LearnAvalonia.ViewModels
             _mainViewModel.NavigateToSettings += OnNavigateToSettings;
             _settingsViewModel.NavigateToMainViewModel += OnNavigateToMainViewModel;
 
+            _settingsViewModel.SettingsUpdated += OnSettingsUpdated;
+
             _authService.AuthStateChanged += OnAuthStateChanged;
 
             // Set initial value based on auth state
@@ -101,6 +103,12 @@ namespace LearnAvalonia.ViewModels
             {
                 CurrentViewModel= LoginViewModel;
             }
+        }
+
+        private void OnSettingsUpdated(object? sender, EventArgs e)
+        {
+            MainViewModel.WorkTimerDuration = SettingsViewModel.TimerWorkDuration;
+            MainViewModel.BreakTimerDuration = SettingsViewModel.TimerBreakDuration;
         }
         
     }
