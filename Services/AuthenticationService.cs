@@ -185,7 +185,6 @@ namespace LearnAvalonia.Services
                     isAuthenticated: true
                 ));
 
-                //TODO return authResponse
                 authResponse.Success = true;
 
                 return authResponse;
