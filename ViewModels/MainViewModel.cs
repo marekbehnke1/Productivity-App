@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia;
+using Avalonia.Input;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -382,13 +383,9 @@ namespace LearnAvalonia.ViewModels
 
             Debug.WriteLine($"Property: {e.PropertyName}");
 
-            //Only update the lists when you change the priority of tasks
+            //Only update the lists when you change the priority of tasks or the collapse propperty
             if (e.PropertyName == nameof(TaskItem.TaskPriority) || e.PropertyName == nameof(TaskItem.IsCollapsed))
             {
-                // Refresh the collections when priority is changed
-                Debug.WriteLine($"Property Name: {e.PropertyName}");
-                Debug.WriteLine("Collection Updated");
-
                 RefreshFilteredCollections();
             }
         }
@@ -675,6 +672,7 @@ namespace LearnAvalonia.ViewModels
         {
             NavigateToSettings?.Invoke(this, EventArgs.Empty);
         }
+
     }
 
 }

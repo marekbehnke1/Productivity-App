@@ -76,7 +76,8 @@
 										 PasswordChar="●"
 										 Text="{Binding Password}"
 										 IsEnabled="{Binding !IsLoading}"
-										 Width="250"/>
+										 Width="250"
+										 KeyDown="OnPasswordKeyDown"/>
 
 								<Button Content="Log in"
 										Command="{Binding LoginCommand}"
