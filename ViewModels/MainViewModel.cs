@@ -380,10 +380,15 @@ namespace LearnAvalonia.ViewModels
                 await SaveTaskAsync(task);
             }
 
+            Debug.WriteLine($"Property: {e.PropertyName}");
+
             //Only update the lists when you change the priority of tasks
-            if (e.PropertyName == nameof(TaskItem.TaskPriority))
+            if (e.PropertyName == nameof(TaskItem.TaskPriority) || e.PropertyName == nameof(TaskItem.IsCollapsed))
             {
                 // Refresh the collections when priority is changed
+                Debug.WriteLine($"Property Name: {e.PropertyName}");
+                Debug.WriteLine("Collection Updated");
+
                 RefreshFilteredCollections();
             }
         }

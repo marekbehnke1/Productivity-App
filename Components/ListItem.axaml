@@ -80,7 +80,7 @@
 				</Grid>
 			</Grid>
 			<!--Main item Text-->
-			<Grid Grid.Row="1" ClipToBounds="True" Classes="MainTextRow" MaxHeight="{Binding !IsCollapsed, RelativeSource={RelativeSource AncestorType=local:ListItem},Converter={StaticResource CollapsedHeightConverter}}">
+			<Grid Grid.Row="1" ClipToBounds="True" Classes="MainTextRow" x:Name="MainTextRow" MaxHeight="{Binding !IsCollapsed, RelativeSource={RelativeSource AncestorType=local:ListItem},Converter={StaticResource CollapsedHeightConverter}}">
 				<TextBox 
 					Classes="mainTextBox"
 					Text="{Binding Description, Mode=TwoWay}" 

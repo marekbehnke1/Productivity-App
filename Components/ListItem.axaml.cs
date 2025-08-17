@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using Avalonia;
+using Avalonia.Animation;
 using Avalonia.Controls;
 using Avalonia.LogicalTree;
 using Avalonia.Markup.Xaml;
@@ -12,10 +13,42 @@ namespace LearnAvalonia.Components;
 
 public partial class ListItem : UserControl
 {
+    public bool _isInitializing = true;
+
     public ListItem()
     {
        InitializeComponent();
        PrioritySelector.ItemsSource = Enum.GetValues(typeof(Priority));
+
+        DisableTransitions();
+
+        this.Loaded += (s, e) =>
+        {
+            _isInitializing = false;
+            EnableTransitions();
+        };
+    }
+
+    private void DisableTransitions()
+    {
+        var mainTextRow = this.FindControl<Grid>("MainTextRow");
+        if(mainTextRow != null)
+        {
+            mainTextRow.Transitions = null;
+        }
+
+    }
+    private void EnableTransitions()
+    {
+        var mainTextRow = this.FindControl<Grid>("MainTextRow");
+        if(mainTextRow != null)
+        {
+            mainTextRow.Transitions = new Avalonia.Animation.Transitions
+            {
+                new DoubleTransition { Property = Grid.MaxHeightProperty, Duration = TimeSpan.FromMilliseconds(200) },
+                new DoubleTransition { Property = Grid.OpacityProperty, Duration = TimeSpan.FromMilliseconds(200) }
+            };
+        }
     }
 
     // Registering the title as a stylable property
@@ -69,13 +102,9 @@ public partial class ListItem : UserControl
     //event listener for the collapse button
     private void Collapse(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        if(IsCollapsed == true)
+        if(this.DataContext is TaskItem task)
         {
-            IsCollapsed = false;
-        }
-        else
-        {
-            IsCollapsed = true;
+            task.IsCollapsed = !task.IsCollapsed;
         }
     }
 
