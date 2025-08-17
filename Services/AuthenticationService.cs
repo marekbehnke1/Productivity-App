@@ -19,7 +19,6 @@ namespace LearnAvalonia.Services
     internal class AuthenticationService : IAuthenticationService
     {
         // private readonly properties
-        // These are the private properties we can change within the Authservice
         private readonly HttpClient _httpClient;
         //private readonly ISecureStorage _secureStorage;
 
