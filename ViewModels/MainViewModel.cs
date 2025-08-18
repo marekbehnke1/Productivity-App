@@ -55,6 +55,7 @@ namespace LearnAvalonia.ViewModels
         [ObservableProperty]
         private bool _showOnlyUncompleted;
 
+        // Animation related properties
         [ObservableProperty]
         private bool _isCollapsed = false;
 
@@ -93,11 +94,10 @@ namespace LearnAvalonia.ViewModels
         // Events
         public event EventHandler? NavigateToSettings;
 
-        // This is the collection that the UI binds to
-        // It is the single true data store for all task items
-        public ObservableCollection<TaskItem> Tasks { get; set; }
+        // Collections
 
-        // Collection of all projects
+        // Single true data store for all task items
+        public ObservableCollection<TaskItem> Tasks { get; set; }
         public ObservableCollection<Project> Projects { get; set; }
 
         // Current projects tasks
@@ -113,7 +113,7 @@ namespace LearnAvalonia.ViewModels
 
         public MainViewModel(ITaskService taskService, IAuthenticationService authService, ISettingsService settingsService)
         {
-            // Throw a new exception if we cannot load the task service
+            // Throw a new exception if we cannot load relevent services
             _taskService = taskService ?? throw new ArgumentNullException(nameof(taskService));
             _authService = authService ?? throw new ArgumentNullException(nameof(authService));
             _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
@@ -415,7 +415,6 @@ namespace LearnAvalonia.ViewModels
             OnPropertyChanged(nameof(CurrentFilteredTasks));
         }
 
-        // Need to wire this up as a command
         [RelayCommand]
         private async Task AddNewProjectAsync()
         {
